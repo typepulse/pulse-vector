@@ -1,17 +1,18 @@
-import '@/styles/tailwind.css'
-import type { Metadata } from 'next'
+import "@/styles/tailwind.css";
+import type { Metadata } from "next";
+import { APP_NAME } from "./consts";
 
 export const metadata: Metadata = {
   title: {
-    template: '%s - Radiant',
-    default: 'Radiant - Close every deal',
+    template: "%s - Radiant",
+    default: `${APP_NAME} - Connect your data to LLMs, no matter the source.`,
   },
-}
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -29,5 +30,5 @@ export default function RootLayout({
       </head>
       <body className="text-gray-950 antialiased">{children}</body>
     </html>
-  )
+  );
 }
