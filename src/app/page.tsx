@@ -3,6 +3,7 @@ import { Gradient } from "@/components/gradient";
 import { Navbar } from "@/components/navbar";
 import type { Metadata } from "next";
 import JointlistForm from "./_components/jointlist-form";
+import { Footer } from "./_components/footer";
 
 export const metadata: Metadata = {
   description:
@@ -37,6 +38,7 @@ export default function Home() {
   return (
     <div className="overflow-hidden">
       <Hero />
+      <Footer />
     </div>
   );
 }
