@@ -1,6 +1,7 @@
 import "@/styles/tailwind.css";
 import type { Metadata } from "next";
 import { APP_NAME } from "./consts";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
   title: {
@@ -29,6 +30,7 @@ export default function RootLayout({
         />
       </head>
       <body className="text-gray-950 antialiased">{children}</body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS!} />
     </html>
   );
 }
