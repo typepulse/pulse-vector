@@ -7,7 +7,7 @@ import { Footer } from "./_components/footer";
 
 export const metadata: Metadata = {
   description:
-    "Radiant helps you sell more by revealing sensitive information about your customers.",
+    "The open-source alternative to Carbon.ai. Build powerful RAG applications with any data source, at any scale.",
 };
 
 function Hero() {
