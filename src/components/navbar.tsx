@@ -1,27 +1,27 @@
-'use client'
+"use client";
 
 import {
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
-} from '@headlessui/react'
-import { Bars2Icon } from '@heroicons/react/24/solid'
-import { motion } from 'framer-motion'
-import { Link } from './link'
-import { Logo } from './logo'
-import { PlusGrid, PlusGridItem, PlusGridRow } from './plus-grid'
+} from "@headlessui/react";
+import { Bars2Icon } from "@heroicons/react/24/solid";
+import { motion } from "framer-motion";
+import { Link } from "./link";
+import { Logo } from "./logo";
+import { PlusGrid, PlusGridItem, PlusGridRow } from "./plus-grid";
 
 const links = [
-  { href: '/pricing', label: 'Pricing' },
-  { href: '/company', label: 'Company' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/login', label: 'Login' },
-]
+  { href: "/pricing", label: "Pricing" },
+  { href: "/company", label: "Company" },
+  { href: "/blog", label: "Blog" },
+  { href: "/login", label: "Login" },
+];
 
 function DesktopNav() {
   return (
     <nav className="relative hidden lg:flex">
-      {links.map(({ href, label }) => (
+      {/* {links.map(({ href, label }) => (
         <PlusGridItem key={href} className="relative flex">
           <Link
             href={href}
@@ -30,9 +30,9 @@ function DesktopNav() {
             {label}
           </Link>
         </PlusGridItem>
-      ))}
+      ))} */}
     </nav>
-  )
+  );
 }
 
 function MobileNavButton() {
@@ -43,7 +43,7 @@ function MobileNavButton() {
     >
       <Bars2Icon className="size-6" />
     </DisclosureButton>
-  )
+  );
 }
 
 function MobileNav() {
@@ -56,7 +56,7 @@ function MobileNav() {
             animate={{ opacity: 1, rotateX: 0 }}
             transition={{
               duration: 0.15,
-              ease: 'easeInOut',
+              ease: "easeInOut",
               rotateX: { duration: 0.3, delay: linkIndex * 0.1 },
             }}
             key={href}
@@ -72,7 +72,7 @@ function MobileNav() {
         <div className="absolute inset-x-0 top-2 border-t border-black/5" />
       </div>
     </DisclosurePanel>
-  )
+  );
 }
 
 export function Navbar({ banner }: { banner?: React.ReactNode }) {
@@ -98,5 +98,5 @@ export function Navbar({ banner }: { banner?: React.ReactNode }) {
       </PlusGrid>
       <MobileNav />
     </Disclosure>
-  )
+  );
 }
