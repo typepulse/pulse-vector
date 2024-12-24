@@ -16,7 +16,9 @@
     "next": "15.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-use-measure": "^2.1.1"
+    "react-use-measure": "^2.1.1",
+    "redaxios": "^0.5.1",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
