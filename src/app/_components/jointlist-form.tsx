@@ -35,7 +35,10 @@ export default function JointlistForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center gap-4">
+    <form
+      onSubmit={handleSubmit}
+      className="flex items-center flex-col md:flex-row gap-4 w-full md:w-auto"
+    >
       <Input
         id="email"
         name="email"
@@ -46,7 +49,7 @@ export default function JointlistForm() {
         className="block w-full rounded-md bg-white px-4 py-2 text-lg text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
         required
       />
-      <Button type="submit" disabled={isLoading}>
+      <Button type="submit" disabled={isLoading} className="w-full md:w-auto">
         {isLoading ? "Joining..." : "Join the waitlist"}
       </Button>
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
