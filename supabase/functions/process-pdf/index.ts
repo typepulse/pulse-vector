@@ -1,42 +1,45 @@
-import { createClient } from "npm:@supabase/supabase-js@2.47.10";
+import process from "node:process";
+import { createClient } from "@supabase/supabase-js";
 import { OpenAIEmbeddings } from "npm:@langchain/openai@0.3.16";
 import { RecursiveCharacterTextSplitter } from "npm:langchain@0.3.8/text_splitter";
 import { PDFLoader } from "npm:@langchain/community@0.3.0/document_loaders/fs/pdf";
 import { SupabaseVectorStore } from "npm:@langchain/community@0.3.0/vectorstores/supabase";
-import process from "node:process";
 
 console.log("Hello from PDF Functions!");
 
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+);
+
 Deno.serve(async (req) => {
   try {
-    // Initialize Supabase client
-    const supabaseClient = createClient(
-      process.env.SUPABASE_URL ?? "",
-      process.env.SUPABASE_SERVICE_ROLE_KEY ?? "",
-    );
+    const buffer = new Uint8Array(await req.arrayBuffer());
 
-    // Get the form data from the request
-    const formData = await req.formData();
-    const pdfFile = formData.get("pdf") as File;
-
-    if (!pdfFile) {
-      return new Response(JSON.stringify({ error: "No PDF file provided" }), {
+    if (buffer.length === 0) {
+      return new Response(JSON.stringify({ error: "No PDF data provided" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
     }
-
-    // Convert File to ArrayBuffer
-    const arrayBuffer = await pdfFile.arrayBuffer();
-    const buffer = new Uint8Array(arrayBuffer);
 
     // Create a temporary file in Deno
     const tempFilePath = await Deno.makeTempFile({ suffix: ".pdf" });
     await Deno.writeFile(tempFilePath, buffer);
 
     // Upload to Supabase Storage
-    const fileName = `${Date.now()}-${pdfFile.name}`;
-    const { data: uploadData, error: uploadError } = await supabaseClient
+    const uploadId = crypto.randomUUID();
+    const { error } = await supabase.storage.createBucket(uploadId, {
+      public: false,
+    });
+
+    if (error) {
+      await Deno.remove(tempFilePath);
+      throw new Error(error.message);
+    }
+
+    const fileName = `${uploadId}.pdf`;
+    const { data: uploadData, error: uploadError } = await supabase
       .storage.from("pdfs").upload(fileName, buffer);
 
     if (uploadError) {
@@ -71,16 +74,13 @@ Deno.serve(async (req) => {
         chunks,
         embeddings,
         {
-          client: supabaseClient,
+          client: supabase,
           tableName: "vectors",
           queryName: "match_vectors",
         },
       );
     } catch (vectorError) {
-      return new Response(
-        JSON.stringify({ error: vectorError.message }),
-        { status: 500, headers: { "Content-Type": "application/json" } },
-      );
+      throw new Error(vectorError.message);
     }
 
     return new Response(
@@ -93,9 +93,16 @@ Deno.serve(async (req) => {
     );
   } catch (error) {
     console.error("Error processing PDF:", error);
-    return new Response(JSON.stringify({ error: "Failed to process PDF" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({
+        error: `Failed to process PDF${
+          error.message ? `: ${error.message}` : ""
+        }`,
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
 });
