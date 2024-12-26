@@ -1,45 +1,39 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/utils/supabase/client";
 
-export const PdfUpload = () => {
-  const supabase = createClient();
-  const [uploading, setUploading] = useState(false);
+export function PdfUpload() {
+  const [isUploading, setIsUploading] = useState(false);
 
-  const handleFileUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleUpload = async (file: File) => {
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
     try {
-      setUploading(true);
-      const file = event.target.files?.[0];
-      if (!file) return;
-
-      const { data, error } = await supabase.storage
-        .from("pdfs")
-        .upload(`${Date.now()}-${file.name}`, file);
-
-      if (error) throw error;
-
-      // PDFの処理をトリガー
-      const response = await fetch("/api/process-pdf", {
+      const response = await fetch("/api/documents", {
         method: "POST",
-        body: JSON.stringify({ path: data.path }),
+        body: formData,
       });
-
-      const result = await response.json();
-      console.log({ result });
+      // ハンドリング
     } catch (error) {
       console.error("Upload failed:", error);
     } finally {
-      setUploading(false);
+      setIsUploading(false);
     }
   };
 
   return (
-    <div>
-      <input type="file" accept=".pdf" onChange={handleFileUpload} />
-      {uploading && <p>Uploading...</p>}
+    <div className="w-full max-w-xl">
+      <label className="block mb-2 text-sm font-medium text-gray-900">
+        Upload PDF
+      </label>
+      <input
+        type="file"
+        accept=".pdf"
+        onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0])}
+        className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer"
+      />
     </div>
   );
-};
+}
