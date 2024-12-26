@@ -1,4 +1,3 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.47.10";
 import { OpenAIEmbeddings } from "https://esm.sh/@langchain/openai@0.0.14";
 import { RecursiveCharacterTextSplitter } from "https://esm.sh/langchain@0.0.214/text_splitter";
@@ -6,7 +5,9 @@ import { PDFLoader } from "npm:@langchain/community/document_loaders/fs/pdf";
 import { SupabaseVectorStore } from "npm:@langchain/community/vectorstores/supabase";
 import process from "node:process";
 
-serve(async (req: Request) => {
+console.log("Hello from PDF Functions!");
+
+Deno.serve(async (req) => {
   try {
     // Initialize Supabase client
     const supabaseClient = createClient(
