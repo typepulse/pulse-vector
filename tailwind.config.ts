@@ -12,6 +12,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      borderRadius: {
+        "4xl": "2rem",
+      },
     },
   },
   plugins: [],
