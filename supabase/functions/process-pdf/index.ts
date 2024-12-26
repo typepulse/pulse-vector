@@ -1,8 +1,8 @@
 import { createClient } from "npm:@supabase/supabase-js@2.47.10";
-import { OpenAIEmbeddings } from "https://esm.sh/@langchain/openai@0.0.14";
-import { RecursiveCharacterTextSplitter } from "https://esm.sh/langchain@0.0.214/text_splitter";
-import { PDFLoader } from "npm:@langchain/community/document_loaders/fs/pdf";
-import { SupabaseVectorStore } from "npm:@langchain/community/vectorstores/supabase";
+import { OpenAIEmbeddings } from "npm:@langchain/openai@0.3.16";
+import { RecursiveCharacterTextSplitter } from "npm:langchain@0.3.8/text_splitter";
+import { PDFLoader } from "npm:@langchain/community@0.3.0/document_loaders/fs/pdf";
+import { SupabaseVectorStore } from "npm:@langchain/community@0.3.0/vectorstores/supabase";
 import process from "node:process";
 
 console.log("Hello from PDF Functions!");

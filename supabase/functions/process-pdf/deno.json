@@ -1,9 +1,0 @@
-{
-  "tasks": {
-    "dev": "deno run --allow-net --allow-read --allow-env index.ts"
-  },
-  "imports": {
-    "@langchain/community/": "npm:@langchain/community@0.0.19/",
-    "langchain/": "npm:langchain@0.0.214/"
-  }
-} 
