@@ -4,6 +4,7 @@ import { Navbar } from "@/components/navbar";
 import type { Metadata } from "next";
 import JointlistForm from "./_components/jointlist-form";
 import { Footer } from "./_components/footer";
+import { PdfUpload } from "@/components/pdf-upload";
 
 export const metadata: Metadata = {
   description:
@@ -38,6 +39,7 @@ export default function Home() {
   return (
     <div className="overflow-hidden">
       <Hero />
+      <PdfUpload />
       <Footer />
     </div>
   );
