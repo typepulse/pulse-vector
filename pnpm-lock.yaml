@@ -92,7 +92,7 @@ importers:
     dependencies:
       '@langchain/community':
         specifier: ^0.3.2
-        version: 0.3.2(@langchain/core@0.2.36(openai@4.77.0(zod@3.24.1)))(@supabase/supabase-js@2.47.10)(handlebars@4.7.8)(ignore@5.3.2)(lodash@4.17.21)(openai@4.77.0(zod@3.24.1))(ws@8.18.0)
+        version: 0.3.2(@langchain/core@0.2.36(openai@4.77.0(zod@3.24.1)))(@supabase/supabase-js@2.47.10)(handlebars@4.7.8)(ignore@5.3.2)(lodash@4.17.21)(openai@4.77.0(zod@3.24.1))(pdf-parse@1.1.1)(ws@8.18.0)
       '@langchain/openai':
         specifier: ^0.3.16
         version: 0.3.16(@langchain/core@0.2.36(openai@4.77.0(zod@3.24.1)))
@@ -113,13 +113,16 @@ importers:
         version: 7.2.0
       langchain:
         specifier: ^0.1.17
-        version: 0.1.37(@supabase/postgrest-js@1.17.7)(@supabase/supabase-js@2.47.10)(handlebars@4.7.8)(ignore@5.3.2)(lodash@4.17.21)(openai@4.77.0(zod@3.24.1))(ws@8.18.0)
+        version: 0.1.37(@supabase/postgrest-js@1.17.7)(@supabase/supabase-js@2.47.10)(handlebars@4.7.8)(ignore@5.3.2)(lodash@4.17.21)(openai@4.77.0(zod@3.24.1))(pdf-parse@1.1.1)(ws@8.18.0)
       morgan:
         specifier: ^1.10.0
         version: 1.10.0
       multer:
         specifier: ^1.4.5-lts.1
         version: 1.4.5-lts.1
+      pdf-parse:
+        specifier: ^1.1.1
+        version: 1.1.1
     devDependencies:
       '@types/cors':
         specifier: ^2.8.17
@@ -3056,6 +3059,9 @@ packages:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
 
+  node-ensure@0.0.0:
+    resolution: {integrity: sha512-DRI60hzo2oKN1ma0ckc6nQWlHU69RH6xN0sjQTjMpChPfTYvKZdcQFfdYK2RWbJcKyUizSIy/l8OTGxMAM1QDw==}
+
   node-fetch@2.7.0:
     resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
     engines: {node: 4.x || >=6.0.0}
@@ -3245,6 +3251,10 @@ packages:
   path-type@4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
+
+  pdf-parse@1.1.1:
+    resolution: {integrity: sha512-v6ZJ/efsBpGrGGknjtq9J/oC8tZWq0KWL5vQrk2GlzLEQPUDB1ex+13Rmidl1neNN358Jn9EHZw5y07FFtaC7A==}
+    engines: {node: '>=6.8.1'}
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -4267,7 +4277,7 @@ snapshots:
       - encoding
       - openai
 
-  '@langchain/community@0.3.2(@langchain/core@0.2.36(openai@4.77.0(zod@3.24.1)))(@supabase/supabase-js@2.47.10)(handlebars@4.7.8)(ignore@5.3.2)(lodash@4.17.21)(openai@4.77.0(zod@3.24.1))(ws@8.18.0)':
+  '@langchain/community@0.3.2(@langchain/core@0.2.36(openai@4.77.0(zod@3.24.1)))(@supabase/supabase-js@2.47.10)(handlebars@4.7.8)(ignore@5.3.2)(lodash@4.17.21)(openai@4.77.0(zod@3.24.1))(pdf-parse@1.1.1)(ws@8.18.0)':
     dependencies:
       '@langchain/core': 0.2.36(openai@4.77.0(zod@3.24.1))
       '@langchain/openai': 0.3.16(@langchain/core@0.2.36(openai@4.77.0(zod@3.24.1)))
@@ -4284,6 +4294,7 @@ snapshots:
       '@supabase/supabase-js': 2.47.10
       ignore: 5.3.2
       lodash: 4.17.21
+      pdf-parse: 1.1.1
       ws: 8.18.0
     transitivePeerDependencies:
       - '@langchain/anthropic'
@@ -6214,7 +6225,7 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  langchain@0.1.37(@supabase/postgrest-js@1.17.7)(@supabase/supabase-js@2.47.10)(handlebars@4.7.8)(ignore@5.3.2)(lodash@4.17.21)(openai@4.77.0(zod@3.24.1))(ws@8.18.0):
+  langchain@0.1.37(@supabase/postgrest-js@1.17.7)(@supabase/supabase-js@2.47.10)(handlebars@4.7.8)(ignore@5.3.2)(lodash@4.17.21)(openai@4.77.0(zod@3.24.1))(pdf-parse@1.1.1)(ws@8.18.0):
     dependencies:
       '@anthropic-ai/sdk': 0.9.1
       '@langchain/community': 0.0.57(@supabase/postgrest-js@1.17.7)(@supabase/supabase-js@2.47.10)(lodash@4.17.21)(openai@4.77.0(zod@3.24.1))(ws@8.18.0)
@@ -6238,6 +6249,7 @@ snapshots:
       '@supabase/supabase-js': 2.47.10
       handlebars: 4.7.8
       ignore: 5.3.2
+      pdf-parse: 1.1.1
       ws: 8.18.0
     transitivePeerDependencies:
       - '@aws-crypto/sha256-js'
@@ -6557,6 +6569,8 @@ snapshots:
 
   node-domexception@1.0.0: {}
 
+  node-ensure@0.0.0: {}
+
   node-fetch@2.7.0:
     dependencies:
       whatwg-url: 5.0.0
@@ -6777,6 +6791,13 @@ snapshots:
   path-to-regexp@0.1.12: {}
 
   path-type@4.0.0: {}
+
+  pdf-parse@1.1.1:
+    dependencies:
+      debug: 3.2.7
+      node-ensure: 0.0.0
+    transitivePeerDependencies:
+      - supports-color
 
   picocolors@1.1.1: {}
 
