@@ -69,8 +69,7 @@ export const processPdf = async (req: Request, res: Response) => {
     try {
       await SupabaseVectorStore.fromDocuments(chunks, embeddings, {
         client: supabase,
-        tableName: "vectors",
-        queryName: "match_vectors",
+        tableName: "documents",
       });
 
       res.json({
