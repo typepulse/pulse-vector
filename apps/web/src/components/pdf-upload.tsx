@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export function PdfUpload() {
   const [isUploading, setIsUploading] = useState(false);
 
@@ -11,13 +13,10 @@ export function PdfUpload() {
     formData.append("file", file);
 
     try {
-      const response = await fetch(
-        "https://qxxlcbvvszqlusrmczke.supabase.co/functions/v1/process-pdf",
-        {
-          method: "POST",
-          body: file,
-        }
-      );
+      const response = await fetch(`${API_URL}/api/process-pdf`, {
+        method: "POST",
+        body: file,
+      });
 
       if (!response.ok) {
         const error = await response.json();
