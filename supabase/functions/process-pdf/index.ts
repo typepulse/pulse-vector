@@ -1,5 +1,5 @@
 import process from "node:process";
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "jsr:@supabase/supabase-js@^2.47.10";
 import { OpenAIEmbeddings } from "npm:@langchain/openai@0.3.16";
 import { RecursiveCharacterTextSplitter } from "npm:langchain@0.3.8/text_splitter";
 import { PDFLoader } from "npm:@langchain/community@0.3.0/document_loaders/fs/pdf";
@@ -7,24 +7,40 @@ import { SupabaseVectorStore } from "npm:@langchain/community@0.3.0/vectorstores
 
 console.log("Hello from PDF Functions!");
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+};
+
 const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 Deno.serve(async (req) => {
+  // Handle CORS preflight requests
+  if (req.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: corsHeaders,
+    });
+  }
+
   try {
     const buffer = new Uint8Array(await req.arrayBuffer());
 
     if (buffer.length === 0) {
       return new Response(JSON.stringify({ error: "No PDF data provided" }), {
         status: 400,
-        headers: { "Content-Type": "application/json" },
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    // Create a temporary file in Deno
-    const tempFilePath = await Deno.makeTempFile({ suffix: ".pdf" });
+    // Create a temporary file path
+    const tempFileName = `${crypto.randomUUID()}.pdf`;
+    const tempFilePath = `/tmp/${tempFileName}`;
     await Deno.writeFile(tempFilePath, buffer);
 
     // Upload to Supabase Storage
@@ -34,19 +50,20 @@ Deno.serve(async (req) => {
     });
 
     if (error) {
+      console.error("Error creating bucket:", error);
       await Deno.remove(tempFilePath);
       throw new Error(error.message);
     }
 
     const fileName = `${uploadId}.pdf`;
     const { data: uploadData, error: uploadError } = await supabase
-      .storage.from("pdfs").upload(fileName, buffer);
+      .storage.from(uploadId).upload(fileName, buffer);
 
     if (uploadError) {
       await Deno.remove(tempFilePath);
       return new Response(JSON.stringify({ error: uploadError.message }), {
         status: 500,
-        headers: { "Content-Type": "application/json" },
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
@@ -89,7 +106,10 @@ Deno.serve(async (req) => {
         fileName: uploadData.path,
         chunks: chunks.length,
       }),
-      { status: 200, headers: { "Content-Type": "application/json" } },
+      {
+        status: 200,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
     );
   } catch (error) {
     console.error("Error processing PDF:", error);
@@ -101,7 +121,7 @@ Deno.serve(async (req) => {
       }),
       {
         status: 500,
-        headers: { "Content-Type": "application/json" },
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       },
     );
   }
