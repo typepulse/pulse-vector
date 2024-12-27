@@ -14,7 +14,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
-export const processPdf = async (req: Request, res: Response) => {
+export const uploadFile = async (req: Request, res: Response) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No PDF file provided" });

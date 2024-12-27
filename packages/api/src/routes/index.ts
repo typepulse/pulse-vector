@@ -1,9 +1,9 @@
 import { Router } from "express";
 import type { IRouter } from "express";
-import { processPdf } from "../controllers/process-pdf";
+import { uploadFile } from "../controllers/upload-file";
 import { upload } from "../middleware/upload";
 
 export const router: IRouter = Router();
 
 // PDF processing route
-router.post("/process-pdf", upload.single("file"), processPdf);
+router.post("/upload_file", upload.single("file"), uploadFile);

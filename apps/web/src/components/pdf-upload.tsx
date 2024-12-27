@@ -14,7 +14,7 @@ export function PdfUpload() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch(`${API_URL}/api/process-pdf`, {
+      const response = await fetch(`${API_URL}/api/upload_file`, {
         method: "POST",
         body: formData,
       });
