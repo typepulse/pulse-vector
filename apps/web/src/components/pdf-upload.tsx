@@ -9,13 +9,14 @@ export function PdfUpload() {
 
   const handleUpload = async (file: File) => {
     setIsUploading(true);
-    const formData = new FormData();
-    formData.append("file", file);
 
     try {
+      const formData = new FormData();
+      formData.append("file", file);
+
       const response = await fetch(`${API_URL}/api/process-pdf`, {
         method: "POST",
-        body: file,
+        body: formData,
       });
 
       if (!response.ok) {
