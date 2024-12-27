@@ -64,9 +64,7 @@ export const processPdf = async (req: Request, res: Response) => {
     const chunks = await splitter.splitDocuments(pages);
 
     // Create embeddings
-    const embeddings = new OpenAIEmbeddings({
-      openAIApiKey: process.env.OPENAI_API_KEY,
-    });
+    const embeddings = new OpenAIEmbeddings();
 
     try {
       await SupabaseVectorStore.fromDocuments(chunks, embeddings, {
