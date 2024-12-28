@@ -2,9 +2,9 @@
   "name": "supavec",
   "private": true,
   "scripts": {
+    "dev": "turbo dev",
     "build": "turbo build",
     "build:api": "turbo build --filter=@supavec/api",
-    "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
