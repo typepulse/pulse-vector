@@ -5,9 +5,9 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "start": "node dist/server.js",
+    "build": "bun build ./src/server.ts --outdir ./dist",
+    "dev": "bun --watch src/server.ts",
+    "start": "bun run dist/server.js",
     "lint": "eslint \"src/**/*.ts\"",
     "clean": "rm -rf .turbo node_modules dist"
   },
@@ -30,8 +30,8 @@
     "@types/morgan": "^1.9.9",
     "@types/multer": "^1.4.11",
     "@types/node": "^20",
+    "bun-types": "^1.1.42",
     "eslint": "^9",
-    "ts-node-dev": "^2.0.0",
     "typescript": "^5"
   }
 }
