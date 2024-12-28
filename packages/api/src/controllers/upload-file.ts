@@ -78,7 +78,6 @@ export const uploadFile = async (req: Request, res: Response) => {
       });
     }
 
-    // Load and process PDF with LangChain
     const loader = new PDFLoader(tempFilePath);
     const pages = await loader.load();
 
@@ -91,6 +90,11 @@ export const uploadFile = async (req: Request, res: Response) => {
       chunkOverlap: chunk_overlap ?? DEFAULT_CHUNK_OVERLAP,
     });
     const chunks = await splitter.splitDocuments(pages);
+
+    // Add file_id metadata to each chunk
+    chunks.forEach((chunk) => {
+      chunk.metadata.file_id = uploadId;
+    });
 
     // Create embeddings
     const embeddings = new OpenAIEmbeddings();
