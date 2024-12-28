@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "lib": ["esnext"],
+    "target": "es2020",
+    "module": "commonjs",
+    "lib": ["es2020"],
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,
@@ -14,6 +13,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
       "*": ["node_modules/*"]
@@ -24,8 +24,7 @@
     "resolveJsonModule": true,
     "outDir": "./dist",
     "rootDir": "./src",
-    "sourceMap": true,
-    "types": ["bun-types"]
+    "sourceMap": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
