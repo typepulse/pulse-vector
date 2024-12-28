@@ -103,6 +103,8 @@ export const uploadFile = async (req: Request, res: Response) => {
         message: "PDF processed successfully",
         fileName: uploadData.path,
         chunks: chunks.length,
+        chunk_size: chunk_size ?? DEFAULT_CHUNK_SIZE,
+        chunk_overlap: chunk_overlap ?? DEFAULT_CHUNK_OVERLAP,
       });
     } catch (vectorError) {
       throw new Error(
