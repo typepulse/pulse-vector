@@ -8,16 +8,39 @@ import { unlink, writeFile } from "fs/promises";
 import { join } from "path";
 import { tmpdir } from "os";
 import { randomUUID } from "crypto";
+import { z } from "zod";
+
+const DEFAULT_CHUNK_SIZE = 1000;
+const DEFAULT_CHUNK_OVERLAP = 200;
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
+const uploadQuerySchema = z.object({
+  chunk_size: z.coerce.number().positive().nullish(),
+  chunk_overlap: z.coerce.number().positive().nullish(),
+});
+
 export const uploadFile = async (req: Request, res: Response) => {
   try {
+    // Validate query parameters
+    const queryValidation = uploadQuerySchema.safeParse(req.query);
+    if (!queryValidation.success) {
+      return res.status(400).json({
+        success: false,
+        error: "Invalid query parameters",
+        details: queryValidation.error.errors,
+      });
+    }
+    const { chunk_size, chunk_overlap } = queryValidation.data;
+
     if (!req.file) {
-      return res.status(400).json({ error: "No PDF file provided" });
+      return res.status(400).json({
+        success: false,
+        error: "No PDF file provided",
+      });
     }
 
     const buffer = req.file.buffer;
@@ -46,7 +69,10 @@ export const uploadFile = async (req: Request, res: Response) => {
 
     if (uploadError) {
       await unlink(tempFilePath);
-      return res.status(500).json({ error: uploadError.message });
+      return res.status(500).json({
+        success: false,
+        error: uploadError.message,
+      });
     }
 
     // Load and process PDF with LangChain
@@ -58,8 +84,8 @@ export const uploadFile = async (req: Request, res: Response) => {
 
     // Split text into chunks
     const splitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 1000,
-      chunkOverlap: 200,
+      chunkSize: chunk_size ?? DEFAULT_CHUNK_SIZE,
+      chunkOverlap: chunk_overlap ?? DEFAULT_CHUNK_OVERLAP,
     });
     const chunks = await splitter.splitDocuments(pages);
 
@@ -73,6 +99,7 @@ export const uploadFile = async (req: Request, res: Response) => {
       });
 
       res.json({
+        success: true,
         message: "PDF processed successfully",
         fileName: uploadData.path,
         chunks: chunks.length,
@@ -87,6 +114,7 @@ export const uploadFile = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error processing PDF:", error);
     res.status(500).json({
+      success: false,
       error: `Failed to process PDF${
         error instanceof Error ? `: ${error.message}` : ""
       }`,
