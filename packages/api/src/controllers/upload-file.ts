@@ -65,7 +65,10 @@ export const uploadFile = async (req: Request, res: Response) => {
     const fileName = `${uploadId}.pdf`;
     const { data: uploadData, error: uploadError } = await supabase
       .storage.from(uploadId)
-      .upload(fileName, buffer);
+      .upload(fileName, buffer, {
+        contentType: "application/pdf",
+        upsert: false,
+      });
 
     if (uploadError) {
       await unlink(tempFilePath);
