@@ -69,6 +69,7 @@ export function PDFUploadForm({ apiKey }: { apiKey: string }) {
       await supabase.from("files").insert({
         file_id: result.file_id,
         type: "pdf",
+        file_name: files[0].name,
       });
 
       console.log("PDF processed successfully:", result);
