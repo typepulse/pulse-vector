@@ -11,7 +11,7 @@ const ratelimit = new Ratelimit({
 
 export const rateLimit = () => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    const ip = req.ip;
+    const ip = req.ip ?? req.socket?.remoteAddress;
     console.log({ ip });
 
     const identifier = ip;
