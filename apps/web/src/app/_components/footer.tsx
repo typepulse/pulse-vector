@@ -3,7 +3,7 @@ import { APP_NAME } from "../consts";
 const navigation = [
   {
     name: "X",
-    href: "https://x.com/taishik_",
+    href: "https://x.com/supavec_ai",
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     icon: (props: any) => (
       <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
