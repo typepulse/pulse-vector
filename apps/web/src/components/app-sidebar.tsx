@@ -45,13 +45,13 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard",
       icon: SquareTerminal,
       isActive: true,
     },
     {
       title: "Generate API Key",
-      url: "#",
+      url: "/dsahboard/generate-apikey",
       icon: Key,
     },
     {
