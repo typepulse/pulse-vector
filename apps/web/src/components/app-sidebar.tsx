@@ -14,45 +14,45 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-const data = {
-  teams: [
-    {
-      name: "Supavec",
-      logo: () => {
-        // eslint-disable-next-line @next/next/no-img-element
-        return <img src="/logo.png" alt="Supavec" />;
+export function AppSidebar({ email }: { email: string }) {
+  const data = {
+    teams: [
+      {
+        name: "Supavec",
+        logo: () => {
+          // eslint-disable-next-line @next/next/no-img-element
+          return <img src="/logo.png" alt="Supavec" />;
+        },
+        plan: "Beta",
       },
-      plan: "Beta",
+    ],
+    user: {
+      name: "User",
+      email,
+      avatar: "/avatars/user.jpg",
     },
-  ],
-  user: {
-    name: "User",
-    email: "user@example.com",
-    avatar: "/avatars/user.jpg",
-  },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: SquareTerminal,
-      isActive: true,
-    },
-    {
-      title: "Generate API Key",
-      url: "/dsahboard/generate-apikey",
-      icon: Key,
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-    },
-  ],
-};
+    navMain: [
+      {
+        title: "Dashboard",
+        url: "/dashboard",
+        icon: SquareTerminal,
+        isActive: true,
+      },
+      {
+        title: "Generate API Key",
+        url: "/dsahboard/generate-apikey",
+        icon: Key,
+      },
+      {
+        title: "Documentation",
+        url: "#",
+        icon: BookOpen,
+      },
+    ],
+  };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
