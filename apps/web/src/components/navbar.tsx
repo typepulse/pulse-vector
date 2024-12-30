@@ -13,7 +13,6 @@ import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
-import { Button } from "./ui/button";
 import { signOut } from "@/app/login/actions";
 
 const links = [{ href: "/login", label: "Login" }];
@@ -23,11 +22,7 @@ function DesktopNav({ loginUser }: { loginUser: User | null }) {
     <nav className="relative hidden lg:flex">
       {loginUser ? (
         <PlusGridItem className="relative flex justify-center items-center">
-          <form action={signOut}>
-            <Button variant="ghost" className="hover:bg-transparent">
-              Logout
-            </Button>
-          </form>
+          <Link href="/dashboard">Dashboard</Link>
         </PlusGridItem>
       ) : (
         links.map(({ href, label }) => (
@@ -71,9 +66,7 @@ function MobileNav({ loginUser }: { loginUser: User | null }) {
               rotateX: { duration: 0.3, delay: 0 * 0.1 },
             }}
           >
-            <Button variant="ghost" className="hover:bg-transparent">
-              Logout
-            </Button>
+            <Link href="/dashboard">Dashboard</Link>
           </motion.form>
         ) : (
           links.map(({ href, label }, linkIndex) => (
