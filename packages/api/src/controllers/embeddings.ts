@@ -21,8 +21,6 @@ export const getEmbeddings = async (req: Request, res: Response) => {
     const {
       query,
       k = 3,
-      include_vectors = false,
-      include_raw_file = false,
       file_ids,
     } = req.body as EmbeddingsRequest;
 
