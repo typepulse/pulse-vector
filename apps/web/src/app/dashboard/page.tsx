@@ -77,7 +77,10 @@ export default async function Page() {
                     </div>
                   </TabsContent>
                   <TabsContent value="embeddings">
-                    <EmbeddingsQuery uploadedFiles={uploadedFiles} />
+                    <EmbeddingsQuery
+                      uploadedFiles={uploadedFiles}
+                      apiKey={apiKeys[0].api_key!}
+                    />
                   </TabsContent>
                 </Tabs>
               </>

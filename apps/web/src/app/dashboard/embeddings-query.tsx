@@ -15,10 +15,14 @@ import {
 } from "@/components/ui/select";
 import type { Tables } from "@/types/supabase";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export function EmbeddingsQuery({
   uploadedFiles,
+  apiKey,
 }: {
   uploadedFiles: Tables<"files">[] | null;
+  apiKey: string;
 }) {
   const [query, setQuery] = useState("");
   const [selectedFileId, setSelectedFileId] = useState("");
@@ -32,22 +36,28 @@ export function EmbeddingsQuery({
     setError(null);
 
     try {
-      const res = await fetch("/api/embeddings", {
+      const res = await fetch(`${API_URL}/embeddings`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: apiKey,
         },
-        body: JSON.stringify({ query, file_id: selectedFileId }),
+        body: JSON.stringify({ query, file_ids: [selectedFileId] }),
       });
 
       if (!res.ok) {
-        throw new Error("Failed to fetch embeddings");
+        const data = await res.json();
+        throw new Error(
+          JSON.stringify(data.error) ?? "Failed to fetch embeddings"
+        );
       }
 
       const data = await res.json();
       setResponse(JSON.stringify(data, null, 2));
     } catch (err) {
-      setError("An error occurred while fetching embeddings");
+      setError(
+        (err as Error).message ?? "An error occurred while fetching embeddings"
+      );
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -70,9 +80,9 @@ export function EmbeddingsQuery({
               <SelectValue placeholder="Select a file" />
             </SelectTrigger>
             <SelectContent>
-              {uploadedFiles.map((file) => (
-                <SelectItem key={file.id} value={file.file_id}>
-                  {file.name}
+              {uploadedFiles?.map((file) => (
+                <SelectItem key={file.id} value={file.file_id!}>
+                  {file.file_name}
                 </SelectItem>
               ))}
             </SelectContent>
