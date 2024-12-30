@@ -1,8 +1,7 @@
-import { GalleryVerticalEnd } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/app/consts";
+import Link from "next/link";
 
 export function LoginForm({
   className,
@@ -12,12 +11,20 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col items-center gap-2">
-          <a href="#" className="flex flex-col items-center gap-2 font-medium">
-            <div className="flex h-8 w-8 items-center justify-center rounded-md">
-              <GalleryVerticalEnd className="size-6" />
+          <Link
+            href="/"
+            className="flex flex-col items-center gap-2 font-medium"
+          >
+            <div className="flex size-12 items-center justify-center rounded-md">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="./logo.png"
+                className="size-12"
+                alt={`${APP_NAME} logo`}
+              />
             </div>
             <span className="sr-only">{APP_NAME}</span>
-          </a>
+          </Link>
           <h1 className="text-xl font-bold">Welcome to {APP_NAME}</h1>
           <p className="text-center text-sm text-muted-foreground">
             Sign in to your account
