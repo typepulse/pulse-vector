@@ -50,7 +50,7 @@ export default async function Page() {
                 <span className="p-1 text-sm bg-muted-foreground/20 rounded-md">
                   {apiKeys[0].api_key}
                 </span>
-                <PDFUploadForm />
+                <PDFUploadForm apiKey={apiKeys[0].api_key!} />
               </>
             ) : (
               <GenerateForm />
