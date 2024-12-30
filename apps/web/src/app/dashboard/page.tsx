@@ -5,7 +5,6 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
@@ -13,6 +12,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { createClient } from "@/utils/supabase/server";
+import { GenerateForm } from "./generate-form";
 
 export default async function Page() {
   const supabase = await createClient();
@@ -43,7 +43,7 @@ export default async function Page() {
           <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min p-4">
             <h3 className="text-xl font-semibold mb-4">API Key Generation</h3>
             <p>Your API key will appear here once generated.</p>
-            <Button className="mt-2">Generate API Key</Button>
+            <GenerateForm />
           </div>
         </div>
       </SidebarInset>
