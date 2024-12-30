@@ -4,6 +4,7 @@ import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Upload, File, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -56,6 +57,7 @@ export function PDFUploadForm({ apiKey }: { apiKey: string }) {
 
       console.log("PDF processed successfully:", result);
       setFiles([]);
+      toast.success("PDF processed successfully");
     } catch (error) {
       console.error("Upload failed:", error);
       setError(error instanceof Error ? error.message : "Failed to upload PDF");

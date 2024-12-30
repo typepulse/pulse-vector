@@ -1,4 +1,5 @@
 import "@/styles/tailwind.css";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { APP_NAME } from "./consts";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -23,7 +24,10 @@ export default function RootLayout({
           href="https://api.fontshare.com/css?f%5B%5D=switzer@400,500,600,700&amp;display=swap"
         />
       </head>
-      <body className="text-gray-950 antialiased">{children}</body>
+      <body className="text-gray-950 antialiased">
+        {children}
+        <Toaster />
+      </body>
       <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS!} />
     </html>
   );
