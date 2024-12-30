@@ -22,9 +22,7 @@ function CallToAction() {
         potential.
       </p>
       <div className="mt-6">
-        <Button className="w-full sm:w-auto" href="#">
-          Get started
-        </Button>
+        <Button className="w-full sm:w-auto">Get started</Button>
       </div>
     </div>
   );
