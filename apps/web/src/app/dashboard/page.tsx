@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 import { createClient } from "@/utils/supabase/server";
 import { GenerateForm } from "./generate-form";
+import { PDFUploadForm } from "./pdf-upload-form";
 
 export default async function Page() {
   const supabase = await createClient();
@@ -45,9 +46,12 @@ export default async function Page() {
             <h3 className="text-xl font-semibold mb-4">API Key Generation</h3>
             <p>Your API key will appear here once generated.</p>
             {Array.isArray(apiKeys) && apiKeys?.length > 0 ? (
-              <span className="p-1 text-sm bg-muted-foreground/20 rounded-md">
-                {apiKeys[0].api_key}
-              </span>
+              <>
+                <span className="p-1 text-sm bg-muted-foreground/20 rounded-md">
+                  {apiKeys[0].api_key}
+                </span>
+                <PDFUploadForm />
+              </>
             ) : (
               <GenerateForm />
             )}
