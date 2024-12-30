@@ -31,7 +31,8 @@ export function UploadedFilesList() {
     };
 
     fetchFiles();
-  }, [supabase]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="mt-6">
@@ -51,9 +52,15 @@ export function UploadedFilesList() {
                 <File className="h-5 w-5 text-blue-500" />
                 <div>
                   <p className="font-medium">{file.file_name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {new Date(file.created_at).toLocaleDateString()}
-                  </p>
+                  <div className="flex space-x-2 text-sm text-muted-foreground">
+                    <p>{new Date(file.created_at).toLocaleDateString()}</p>
+                    {file.file_id && (
+                      <>
+                        <span>•</span>
+                        <p>ID: {file.file_id}</p>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </li>
