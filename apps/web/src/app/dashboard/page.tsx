@@ -14,11 +14,18 @@ import {
 import { createClient } from "@/utils/supabase/server";
 import { GenerateForm } from "./generate-form";
 import { PDFUploadForm } from "./pdf-upload-form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UploadedFilesList } from "./uploaded-files-list";
+import { EmbeddingsQuery } from "./embeddings-query";
 
 export default async function Page() {
   const supabase = await createClient();
   const { data } = await supabase.from("profiles").select("id, email").single();
   const { data: apiKeys } = await supabase.from("api_keys").select("*");
+  const { data: uploadedFiles } = await supabase
+    .from("files")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   return (
     <SidebarProvider>
@@ -50,7 +57,29 @@ export default async function Page() {
                 <span className="p-1 text-sm bg-muted-foreground/20 rounded-md">
                   {apiKeys[0].api_key}
                 </span>
-                <PDFUploadForm apiKey={apiKeys[0].api_key!} />
+                <Tabs defaultValue="upload" className="space-y-4 mt-5">
+                  <TabsList>
+                    <TabsTrigger value="upload">Upload files</TabsTrigger>
+                    <TabsTrigger value="embeddings">
+                      Embeddings Query
+                    </TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="upload" className="space-y-4">
+                    <div>
+                      <h3 className="text-xl font-semibold mb-4">
+                        API Key Generation
+                      </h3>
+                      <p className="mb-4">
+                        Upload PDF files to generate your API key.
+                      </p>
+                      <PDFUploadForm apiKey={apiKeys[0].api_key!} />
+                      <UploadedFilesList files={uploadedFiles} />
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="embeddings">
+                    <EmbeddingsQuery uploadedFiles={uploadedFiles} />
+                  </TabsContent>
+                </Tabs>
               </>
             ) : (
               <GenerateForm />

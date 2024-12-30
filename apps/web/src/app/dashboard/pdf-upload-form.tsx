@@ -6,7 +6,7 @@ import { Upload, File, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { createClient } from "@/utils/supabase/client";
-import { UploadedFilesList } from "./uploaded-files-list";
+import { useRouter } from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -15,7 +15,7 @@ export function PDFUploadForm({ apiKey }: { apiKey: string }) {
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [refreshKey, setRefreshKey] = useState(0);
+  const router = useRouter();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setError(null);
@@ -67,7 +67,7 @@ export function PDFUploadForm({ apiKey }: { apiKey: string }) {
 
       console.log("PDF processed successfully:", result);
       setFiles([]);
-      setRefreshKey((prev) => prev + 1);
+      router.refresh();
       toast.success("PDF processed successfully");
     } catch (error) {
       console.error("Upload failed:", error);
@@ -78,63 +78,60 @@ export function PDFUploadForm({ apiKey }: { apiKey: string }) {
   };
 
   return (
-    <>
-      <div className="mt-4">
-        <div
-          {...getRootProps()}
-          className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
-            isDragActive
-              ? "border-primary bg-primary/10"
-              : "border-gray-300 hover:border-primary"
-          }`}
-        >
-          <input {...getInputProps()} />
-          <Upload className="mx-auto h-12 w-12 text-gray-400" />
-          <p className="mt-2 text-sm text-gray-600">
-            {isDragActive
-              ? "Drop the PDF file here"
-              : "Drag 'n' drop a PDF file here, or click to select one"}
-          </p>
-        </div>
-        {files.length > 0 && (
-          <div className="mt-4 space-y-4">
-            <div className="flex items-center justify-between bg-gray-100 p-2 rounded">
-              <div className="flex items-center">
-                <File className="h-5 w-5 text-blue-500 mr-2" />
-                <span className="text-sm font-medium">{files[0].name}</span>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={removeFile}
-                disabled={isUploading}
-              >
-                <X className="h-4 w-4" />
-              </Button>
+    <div className="mt-4">
+      <div
+        {...getRootProps()}
+        className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
+          isDragActive
+            ? "border-primary bg-primary/10"
+            : "border-gray-300 hover:border-primary"
+        }`}
+      >
+        <input {...getInputProps()} />
+        <Upload className="mx-auto h-12 w-12 text-gray-400" />
+        <p className="mt-2 text-sm text-gray-600">
+          {isDragActive
+            ? "Drop the PDF file here"
+            : "Drag 'n' drop a PDF file here, or click to select one"}
+        </p>
+      </div>
+      {files.length > 0 && (
+        <div className="mt-4 space-y-4">
+          <div className="flex items-center justify-between bg-gray-100 p-2 rounded">
+            <div className="flex items-center">
+              <File className="h-5 w-5 text-blue-500 mr-2" />
+              <span className="text-sm font-medium">{files[0].name}</span>
             </div>
             <Button
-              onClick={handleUpload}
+              variant="ghost"
+              size="sm"
+              onClick={removeFile}
               disabled={isUploading}
-              className="w-full"
             >
-              {isUploading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Processing PDF...
-                </>
-              ) : (
-                "Upload PDF"
-              )}
+              <X className="h-4 w-4" />
             </Button>
           </div>
-        )}
-        {error && (
-          <div className="mt-4 p-3 bg-red-50 text-red-600 rounded-md text-sm">
-            {error}
-          </div>
-        )}
-      </div>
-      <UploadedFilesList key={refreshKey} />
-    </>
+          <Button
+            onClick={handleUpload}
+            disabled={isUploading}
+            className="w-full"
+          >
+            {isUploading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Processing PDF...
+              </>
+            ) : (
+              "Upload PDF"
+            )}
+          </Button>
+        </div>
+      )}
+      {error && (
+        <div className="mt-4 p-3 bg-red-50 text-red-600 rounded-md text-sm">
+          {error}
+        </div>
+      )}
+    </div>
   );
 }
