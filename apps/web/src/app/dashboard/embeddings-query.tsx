@@ -30,6 +30,20 @@ export function EmbeddingsQuery({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  if (!uploadedFiles || uploadedFiles.length === 0) {
+    return (
+      <div className="mt-6">
+        <Alert>
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>No files found</AlertTitle>
+          <AlertDescription>
+            Please upload a PDF file first to start querying embeddings.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -73,7 +87,7 @@ export function EmbeddingsQuery({
             htmlFor="file-select"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Select a file:
+            Select an uploaded file:
           </label>
           <Select onValueChange={setSelectedFileId} value={selectedFileId}>
             <SelectTrigger id="file-select">
