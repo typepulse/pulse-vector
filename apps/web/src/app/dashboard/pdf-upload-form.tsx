@@ -15,6 +15,7 @@ export function PDFUploadForm({ apiKey }: { apiKey: string }) {
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setError(null);
@@ -55,7 +56,7 @@ export function PDFUploadForm({ apiKey }: { apiKey: string }) {
       const result = await response.json();
 
       if (!response.ok || !result.success) {
-        throw new Error(result.error || "Failed to process PDF");
+        throw new Error(result.message || "Failed to process PDF");
       }
 
       await supabase.from("files").insert({
@@ -66,6 +67,7 @@ export function PDFUploadForm({ apiKey }: { apiKey: string }) {
 
       console.log("PDF processed successfully:", result);
       setFiles([]);
+      setRefreshKey((prev) => prev + 1);
       toast.success("PDF processed successfully");
     } catch (error) {
       console.error("Upload failed:", error);
@@ -132,7 +134,7 @@ export function PDFUploadForm({ apiKey }: { apiKey: string }) {
           </div>
         )}
       </div>
-      <UploadedFilesList />
+      <UploadedFilesList key={refreshKey} />
     </>
   );
 }
