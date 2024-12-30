@@ -62,6 +62,38 @@ export type Database = {
         }
         Relationships: []
       }
+      files: {
+        Row: {
+          created_at: string
+          file_id: string | null
+          id: number
+          type: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          file_id?: string | null
+          id?: number
+          type?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          file_id?: string | null
+          id?: number
+          type?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "files_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
