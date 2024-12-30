@@ -10,19 +10,11 @@ import { UploadedFilesList } from "./uploaded-files-list";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const mockUploadedFiles = [
-  { id: "1", name: "document1.pdf" },
-  { id: "2", name: "report2023.pdf" },
-  { id: "3", name: "analysis.pdf" },
-];
-
 export function PDFUploadForm({ apiKey }: { apiKey: string }) {
   const supabase = createClient();
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const [uploadedFiles, _setUploadedFiles] = useState(mockUploadedFiles);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setError(null);
@@ -140,7 +132,7 @@ export function PDFUploadForm({ apiKey }: { apiKey: string }) {
           </div>
         )}
       </div>
-      <UploadedFilesList files={uploadedFiles} />
+      <UploadedFilesList />
     </>
   );
 }
