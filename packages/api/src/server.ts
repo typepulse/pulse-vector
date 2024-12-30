@@ -35,8 +35,9 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 app.use(rateLimit());
+app.use(apiKeyAuth());
 
-app.use("/", apiKeyAuth, router);
+app.use("/", router);
 
 app.use(errorHandler);
 
