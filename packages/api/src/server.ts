@@ -9,6 +9,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import { router } from "./routes";
 import { errorHandler } from "./middleware/errorHandler";
+import { apiKeyAuth } from "./middleware/auth";
 
 const requiredEnvVars = [
   "OPENAI_API_KEY",
@@ -30,7 +31,7 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 
-app.use("/", router);
+app.use("/", apiKeyAuth, router);
 
 app.use(errorHandler);
 
