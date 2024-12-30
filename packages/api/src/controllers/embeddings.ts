@@ -46,21 +46,23 @@ export const getEmbeddings = async (req: Request, res: Response) => {
       },
     );
 
-    const results = await vectorStore.similaritySearchWithScore(query, k);
+    const similaritySearchWithScoreResults = await vectorStore
+      .similaritySearchWithScore(query, k);
+    const documentsResponse = [];
+    for (const [doc, score] of similaritySearchWithScoreResults) {
+      documentsResponse.push({
+        content: doc.pageContent,
+        file_id: doc.metadata.file_id,
+        score: score.toFixed(3),
+      });
+    }
 
-    const mockResponse = {
+    const response = {
       success: true,
-      documents: results[0].filter((result) => typeof result !== "number").map(
-        (r) => {
-          return {
-            file_id: r.metadata.file_id,
-            content: r.pageContent,
-          };
-        },
-      ),
+      documents: documentsResponse,
     };
 
-    return res.status(200).json(mockResponse);
+    return res.status(200).json(response);
   } catch (error) {
     console.error("Error in embeddings endpoint:", error);
     return res.status(500).json({
