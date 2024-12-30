@@ -66,11 +66,9 @@ export default async function Page() {
                   </TabsList>
                   <TabsContent value="upload" className="space-y-4">
                     <div>
-                      <h3 className="text-xl font-semibold mb-4">
-                        API Key Generation
-                      </h3>
+                      <h3 className="text-xl font-semibold mb-4">PDF Upload</h3>
                       <p className="mb-4">
-                        Upload PDF files to generate your API key.
+                        Upload PDF files to generate embeddings.
                       </p>
                       <PDFUploadForm apiKey={apiKeys[0].api_key!} />
                       <UploadedFilesList files={uploadedFiles} />
