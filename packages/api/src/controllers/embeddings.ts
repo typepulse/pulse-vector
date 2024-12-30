@@ -2,14 +2,18 @@ import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase"
 import { createClient } from "@supabase/supabase-js";
 import { Request, Response } from "express";
 import { OpenAIEmbeddings } from "@langchain/openai";
+import { z } from "zod";
 
-type EmbeddingsRequest = {
-  query: string;
-  k: number;
-  include_vectors?: boolean;
-  include_raw_file?: boolean;
-  file_ids?: string[];
-};
+const embeddingsSchema = z.object({
+  query: z.string().min(1, "Query is required"),
+  k: z.number().int().positive().default(3),
+  include_vectors: z.boolean().optional(),
+  include_raw_file: z.boolean().optional(),
+  file_ids: z.array(z.string().uuid()).min(
+    1,
+    "At least one file ID is required",
+  ),
+});
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -18,18 +22,16 @@ const supabase = createClient(
 
 export const getEmbeddings = async (req: Request, res: Response) => {
   try {
-    const {
-      query,
-      k = 3,
-      file_ids,
-    } = req.body as EmbeddingsRequest;
+    const validationResult = embeddingsSchema.safeParse(req.body);
 
-    if (!query) {
+    if (!validationResult.success) {
       return res.status(400).json({
         success: false,
-        error: "Query is required",
+        error: validationResult.error.issues,
       });
     }
+
+    const { query, k, file_ids } = validationResult.data;
 
     const vectorStore = new SupabaseVectorStore(
       new OpenAIEmbeddings({
