@@ -24,3 +24,11 @@ export async function googleLogin() {
   revalidatePath("/", "layout");
   redirect(data.url);
 }
+
+export const signOut = async () => {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+
+  revalidatePath("/", "layout");
+  return redirect("/login");
+};
