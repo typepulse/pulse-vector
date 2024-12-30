@@ -1,21 +1,19 @@
 "use client";
 
 import React from "react";
-import { File, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { File } from "lucide-react";
 
 interface UploadedFile {
   id: string;
   name: string;
-  uploadDate: Date;
 }
 
 interface UploadedFilesListProps {
   files: UploadedFile[];
-  onDelete: (id: string) => void;
+  // onDelete: (id: string) => void;
 }
 
-export function UploadedFilesList({ files, onDelete }: UploadedFilesListProps) {
+export function UploadedFilesList({ files }: UploadedFilesListProps) {
   return (
     <div className="mt-6">
       <h3 className="text-lg font-semibold mb-4">Uploaded Files</h3>
@@ -36,14 +34,14 @@ export function UploadedFilesList({ files, onDelete }: UploadedFilesListProps) {
                   <p className="font-medium">{file.name}</p>
                 </div>
               </div>
-              <Button
+              {/* <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => onDelete(file.id)}
               >
                 <Trash2 className="h-4 w-4" />
                 <span className="sr-only">Delete file</span>
-              </Button>
+              </Button> */}
             </li>
           ))}
         </ul>

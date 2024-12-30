@@ -22,11 +22,7 @@ export function PDFUploadForm({ apiKey }: { apiKey: string }) {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [uploadedFiles, setUploadedFiles] = useState(mockUploadedFiles);
-
-  const handleDelete = (id: string) => {
-    setUploadedFiles((files) => files.filter((file) => file.id !== id));
-  };
+  const [uploadedFiles, _setUploadedFiles] = useState(mockUploadedFiles);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setError(null);
@@ -143,7 +139,7 @@ export function PDFUploadForm({ apiKey }: { apiKey: string }) {
           </div>
         )}
       </div>
-      <UploadedFilesList files={uploadedFiles} onDelete={handleDelete} />
+      <UploadedFilesList files={uploadedFiles} />
     </>
   );
 }
