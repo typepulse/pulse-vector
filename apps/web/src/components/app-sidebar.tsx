@@ -38,14 +38,14 @@ export function AppSidebar({ email }: { email: string }) {
         icon: SquareTerminal,
         isActive: true,
       },
-      {
-        title: "Generate API Key",
-        url: "/dsahboard/generate-apikey",
-        icon: Key,
-      },
+      // {
+      //   title: "Generate API Key",
+      //   url: "/dsahboard/generate-apikey",
+      //   icon: Key,
+      // },
       {
         title: "Documentation",
-        url: "#",
+        url: "https://github.com/taishikato/supavec",
         icon: BookOpen,
       },
     ],
