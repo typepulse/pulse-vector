@@ -1,19 +1,38 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { File } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
 
 interface UploadedFile {
-  id: string;
-  name: string;
+  id: number;
+  file_name: string | null;
+  created_at: string;
+  file_id: string | null;
 }
 
-interface UploadedFilesListProps {
-  files: UploadedFile[];
-  // onDelete: (id: string) => void;
-}
+export function UploadedFilesList() {
+  const [files, setFiles] = useState<UploadedFile[]>([]);
+  const supabase = createClient();
 
-export function UploadedFilesList({ files }: UploadedFilesListProps) {
+  useEffect(() => {
+    const fetchFiles = async () => {
+      const { data, error } = await supabase
+        .from("files")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching files:", error);
+        return;
+      }
+
+      setFiles(data || []);
+    };
+
+    fetchFiles();
+  }, [supabase]);
+
   return (
     <div className="mt-6">
       <h3 className="text-lg font-semibold mb-4">Uploaded Files</h3>
@@ -31,17 +50,12 @@ export function UploadedFilesList({ files }: UploadedFilesListProps) {
               <div className="flex items-center space-x-3">
                 <File className="h-5 w-5 text-blue-500" />
                 <div>
-                  <p className="font-medium">{file.name}</p>
+                  <p className="font-medium">{file.file_name}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {new Date(file.created_at).toLocaleDateString()}
+                  </p>
                 </div>
               </div>
-              {/* <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => onDelete(file.id)}
-              >
-                <Trash2 className="h-4 w-4" />
-                <span className="sr-only">Delete file</span>
-              </Button> */}
             </li>
           ))}
         </ul>
