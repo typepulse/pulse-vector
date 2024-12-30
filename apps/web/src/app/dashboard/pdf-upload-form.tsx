@@ -5,10 +5,12 @@ import { useDropzone } from "react-dropzone";
 import { Upload, File, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { createClient } from "@/utils/supabase/client";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export function PDFUploadForm({ apiKey }: { apiKey: string }) {
+  const supabase = createClient();
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,6 +56,11 @@ export function PDFUploadForm({ apiKey }: { apiKey: string }) {
       if (!response.ok || !result.success) {
         throw new Error(result.error || "Failed to process PDF");
       }
+
+      await supabase.from("files").insert({
+        file_id: result.file_id,
+        type: "pdf",
+      });
 
       console.log("PDF processed successfully:", result);
       setFiles([]);
