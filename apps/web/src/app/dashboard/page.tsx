@@ -17,6 +17,7 @@ import { GenerateForm } from "./generate-form";
 export default async function Page() {
   const supabase = await createClient();
   const { data } = await supabase.from("profiles").select("id, email").single();
+  const { data: apiKeys } = await supabase.from("api_keys").select("*");
 
   return (
     <SidebarProvider>
@@ -43,7 +44,13 @@ export default async function Page() {
           <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min p-4">
             <h3 className="text-xl font-semibold mb-4">API Key Generation</h3>
             <p>Your API key will appear here once generated.</p>
-            <GenerateForm />
+            {Array.isArray(apiKeys) && apiKeys?.length > 0 ? (
+              <span className="p-1 text-sm bg-muted-foreground/20 rounded-md">
+                {apiKeys[0].api_key}
+              </span>
+            ) : (
+              <GenerateForm />
+            )}
           </div>
         </div>
       </SidebarInset>
