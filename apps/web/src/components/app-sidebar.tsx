@@ -26,20 +26,22 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-// This is sample data.
 const data = {
+  teams: [
+    {
+      name: "Supavec",
+      logo: () => {
+        // eslint-disable-next-line @next/next/no-img-element
+        return <img src="/logo.png" alt="Supavec" />;
+      },
+      plan: "Beta",
+    },
+  ],
   user: {
     name: "User",
     email: "user@example.com",
     avatar: "/avatars/user.jpg",
   },
-  teams: [
-    {
-      name: "Supavec",
-      logo: Command,
-      plan: "Beta",
-    },
-  ],
   navMain: [
     {
       title: "Dashboard",
