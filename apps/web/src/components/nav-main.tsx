@@ -9,6 +9,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 export function NavMain({
   items,
@@ -17,6 +18,7 @@ export function NavMain({
     title: string;
     url: string;
     icon?: LucideIcon;
+    isExternal: boolean;
     isActive?: boolean;
   }[];
 }) {
@@ -31,10 +33,13 @@ export function NavMain({
               isActive={item.isActive}
               tooltip={item.title}
             >
-              <a href={item.url}>
+              <Link
+                href={item.url}
+                target={item.isExternal ? "_blank" : undefined}
+              >
                 {item.icon && <item.icon />}
                 <span>{item.title}</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}

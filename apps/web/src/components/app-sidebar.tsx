@@ -33,6 +33,7 @@ export function AppSidebar({ email }: { email: string }) {
     },
     navMain: [
       {
+        isExternal: false,
         title: "Dashboard",
         url: "/dashboard",
         icon: SquareTerminal,
@@ -45,8 +46,9 @@ export function AppSidebar({ email }: { email: string }) {
       // },
       {
         title: "Documentation",
-        url: "https://github.com/taishikato/supavec",
+        url: "https://github.com/taishikato/supavec/blob/main/packages/api/README.md",
         icon: BookOpen,
+        isExternal: true,
       },
     ],
   };
