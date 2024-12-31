@@ -52,19 +52,9 @@ export const uploadFile = async (req: Request, res: Response) => {
 
     // Upload to Supabase Storage
     const uploadId = randomUUID();
-    const { error } = await supabase.storage.createBucket(uploadId, {
-      public: false,
-    });
-
-    if (error) {
-      console.error("Error creating bucket:", error);
-      await unlink(tempFilePath);
-      throw new Error(error.message);
-    }
-
     const fileName = `${uploadId}.pdf`;
     const { data: uploadData, error: uploadError } = await supabase
-      .storage.from(uploadId)
+      .storage.from("users_files/")
       .upload(fileName, buffer, {
         contentType: "application/pdf",
         upsert: false,
@@ -109,6 +99,7 @@ export const uploadFile = async (req: Request, res: Response) => {
         success: true,
         message: "PDF processed successfully",
         fileName: uploadData.path,
+        file_id: uploadId,
         chunks: chunks.length,
         chunk_size: chunk_size ?? DEFAULT_CHUNK_SIZE,
         chunk_overlap: chunk_overlap ?? DEFAULT_CHUNK_OVERLAP,

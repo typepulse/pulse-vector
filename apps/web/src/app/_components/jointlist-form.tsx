@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@headlessui/react";
 import { useState } from "react";
 
