@@ -1,5 +1,7 @@
 # Welcome to the API documentation for the PDF Embeddings API :)
 
+Please generate your API Key on [the dashboard page](https://www.supavec.com/login).
+
 ## Endpoints
 
 ### `https://api.supavec.com/upload_file`
