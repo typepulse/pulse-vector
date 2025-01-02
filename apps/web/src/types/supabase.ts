@@ -14,21 +14,31 @@ export type Database = {
           api_key: string | null
           created_at: string
           id: string
+          team_id: string
           user_id: string | null
         }
         Insert: {
           api_key?: string | null
           created_at?: string
           id?: string
+          team_id: string
           user_id?: string | null
         }
         Update: {
           api_key?: string | null
           created_at?: string
           id?: string
+          team_id?: string
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "api_keys_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "api_keys_user_id_fkey"
             columns: ["user_id"]
