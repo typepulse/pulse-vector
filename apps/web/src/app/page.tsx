@@ -4,6 +4,7 @@ import { Hero } from "@/components/sections/hero";
 import { Community } from "@/components/sections/community";
 import { CTA } from "@/components/sections/cta";
 import { Footer } from "@/components/sections/footer";
+import { createClient } from "@/utils/supabase/server";
 
 export const metadata: Metadata = {
   description:
@@ -11,9 +12,12 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+  const supabase = await createClient();
+  const { data: user } = await supabase.auth.getUser();
+
   return (
     <main>
-      <Header />
+      <Header isLoggedIn={!!user?.user} />
       <Hero />
       <Community />
       <CTA />

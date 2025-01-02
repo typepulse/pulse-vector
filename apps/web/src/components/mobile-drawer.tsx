@@ -1,4 +1,3 @@
-import { Icons } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
 import {
   Drawer,
@@ -14,7 +13,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { IoMenuSharp } from "react-icons/io5";
 
-export function MobileDrawer() {
+export function MobileDrawer({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <Drawer>
       <DrawerTrigger>
@@ -34,15 +33,27 @@ export function MobileDrawer() {
           <DrawerDescription>{siteConfig.description}</DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <Link
-            href="/login"
-            className={cn(
-              buttonVariants({ variant: "default" }),
-              "text-white rounded-full group"
-            )}
-          >
-            {siteConfig.cta}
-          </Link>
+          {isLoggedIn ? (
+            <Link
+              href="/dashboard"
+              className={cn(
+                buttonVariants({ variant: "default" }),
+                "text-white rounded-full group"
+              )}
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className={cn(
+                buttonVariants({ variant: "default" }),
+                "text-white rounded-full group"
+              )}
+            >
+              {siteConfig.cta}
+            </Link>
+          )}
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
