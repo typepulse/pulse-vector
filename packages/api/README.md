@@ -2,6 +2,8 @@
 
 Please generate your API Key on [the dashboard page](https://www.supavec.com/login).
 
+Please check our backlog to see what we're working on: https://github.com/users/taishikato/projects/2/views/1
+
 ## Endpoints
 
 ### `https://api.supavec.com/upload_file`
