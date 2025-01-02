@@ -8,7 +8,7 @@ import { GeistSans } from "geist/font/sans";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s - Radiant",
+    template: `%s - ${APP_NAME}`,
     default: `${APP_NAME} - Connect your data to LLMs, no matter the source.`,
   },
 };
