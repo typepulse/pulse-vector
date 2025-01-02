@@ -15,10 +15,10 @@ import {
 } from "@/components/ui/sidebar";
 
 export function AppSidebar({
-  email,
+  user,
   team,
 }: {
-  email: string;
+  user: { id: string; name: string | null; email: string | null } | null;
   team:
     | {
         id: string;
@@ -38,8 +38,8 @@ export function AppSidebar({
       },
     ],
     user: {
-      name: "User",
-      email,
+      name: user?.name ?? "User",
+      email: user?.email ?? "",
       avatar: "/avatars/user.jpg",
     },
     navMain: [
