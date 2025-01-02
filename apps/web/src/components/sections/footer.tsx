@@ -1,4 +1,3 @@
-import { Icons } from "@/components/icons";
 import { BorderText } from "@/components/ui/border-number";
 import { siteConfig } from "@/lib/config";
 
@@ -7,7 +6,8 @@ export function Footer() {
     <footer className="flex flex-col gap-y-5 rounded-lg px-7 py-5 container">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-2">
-          <Icons.logo className="h-5 w-5" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="logo" className="size-8" />
           <h2 className="text-lg font-bold text-foreground">
             {siteConfig.name}
           </h2>

@@ -27,7 +27,8 @@ export function MobileDrawer() {
             title="brand-logo"
             className="relative mr-6 flex items-center space-x-2"
           >
-            <Icons.logo className="w-auto h-[40px]" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="logo" className="size-8" />
             <DrawerTitle>{siteConfig.name}</DrawerTitle>
           </Link>
           <DrawerDescription>{siteConfig.description}</DrawerDescription>
