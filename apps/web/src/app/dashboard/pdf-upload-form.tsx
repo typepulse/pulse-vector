@@ -92,7 +92,7 @@ export function PDFUploadForm({ apiKey }: { apiKey: string }) {
         <p className="mt-2 text-sm text-gray-600">
           {isDragActive
             ? "Drop the PDF file here"
-            : "Drag 'n' drop a PDF file here, or click to select one"}
+            : "Drag 'n' drop a PDF file here (max 20MB), or click to select one"}
         </p>
       </div>
       {files.length > 0 && (
