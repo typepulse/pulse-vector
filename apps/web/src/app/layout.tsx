@@ -3,6 +3,8 @@ import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { APP_NAME } from "./consts";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { GeistMono } from "geist/font/mono";
+import { GeistSans } from "geist/font/sans";
 
 export const metadata: Metadata = {
   title: {
@@ -17,7 +19,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${GeistSans.variable} ${GeistMono.variable}`}
+    >
       <head>
         <link
           rel="stylesheet"
