@@ -4,6 +4,7 @@ import { Navbar } from "@/components/navbar";
 import type { Metadata } from "next";
 import JointlistForm from "./_components/jointlist-form";
 import { Footer } from "./_components/footer";
+import { Header } from "@/components/sections/header";
 
 export const metadata: Metadata = {
   description:
@@ -37,6 +38,7 @@ function Hero() {
 export default async function Home() {
   return (
     <div className="overflow-hidden">
+      <Header />
       <Hero />
       <Footer />
     </div>
