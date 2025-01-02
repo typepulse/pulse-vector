@@ -21,13 +21,12 @@ const Section = forwardRef<HTMLElement, SectionProps>(
   ) => {
     const internalRef = useRef<HTMLElement>(null);
     const ref = forwardedRef || internalRef;
-    const sectionId = title ? title.toLowerCase().replace(/\s+/g, "-") : id;
     const alignmentClass =
       align === "left"
         ? "text-left"
         : align === "right"
-        ? "text-right"
-        : "text-center";
+          ? "text-right"
+          : "text-center";
 
     return (
       <section id={id} ref={ref}>
@@ -52,8 +51,8 @@ const Section = forwardRef<HTMLElement, SectionProps>(
                     align === "center"
                       ? "mx-auto"
                       : align === "right"
-                      ? "ml-auto"
-                      : ""
+                        ? "ml-auto"
+                        : ""
                   )}
                 >
                   {subtitle}
@@ -66,8 +65,8 @@ const Section = forwardRef<HTMLElement, SectionProps>(
                     align === "center"
                       ? "mx-auto"
                       : align === "right"
-                      ? "ml-auto"
-                      : ""
+                        ? "ml-auto"
+                        : ""
                   )}
                 >
                   {description}

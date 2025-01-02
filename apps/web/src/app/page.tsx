@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/sections/header";
 import { Hero } from "@/components/sections/hero";
+import { CTA } from "@/components/sections/cta";
 import { Footer } from "@/components/sections/footer";
 
 export const metadata: Metadata = {
@@ -13,6 +14,7 @@ export default async function Home() {
     <main>
       <Header />
       <Hero />
+      <CTA />
       <Footer />
     </main>
   );
