@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/sections/header";
 import { Hero } from "@/components/sections/hero";
+import { Community } from "@/components/sections/community";
 import { CTA } from "@/components/sections/cta";
 import { Footer } from "@/components/sections/footer";
 
@@ -14,6 +15,7 @@ export default async function Home() {
     <main>
       <Header />
       <Hero />
+      <Community />
       <CTA />
       <Footer />
     </main>
