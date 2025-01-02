@@ -54,7 +54,7 @@ export const uploadFile = async (req: Request, res: Response) => {
     const uploadId = randomUUID();
     const fileName = `${uploadId}.pdf`;
     const { data: uploadData, error: uploadError } = await supabase
-      .storage.from("users_files/")
+      .storage.from("user-documents/")
       .upload(fileName, buffer, {
         contentType: "application/pdf",
         upsert: false,
