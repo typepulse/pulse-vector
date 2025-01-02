@@ -17,6 +17,7 @@ export function Footer() {
           {siteConfig.footer.socialLinks.map((link, index) => (
             <a
               key={index}
+              target="_blank"
               href={link.url}
               className="flex h-5 w-5 items-center justify-center text-muted-foreground transition-all duration-100 ease-linear hover:text-foreground hover:underline hover:underline-offset-4"
             >
@@ -26,7 +27,7 @@ export function Footer() {
         </div>
       </div>
       <div className="flex flex-col justify-between gap-y-5 md:flex-row md:items-center">
-        <ul className="flex flex-col gap-x-5 gap-y-2 text-muted-foreground md:flex-row md:items-center">
+        {/* <ul className="flex flex-col gap-x-5 gap-y-2 text-muted-foreground md:flex-row md:items-center">
           {siteConfig.footer.links.map((link, index) => (
             <li
               key={index}
@@ -35,7 +36,7 @@ export function Footer() {
               <a href={link.url}>{link.text}</a>
             </li>
           ))}
-        </ul>
+        </ul> */}
         <div className="flex items-center justify-between text-sm font-medium tracking-tight text-muted-foreground">
           <p>{siteConfig.footer.bottomText}</p>
         </div>

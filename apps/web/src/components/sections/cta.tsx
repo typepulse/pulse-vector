@@ -1,5 +1,7 @@
 import { Section } from "@/components/section";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export function CTA() {
   return (
@@ -10,7 +12,15 @@ export function CTA() {
         </p>
 
         <div className="flex justify-center">
-          <Button className="flex items-center gap-2">Get Started</Button>
+          <Link
+            href="/login"
+            className={cn(
+              buttonVariants({ variant: "default" }),
+              "flex items-center gap-2"
+            )}
+          >
+            Get Started
+          </Link>
         </div>
       </div>
     </Section>
