@@ -30,7 +30,8 @@ export function LoginForm({
           </Link>
           <h1 className="text-xl font-bold">Welcome to {APP_NAME}</h1>
           <p className="text-center text-sm text-muted-foreground">
-            Sign in to your account
+            Sign in to your account. If you don&apos;t yet have an account, it
+            will be created automatically.
           </p>
         </div>
         <form action={googleLogin}>
