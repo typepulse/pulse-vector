@@ -1,7 +1,6 @@
 "use client";
 
-import { LucideIcon } from "lucide-react";
-
+import { type LucideIcon, type LucideProps } from "lucide-react";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -10,9 +9,11 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import type { ForwardRefExoticComponent, RefAttributes } from "react";
 
 export function NavMain({
   items,
+  team,
 }: {
   items: {
     title: string;
@@ -21,10 +22,17 @@ export function NavMain({
     isExternal: boolean;
     isActive?: boolean;
   }[];
+  team: {
+    name: string;
+    logo: ForwardRefExoticComponent<
+      Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+    >;
+    plan: string;
+  };
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Your team</SidebarGroupLabel>
+      <SidebarGroupLabel>{team.name}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.title}>

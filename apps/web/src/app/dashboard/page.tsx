@@ -26,10 +26,13 @@ export default async function Page() {
     .from("files")
     .select("*")
     .order("created_at", { ascending: false });
+  const { data: teamMemberships } = await supabase
+    .from("team_memberships")
+    .select("id, teams(name, id)");
 
   return (
     <SidebarProvider>
-      <AppSidebar email={data?.email ?? ""} />
+      <AppSidebar email={data?.email ?? ""} team={teamMemberships} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">

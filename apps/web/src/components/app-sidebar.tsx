@@ -14,11 +14,25 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-export function AppSidebar({ email }: { email: string }) {
+export function AppSidebar({
+  email,
+  team,
+}: {
+  email: string;
+  team:
+    | {
+        id: string;
+        teams: {
+          name: string | null;
+          id: string;
+        };
+      }[]
+    | null;
+}) {
   const data = {
     teams: [
       {
-        name: "Your team",
+        name: team?.[0]?.teams?.name ?? "Your team",
         logo: GalleryVerticalEnd,
         plan: "Beta",
       },
@@ -56,7 +70,7 @@ export function AppSidebar({ email }: { email: string }) {
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={data.navMain} team={data.teams[0]} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
