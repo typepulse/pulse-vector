@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { BookOpen, SquareTerminal } from "lucide-react";
+import { BookOpen, SquareTerminal, GalleryVerticalEnd } from "lucide-react";
 
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
@@ -18,11 +18,8 @@ export function AppSidebar({ email }: { email: string }) {
   const data = {
     teams: [
       {
-        name: "Supavec",
-        logo: () => {
-          // eslint-disable-next-line @next/next/no-img-element
-          return <img src="/logo.png" alt="Supavec" />;
-        },
+        name: "Your team",
+        logo: GalleryVerticalEnd,
         plan: "Beta",
       },
     ],
