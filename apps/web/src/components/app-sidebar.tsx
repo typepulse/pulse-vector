@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { BookOpen, SquareTerminal } from "lucide-react";
+import { BookOpen, SquareTerminal, GalleryVerticalEnd } from "lucide-react";
 
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
@@ -14,21 +14,32 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-export function AppSidebar({ email }: { email: string }) {
+export function AppSidebar({
+  user,
+  team,
+}: {
+  user: { id: string; name: string | null; email: string | null } | null;
+  team:
+    | {
+        id: string;
+        teams: {
+          name: string | null;
+          id: string;
+        };
+      }[]
+    | null;
+}) {
   const data = {
     teams: [
       {
-        name: "Supavec",
-        logo: () => {
-          // eslint-disable-next-line @next/next/no-img-element
-          return <img src="/logo.png" alt="Supavec" />;
-        },
+        name: team?.[0]?.teams?.name ?? "Your team",
+        logo: GalleryVerticalEnd,
         plan: "Beta",
       },
     ],
     user: {
-      name: "User",
-      email,
+      name: user?.name ?? "User",
+      email: user?.email ?? "",
       avatar: "/avatars/user.jpg",
     },
     navMain: [
@@ -59,7 +70,7 @@ export function AppSidebar({ email }: { email: string }) {
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={data.navMain} team={data.teams[0]} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

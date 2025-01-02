@@ -25,6 +25,24 @@ const uploadQuerySchema = z.object({
 
 export const uploadFile = async (req: Request, res: Response) => {
   try {
+    const apiKey = req.headers.authorization as string;
+
+    // Get team ID from API key
+    const { data: apiKeyData, error: apiKeyError } = await supabase
+      .from("api_keys")
+      .select("team_id")
+      .match({ api_key: apiKey })
+      .single();
+
+    if (apiKeyError || !apiKeyData?.team_id) {
+      return res.status(401).json({
+        success: false,
+        error: "Invalid API key",
+      });
+    }
+
+    const teamId = apiKeyData.team_id as string;
+
     // Validate query parameters
     const queryValidation = uploadQuerySchema.safeParse(req.query);
     if (!queryValidation.success) {
@@ -46,26 +64,23 @@ export const uploadFile = async (req: Request, res: Response) => {
     const buffer = req.file.buffer;
 
     // Create a temporary file path
-    const tempFileName = `${randomUUID()}.pdf`;
+    const fileId = randomUUID();
+    const tempFileName = `${fileId}.pdf`;
     const tempFilePath = join(tmpdir(), tempFileName);
     await writeFile(tempFilePath, buffer);
 
-    // Upload to Supabase Storage
-    const uploadId = randomUUID();
-    const fileName = `${uploadId}.pdf`;
-    const { data: uploadData, error: uploadError } = await supabase
-      .storage.from("users_files/")
-      .upload(fileName, buffer, {
+    // Upload file to Supabase Storage with team ID in path
+    const { data: storageData, error: storageError } = await supabase.storage
+      .from("user-documents")
+      .upload(`/${teamId}/${tempFileName}`, buffer, {
         contentType: "application/pdf",
         upsert: false,
       });
 
-    if (uploadError) {
-      await unlink(tempFilePath);
-      return res.status(500).json({
-        success: false,
-        error: uploadError.message,
-      });
+    if (storageError) {
+      throw new Error(
+        `Failed to upload file to storage: ${storageError.message}`,
+      );
     }
 
     const loader = new PDFLoader(tempFilePath);
@@ -83,7 +98,7 @@ export const uploadFile = async (req: Request, res: Response) => {
 
     // Add file_id metadata to each chunk
     chunks.forEach((chunk) => {
-      chunk.metadata.file_id = uploadId;
+      chunk.metadata.file_id = fileId;
     });
 
     // Create embeddings
@@ -98,8 +113,8 @@ export const uploadFile = async (req: Request, res: Response) => {
       res.json({
         success: true,
         message: "PDF processed successfully",
-        fileName: uploadData.path,
-        file_id: uploadId,
+        fileName: storageData.path,
+        file_id: fileId,
         chunks: chunks.length,
         chunk_size: chunk_size ?? DEFAULT_CHUNK_SIZE,
         chunk_overlap: chunk_overlap ?? DEFAULT_CHUNK_OVERLAP,

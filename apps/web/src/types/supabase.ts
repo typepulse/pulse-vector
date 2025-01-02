@@ -14,21 +14,31 @@ export type Database = {
           api_key: string | null
           created_at: string
           id: string
+          team_id: string
           user_id: string | null
         }
         Insert: {
           api_key?: string | null
           created_at?: string
           id?: string
+          team_id: string
           user_id?: string | null
         }
         Update: {
           api_key?: string | null
           created_at?: string
           id?: string
+          team_id?: string
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "api_keys_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "api_keys_user_id_fkey"
             columns: ["user_id"]
@@ -102,16 +112,73 @@ export type Database = {
           created_at: string
           email: string | null
           id: string
+          name: string | null
         }
         Insert: {
           created_at?: string
           email?: string | null
           id?: string
+          name?: string | null
         }
         Update: {
           created_at?: string
           email?: string | null
           id?: string
+          name?: string | null
+        }
+        Relationships: []
+      }
+      team_memberships: {
+        Row: {
+          id: string
+          joined_at: string
+          profile_id: string
+          team_id: string
+        }
+        Insert: {
+          id?: string
+          joined_at?: string
+          profile_id: string
+          team_id: string
+        }
+        Update: {
+          id?: string
+          joined_at?: string
+          profile_id?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_memberships_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "team_memberships_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      teams: {
+        Row: {
+          created_at: string
+          id: string
+          name: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string | null
         }
         Relationships: []
       }

@@ -20,16 +20,22 @@ import { EmbeddingsQuery } from "./embeddings-query";
 
 export default async function Page() {
   const supabase = await createClient();
-  const { data } = await supabase.from("profiles").select("id, email").single();
+  const { data } = await supabase
+    .from("profiles")
+    .select("id, name, email")
+    .single();
   const { data: apiKeys } = await supabase.from("api_keys").select("*");
   const { data: uploadedFiles } = await supabase
     .from("files")
     .select("*")
     .order("created_at", { ascending: false });
+  const { data: teamMemberships } = await supabase
+    .from("team_memberships")
+    .select("id, teams(name, id)");
 
   return (
     <SidebarProvider>
-      <AppSidebar email={data?.email ?? ""} />
+      <AppSidebar user={data} team={teamMemberships} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
