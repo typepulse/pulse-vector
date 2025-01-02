@@ -24,7 +24,7 @@ export default function RootLayout({
           href="https://api.fontshare.com/css?f%5B%5D=switzer@400,500,600,700&amp;display=swap"
         />
       </head>
-      <body className="text-gray-950 antialiased">
+      <body className="min-h-screen bg-background antialiased w-full mx-auto scroll-smooth font-sans">
         {children}
         <Toaster />
       </body>
