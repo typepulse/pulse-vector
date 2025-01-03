@@ -66,6 +66,7 @@ export const uploadFile = async (req: Request, res: Response) => {
     const fileId = randomUUID();
     const isTextFile = req.file.mimetype === "text/plain";
     const fileExtension = isTextFile ? "txt" : "pdf";
+    const fileName = req.file.originalname;
     const tempFileName = `${fileId}.${fileExtension}`;
     const tempFilePath = join(tmpdir(), tempFileName);
     await writeFile(tempFilePath, buffer);
@@ -130,7 +131,7 @@ export const uploadFile = async (req: Request, res: Response) => {
       await supabase.from("files").insert({
         file_id: fileId,
         type: `${isTextFile ? "text" : "pdf"}`,
-        file_name: tempFileName,
+        file_name: fileName,
         team_id: teamId,
       });
 
