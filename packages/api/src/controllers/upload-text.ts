@@ -4,7 +4,6 @@ import { OpenAIEmbeddings } from "@langchain/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
 import { z } from "zod";
-import { Document } from "@langchain/core/documents";
 
 const DEFAULT_CHUNK_SIZE = 1000;
 const DEFAULT_CHUNK_OVERLAP = 200;
@@ -68,7 +67,6 @@ export const uploadText = async (req: Request, res: Response) => {
       chunk_overlap = DEFAULT_CHUNK_OVERLAP,
     } = queryValidation.data;
 
-    // Split text into chunks
     const splitter = new RecursiveCharacterTextSplitter({
       chunkSize: chunk_size,
       chunkOverlap: chunk_overlap,
@@ -76,16 +74,14 @@ export const uploadText = async (req: Request, res: Response) => {
 
     const docs = await splitter.createDocuments([text], [{ source: name }]);
 
-    // Create embeddings and store in Supabase
     const embeddings = new OpenAIEmbeddings({
-      openAIApiKey: process.env.OPENAI_API_KEY,
+      modelName: "text-embedding-3-small",
+      model: "text-embedding-3-small",
     });
 
     await SupabaseVectorStore.fromDocuments(docs, embeddings, {
       client: supabase,
       tableName: "documents",
-      queryName: "match_documents",
-      filter: { team_id: teamId },
     });
 
     return res.status(200).json({
