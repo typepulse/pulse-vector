@@ -102,7 +102,10 @@ export const uploadFile = async (req: Request, res: Response) => {
     });
 
     // Create embeddings
-    const embeddings = new OpenAIEmbeddings();
+    const embeddings = new OpenAIEmbeddings({
+      modelName: "text-embedding-3-small",
+      model: "text-embedding-3-small",
+    });
 
     try {
       await SupabaseVectorStore.fromDocuments(chunks, embeddings, {
