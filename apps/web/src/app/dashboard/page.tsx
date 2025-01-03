@@ -13,10 +13,10 @@ import {
 } from "@/components/ui/sidebar";
 import { createClient } from "@/utils/supabase/server";
 import { GenerateForm } from "./generate-form";
-import { PDFUploadForm } from "./pdf-upload-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UploadedFilesList } from "./uploaded-files-list";
 import { EmbeddingsQuery } from "./embeddings-query";
+import { FileUploadForm } from "./file-upload-form";
 
 export default async function Page() {
   const supabase = await createClient();
@@ -76,7 +76,7 @@ export default async function Page() {
                       <p className="mb-4">
                         Upload PDF files to generate embeddings.
                       </p>
-                      <PDFUploadForm apiKey={apiKeys[0].api_key!} />
+                      <FileUploadForm apiKey={apiKeys[0].api_key!} />
                       <UploadedFilesList files={uploadedFiles} />
                     </div>
                   </TabsContent>
