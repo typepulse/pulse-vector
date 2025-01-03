@@ -14,13 +14,10 @@ const supabase = createClient(
 );
 
 const uploadTextSchema = z.object({
-  text: z.string().min(1),
-  name: z.string().min(1),
-});
-
-const uploadQuerySchema = z.object({
-  chunk_size: z.coerce.number().positive().optional(),
-  chunk_overlap: z.coerce.number().positive().optional(),
+  contents: z.string().min(5),
+  name: z.string().min(1).optional().default("Untitled Document"),
+  chunk_size: z.number().positive().optional(),
+  chunk_overlap: z.number().positive().optional(),
 });
 
 export const uploadText = async (req: Request, res: Response) => {
@@ -43,15 +40,6 @@ export const uploadText = async (req: Request, res: Response) => {
 
     const teamId = apiKeyData.team_id as string;
 
-    // Validate query parameters
-    const queryValidation = uploadQuerySchema.safeParse(req.query);
-    if (!queryValidation.success) {
-      return res.status(400).json({
-        success: false,
-        error: "Invalid query parameters",
-      });
-    }
-
     // Validate body parameters
     const bodyValidation = uploadTextSchema.safeParse(req.body);
     if (!bodyValidation.success) {
@@ -61,18 +49,19 @@ export const uploadText = async (req: Request, res: Response) => {
       });
     }
 
-    const { text, name } = bodyValidation.data;
     const {
+      contents,
+      name,
       chunk_size = DEFAULT_CHUNK_SIZE,
       chunk_overlap = DEFAULT_CHUNK_OVERLAP,
-    } = queryValidation.data;
+    } = bodyValidation.data;
 
     const splitter = new RecursiveCharacterTextSplitter({
       chunkSize: chunk_size,
       chunkOverlap: chunk_overlap,
     });
 
-    const docs = await splitter.createDocuments([text], [{ source: name }]);
+    const docs = await splitter.createDocuments([contents], [{ source: name }]);
 
     const embeddings = new OpenAIEmbeddings({
       modelName: "text-embedding-3-small",
