@@ -52,3 +52,18 @@ const res = await fetch("https://api.supavec.com/embeddings", {
   body: JSON.stringify({ query, file_ids: [selectedFileId] }),
 });
 ```
+
+### `https://api.supavec.com/user_files`
+
+Get a list of files uploaded by the user.
+
+```typescript
+const res = await fetch("https://api.supavec.com/user_files", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    authorization: apiKey,
+  },
+  body: JSON.stringify({ pagination, order_dir }),
+});
+```
