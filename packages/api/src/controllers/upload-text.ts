@@ -16,16 +16,24 @@ const supabase = createClient<Database>(
 );
 
 const uploadTextSchema = z.object({
-  contents: z.string().min(5),
+  contents: z.string().min(5, "Content must be at least 5 characters long"),
   name: z.string().min(1).optional().default("Untitled Document"),
-  chunk_size: z.number().positive().optional(),
-  chunk_overlap: z.number().positive().optional(),
+  chunk_size: z.coerce.number().positive().nullish(),
+  chunk_overlap: z.coerce.number().positive().nullish(),
 });
 
 export const uploadText = async (req: Request, res: Response) => {
   try {
-    const apiKey = req.headers.authorization as string;
+    // Validate body parameters
+    const bodyValidation = uploadTextSchema.safeParse(req.body);
+    if (!bodyValidation.success) {
+      return res.status(400).json({
+        success: false,
+        error: bodyValidation.error.issues,
+      });
+    }
 
+    const apiKey = req.headers.authorization as string;
     // Get team ID from API key
     const { data: apiKeyData, error: apiKeyError } = await supabase
       .from("api_keys")
@@ -41,15 +49,6 @@ export const uploadText = async (req: Request, res: Response) => {
     }
 
     const teamId = apiKeyData.team_id as string;
-
-    // Validate body parameters
-    const bodyValidation = uploadTextSchema.safeParse(req.body);
-    if (!bodyValidation.success) {
-      return res.status(400).json({
-        success: false,
-        error: "Invalid request body",
-      });
-    }
 
     const {
       contents,
@@ -77,8 +76,8 @@ export const uploadText = async (req: Request, res: Response) => {
     }
 
     const splitter = new RecursiveCharacterTextSplitter({
-      chunkSize: chunk_size,
-      chunkOverlap: chunk_overlap,
+      chunkSize: chunk_size ?? DEFAULT_CHUNK_SIZE,
+      chunkOverlap: chunk_overlap ?? DEFAULT_CHUNK_OVERLAP,
     });
 
     const docs = await splitter.createDocuments([contents], [{
@@ -99,7 +98,7 @@ export const uploadText = async (req: Request, res: Response) => {
     await supabase.from("files").insert({
       file_id: fileId,
       type: "text",
-      file_name: name,
+      file_name: `${name}.txt`,
       team_id: teamId,
     });
 

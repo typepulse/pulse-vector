@@ -17,6 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UploadedFilesList } from "./uploaded-files-list";
 import { EmbeddingsQuery } from "./embeddings-query";
 import { FileUploadForm } from "./file-upload-form";
+import { ContentSubmission } from "./content-submission";
 
 export default async function Page() {
   const supabase = await createClient();
@@ -64,22 +65,27 @@ export default async function Page() {
                 <span className="p-1 text-sm bg-muted-foreground/20 rounded-md">
                   {apiKeys[0].api_key}
                 </span>
+                <h3 className="text-xl font-semibold mb-4 mt-8">Playground</h3>
                 <Tabs defaultValue="upload" className="space-y-4 mt-5">
                   <TabsList>
                     <TabsTrigger value="upload">Upload files</TabsTrigger>
+                    <TabsTrigger value="content">Submit Content</TabsTrigger>
                     <TabsTrigger value="embeddings">
                       Embeddings Query
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="upload" className="space-y-4">
-                    <div>
-                      <h3 className="text-xl font-semibold mb-4">PDF Upload</h3>
+                    <div className="mt-6">
+                      <h4 className="text-lg font-semibold mb-4">PDF Upload</h4>
                       <p className="mb-4">
                         Upload PDF files to generate embeddings.
                       </p>
                       <FileUploadForm apiKey={apiKeys[0].api_key!} />
                       <UploadedFilesList files={uploadedFiles} />
                     </div>
+                  </TabsContent>
+                  <TabsContent value="content">
+                    <ContentSubmission apiKey={apiKeys[0].api_key!} />
                   </TabsContent>
                   <TabsContent value="embeddings">
                     <EmbeddingsQuery
