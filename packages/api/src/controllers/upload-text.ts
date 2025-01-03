@@ -99,7 +99,7 @@ export const uploadText = async (req: Request, res: Response) => {
     await supabase.from("files").insert({
       file_id: fileId,
       type: "text",
-      file_name: name,
+      file_name: `${name}.txt`,
       team_id: teamId,
     });
 
