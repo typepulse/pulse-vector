@@ -9,7 +9,6 @@ import helmet from "helmet";
 import morgan from "morgan";
 import { router } from "./routes";
 import { errorHandler } from "./middleware/errorHandler";
-import { apiKeyAuth } from "./middleware/auth";
 import { rateLimit } from "./middleware/rate-limit";
 
 const requiredEnvVars = [
@@ -35,7 +34,6 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 app.use(rateLimit());
-app.use(apiKeyAuth());
 
 app.use("/", router);
 
