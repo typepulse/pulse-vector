@@ -4,6 +4,7 @@ import { OpenAIEmbeddings } from "@langchain/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
 import { z } from "zod";
+import { randomUUID } from "crypto";
 
 const DEFAULT_CHUNK_SIZE = 1000;
 const DEFAULT_CHUNK_OVERLAP = 200;
@@ -22,24 +23,6 @@ const uploadTextSchema = z.object({
 
 export const uploadText = async (req: Request, res: Response) => {
   try {
-    const apiKey = req.headers.authorization as string;
-
-    // Get team ID from API key
-    const { data: apiKeyData, error: apiKeyError } = await supabase
-      .from("api_keys")
-      .select("team_id")
-      .match({ api_key: apiKey })
-      .single();
-
-    if (apiKeyError || !apiKeyData?.team_id) {
-      return res.status(401).json({
-        success: false,
-        error: "Invalid API key",
-      });
-    }
-
-    const teamId = apiKeyData.team_id as string;
-
     // Validate body parameters
     const bodyValidation = uploadTextSchema.safeParse(req.body);
     if (!bodyValidation.success) {
@@ -61,7 +44,11 @@ export const uploadText = async (req: Request, res: Response) => {
       chunkOverlap: chunk_overlap,
     });
 
-    const docs = await splitter.createDocuments([contents], [{ source: name }]);
+    const fileId = randomUUID();
+    const docs = await splitter.createDocuments([contents], [{
+      source: name,
+      file_id: fileId,
+    }]);
 
     const embeddings = new OpenAIEmbeddings({
       modelName: "text-embedding-3-small",
