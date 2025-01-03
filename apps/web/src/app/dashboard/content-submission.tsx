@@ -22,13 +22,20 @@ export function ContentSubmission({ apiKey }: { apiKey: string }) {
     setError(null);
     setSuccess(null);
 
+    if (content.length < 5) {
+      setError("Content must be at least 5 characters long");
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const response = await fetch(`${API_URL}/upload_text`, {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           authorization: apiKey,
         },
-        body: JSON.stringify({ name, content }),
+        body: JSON.stringify({ name, contents: content }),
       });
 
       const result = await response.json();
@@ -63,8 +70,7 @@ export function ContentSubmission({ apiKey }: { apiKey: string }) {
             id="content-name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter a name for your content"
-            required
+            placeholder="Enter a name for your content (optional)"
           />
         </div>
         <div>
@@ -78,9 +84,10 @@ export function ContentSubmission({ apiKey }: { apiKey: string }) {
             id="content-body"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Write your content here..."
+            placeholder="Write your content here... (minimum 5 characters)"
             rows={10}
             required
+            minLength={5}
           />
         </div>
         <Button type="submit" disabled={isLoading}>
