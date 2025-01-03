@@ -23,6 +23,21 @@ const response = await fetch("https://api.supavec.com/upload_file", {
 });
 ```
 
+### `https://api.supavec.com/upload_text`
+
+Upload a text content to generate embeddings.
+
+```typescript
+const res = await fetch("https://api.supavec.com/upload_text", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    authorization: apiKey,
+  },
+  body: JSON.stringify({ name, contents }),
+});
+```
+
 ### `https://api.supavec.com/embeddings`
 
 Search for embeddings relevant to a query in a list of uploaded files.
