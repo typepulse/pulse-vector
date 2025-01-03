@@ -127,6 +127,13 @@ export const uploadFile = async (req: Request, res: Response) => {
         tableName: "documents",
       });
 
+      await supabase.from("files").insert({
+        file_id: fileId,
+        type: `${isTextFile ? "text" : "pdf"}`,
+        file_name: tempFileName,
+        team_id: teamId,
+      });
+
       res.json({
         success: true,
         message: `${isTextFile ? "Text" : "PDF"} file processed successfully`,
