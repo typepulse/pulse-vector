@@ -15,6 +15,7 @@ const requestSchema = z.object({
       offset: z.number().nonnegative().default(0),
     })
     .default({ limit: 10, offset: 0 }),
+  order_dir: z.enum(["asc", "desc"]).default("desc"),
 });
 
 export const userFiles = async (req: Request, res: Response) => {
@@ -28,7 +29,7 @@ export const userFiles = async (req: Request, res: Response) => {
       });
     }
 
-    const { pagination } = validation.data;
+    const { pagination, order_dir } = validation.data;
 
     // Get team ID from API key
     const apiKey = req.headers.authorization as string;
@@ -53,7 +54,7 @@ export const userFiles = async (req: Request, res: Response) => {
       .select("type, file_id, created_at, file_name, team_id")
       .match({ team_id: teamId })
       .range(pagination.offset, pagination.offset + pagination.limit - 1)
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: order_dir === "asc" });
 
     if (filesError) {
       throw new Error(`Failed to fetch files: ${filesError.message}`);
@@ -74,11 +75,11 @@ export const userFiles = async (req: Request, res: Response) => {
 
     return res.json({
       success: true,
-      data: files,
+      results: files,
       pagination: {
         ...pagination,
-        total: count,
       },
+      count,
     });
   } catch (error) {
     console.error("Error fetching user files:", error);
