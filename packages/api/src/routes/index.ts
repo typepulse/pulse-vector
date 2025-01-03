@@ -12,4 +12,4 @@ export const router: IRouter = Router();
 router.post("/upload_file", apiKeyAuth(), upload.single("file"), uploadFile);
 router.post("/upload_text", apiKeyAuth(), uploadText);
 router.post("/embeddings", apiKeyAuth(), getEmbeddings);
-router.get("/user_files", apiKeyAuth(), userFiles);
+router.post("/user_files", apiKeyAuth(), userFiles);
