@@ -32,7 +32,7 @@ export function EmbeddingsQuery({
 
   if (!uploadedFiles || uploadedFiles.length === 0) {
     return (
-      <div className="mt-6">
+      <div>
         <Alert>
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>No files found</AlertTitle>
@@ -79,7 +79,7 @@ export function EmbeddingsQuery({
   };
 
   return (
-    <div className="mt-6">
+    <div>
       <h4 className="text-lg font-semibold mb-4">Embeddings Query</h4>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
