@@ -5,13 +5,11 @@ import { useDropzone } from "react-dropzone";
 import { Upload, File, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export function FileUploadForm({ apiKey }: { apiKey: string }) {
-  const supabase = createClient();
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -59,13 +57,6 @@ export function FileUploadForm({ apiKey }: { apiKey: string }) {
       if (!response.ok || !result.success) {
         throw new Error(result.message || "Failed to process file");
       }
-
-      const fileType = files[0].type === "text/plain" ? "text" : "pdf";
-      await supabase.from("files").insert({
-        file_id: result.file_id,
-        type: fileType,
-        file_name: files[0].name,
-      });
 
       console.log("File processed successfully:", result);
       setFiles([]);

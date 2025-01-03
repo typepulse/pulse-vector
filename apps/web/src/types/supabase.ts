@@ -78,6 +78,7 @@ export type Database = {
           file_id: string | null
           file_name: string | null
           id: number
+          team_id: string | null
           type: string | null
           user_id: string | null
         }
@@ -86,6 +87,7 @@ export type Database = {
           file_id?: string | null
           file_name?: string | null
           id?: number
+          team_id?: string | null
           type?: string | null
           user_id?: string | null
         }
@@ -94,10 +96,18 @@ export type Database = {
           file_id?: string | null
           file_name?: string | null
           id?: number
+          team_id?: string | null
           type?: string | null
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "files_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "files_user_id_fkey"
             columns: ["user_id"]

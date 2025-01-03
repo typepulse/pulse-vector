@@ -28,6 +28,7 @@ export default async function Page() {
   const { data: uploadedFiles } = await supabase
     .from("files")
     .select("*")
+    .match({ team_id: apiKeys?.[0]?.team_id })
     .order("created_at", { ascending: false });
   const { data: teamMemberships } = await supabase
     .from("team_memberships")
