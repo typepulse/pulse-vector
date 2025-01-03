@@ -135,7 +135,7 @@ export const uploadFile = async (req: Request, res: Response) => {
         team_id: teamId,
       });
 
-      res.json({
+      return res.json({
         success: true,
         message: `${isTextFile ? "Text" : "PDF"} file processed successfully`,
         fileName: storageData.path,
@@ -153,7 +153,7 @@ export const uploadFile = async (req: Request, res: Response) => {
     }
   } catch (error) {
     console.error("Error processing file:", error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: `Failed to process file${
         error instanceof Error ? `: ${error.message}` : ""
