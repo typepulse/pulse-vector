@@ -76,7 +76,9 @@ export default async function Page() {
                   </TabsList>
                   <TabsContent value="upload" className="space-y-4">
                     <div className="mt-6">
-                      <h4 className="text-lg font-semibold mb-4">PDF Upload</h4>
+                      <h4 className="text-lg font-semibold mb-4">
+                        File Upload
+                      </h4>
                       <p className="mb-4">
                         Upload PDF files to generate embeddings.
                       </p>
