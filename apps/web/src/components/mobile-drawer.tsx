@@ -38,7 +38,7 @@ export function MobileDrawer({ isLoggedIn }: { isLoggedIn: boolean }) {
               href="/dashboard"
               className={cn(
                 buttonVariants({ variant: "default" }),
-                "text-white rounded-full group"
+                "rounded-full group"
               )}
             >
               Dashboard
@@ -48,7 +48,7 @@ export function MobileDrawer({ isLoggedIn }: { isLoggedIn: boolean }) {
               href="/login"
               className={cn(
                 buttonVariants({ variant: "default" }),
-                "text-white rounded-full group"
+                "rounded-full group"
               )}
             >
               {siteConfig.cta}
