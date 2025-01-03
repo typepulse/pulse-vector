@@ -12,10 +12,13 @@ export const upload = multer({
     file: Express.Multer.File,
     cb: multer.FileFilterCallback,
   ) => {
-    if (file.mimetype === "application/pdf") {
+    if (
+      file.mimetype === "application/pdf" ||
+      file.mimetype === "text/plain"
+    ) {
       cb(null, true);
     } else {
-      cb(new Error("Only PDF files are allowed"));
+      cb(new Error("Only PDF and text files are allowed"));
     }
   },
 });

@@ -2,13 +2,14 @@ import { Request, Response } from "express";
 import { createClient } from "@supabase/supabase-js";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
 import { unlink, writeFile } from "fs/promises";
 import { join } from "path";
 import { tmpdir } from "os";
 import { randomUUID } from "crypto";
 import { z } from "zod";
+import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
+import { Document } from "@langchain/core/documents";
 
 const DEFAULT_CHUNK_SIZE = 1000;
 const DEFAULT_CHUNK_OVERLAP = 200;
@@ -57,15 +58,15 @@ export const uploadFile = async (req: Request, res: Response) => {
     if (!req.file) {
       return res.status(400).json({
         success: false,
-        error: "No PDF file provided",
+        error: "No file provided",
       });
     }
 
     const buffer = req.file.buffer;
-
-    // Create a temporary file path
     const fileId = randomUUID();
-    const tempFileName = `${fileId}.pdf`;
+    const isTextFile = req.file.mimetype === "text/plain";
+    const fileExtension = isTextFile ? "txt" : "pdf";
+    const tempFileName = `${fileId}.${fileExtension}`;
     const tempFilePath = join(tmpdir(), tempFileName);
     await writeFile(tempFilePath, buffer);
 
@@ -73,7 +74,7 @@ export const uploadFile = async (req: Request, res: Response) => {
     const { data: storageData, error: storageError } = await supabase.storage
       .from("user-documents")
       .upload(`/${teamId}/${tempFileName}`, buffer, {
-        contentType: "application/pdf",
+        contentType: isTextFile ? "text/plain" : "application/pdf",
         upsert: false,
       });
 
@@ -83,8 +84,21 @@ export const uploadFile = async (req: Request, res: Response) => {
       );
     }
 
-    const loader = new PDFLoader(tempFilePath);
-    const pages = await loader.load();
+    let documents: Document[];
+    if (isTextFile) {
+      // For text files, create a single document from the content
+      const textContent = buffer.toString("utf-8");
+      documents = [
+        new Document({
+          pageContent: textContent,
+          metadata: { source: tempFileName },
+        }),
+      ];
+    } else {
+      // For PDFs, use the PDFLoader
+      const loader = new PDFLoader(tempFilePath);
+      documents = await loader.load();
+    }
 
     // Clean up temp file
     await unlink(tempFilePath);
@@ -94,7 +108,7 @@ export const uploadFile = async (req: Request, res: Response) => {
       chunkSize: chunk_size ?? DEFAULT_CHUNK_SIZE,
       chunkOverlap: chunk_overlap ?? DEFAULT_CHUNK_OVERLAP,
     });
-    const chunks = await splitter.splitDocuments(pages);
+    const chunks = await splitter.splitDocuments(documents);
 
     // Add file_id metadata to each chunk
     chunks.forEach((chunk) => {
@@ -112,7 +126,7 @@ export const uploadFile = async (req: Request, res: Response) => {
 
       res.json({
         success: true,
-        message: "PDF processed successfully",
+        message: `${isTextFile ? "Text" : "PDF"} file processed successfully`,
         fileName: storageData.path,
         file_id: fileId,
         chunks: chunks.length,
@@ -127,10 +141,10 @@ export const uploadFile = async (req: Request, res: Response) => {
       );
     }
   } catch (error) {
-    console.error("Error processing PDF:", error);
+    console.error("Error processing file:", error);
     res.status(500).json({
       success: false,
-      error: `Failed to process PDF${
+      error: `Failed to process file${
         error instanceof Error ? `: ${error.message}` : ""
       }`,
     });
