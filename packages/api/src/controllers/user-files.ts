@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { createClient } from "@supabase/supabase-js";
+import { z } from "zod";
 import type { Database } from "@supavec/web/src/types/supabase";
 
 const supabase = createClient<Database>(
@@ -7,11 +8,30 @@ const supabase = createClient<Database>(
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
+const requestSchema = z.object({
+  pagination: z
+    .object({
+      limit: z.number().positive().default(10),
+      offset: z.number().nonnegative().default(0),
+    })
+    .default({ limit: 10, offset: 0 }),
+});
+
 export const userFiles = async (req: Request, res: Response) => {
   try {
-    const apiKey = req.headers.authorization as string;
+    const validation = requestSchema.safeParse(req.body);
+    if (!validation.success) {
+      return res.status(400).json({
+        success: false,
+        error: "Invalid request parameters",
+        details: validation.error.errors,
+      });
+    }
+
+    const { pagination } = validation.data;
 
     // Get team ID from API key
+    const apiKey = req.headers.authorization as string;
     const { data: apiKeyData, error: apiKeyError } = await supabase
       .from("api_keys")
       .select("team_id")
@@ -27,31 +47,46 @@ export const userFiles = async (req: Request, res: Response) => {
 
     const teamId = apiKeyData.team_id;
 
-    // Fetch files for the team
+    // Fetch files with pagination
     const { data: files, error: filesError } = await supabase
       .from("files")
-      .select("*")
+      .select("type, file_id, created_at, file_name, team_id")
       .match({ team_id: teamId })
+      .range(pagination.offset, pagination.offset + pagination.limit - 1)
       .order("created_at", { ascending: false });
 
     if (filesError) {
       throw new Error(`Failed to fetch files: ${filesError.message}`);
     }
 
-    return res.status(200).json({
+    // Get total count for pagination
+    const { count, error: countError } = await supabase
+      .from("files")
+      .select("id", {
+        count: "exact",
+        head: true,
+      })
+      .match({ team_id: teamId });
+
+    if (countError) {
+      throw new Error(`Failed to get total count: ${countError.message}`);
+    }
+
+    return res.json({
       success: true,
-      files: files.map((file) => ({
-        file_id: file.file_id,
-        file_name: file.file_name,
-        type: file.type,
-        created_at: file.created_at,
-      })),
+      data: files,
+      pagination: {
+        ...pagination,
+        total: count,
+      },
     });
   } catch (error) {
-    console.error("Error listing files:", error);
+    console.error("Error fetching user files:", error);
     return res.status(500).json({
       success: false,
-      error: error instanceof Error ? error.message : "Failed to list files",
+      error: `Failed to fetch files${
+        error instanceof Error ? `: ${error.message}` : ""
+      }`,
     });
   }
 };
