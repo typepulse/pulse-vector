@@ -1,4 +1,4 @@
-# Welcome to the API documentation for the PDF Embeddings API :)
+# Welcome to the API documentation for the PDF and Text File Embeddings API :)
 
 Please generate your API Key on [the dashboard page](https://www.supavec.com/login).
 
@@ -8,11 +8,11 @@ Please check our backlog to see what we're working on: https://github.com/users/
 
 ### `https://api.supavec.com/upload_file`
 
-Upload a PDF file to generate embeddings.
+Upload a PDF or text file to generate embeddings.
 
 ```typescript
 const formData = new FormData();
-formData.append("file", files[0]);
+formData.append("file", files[0]); // Accepts PDF (.pdf) or text (.txt) files
 
 const response = await fetch("https://api.supavec.com/upload_file", {
   method: "POST",
@@ -25,8 +25,7 @@ const response = await fetch("https://api.supavec.com/upload_file", {
 
 ### `https://api.supavec.com/embeddings`
 
-Search for embeddings relevant to a query in a list of uploaded PDF files.
-
+Search for embeddings relevant to a query in a list of uploaded files.
 
 ```typescript
 const res = await fetch("https://api.supavec.com/embeddings", {
