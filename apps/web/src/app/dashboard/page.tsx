@@ -85,7 +85,7 @@ export default async function Page() {
                     </div>
                   </TabsContent>
                   <TabsContent value="content">
-                    <ContentSubmission />
+                    <ContentSubmission apiKey={apiKeys[0].api_key!} />
                   </TabsContent>
                   <TabsContent value="embeddings">
                     <EmbeddingsQuery

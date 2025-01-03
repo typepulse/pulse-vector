@@ -7,7 +7,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-export function ContentSubmission() {
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export function ContentSubmission({ apiKey }: { apiKey: string }) {
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -21,19 +23,20 @@ export function ContentSubmission() {
     setSuccess(null);
 
     try {
-      const res = await fetch("/api/submit-content", {
+      const response = await fetch(`${API_URL}/upload_text`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          authorization: apiKey,
         },
         body: JSON.stringify({ name, content }),
       });
 
-      if (!res.ok) {
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
         throw new Error("Failed to submit content");
       }
 
-      const data = await res.json();
       setSuccess(`Content "${name}" submitted successfully!`);
       setName("");
       setContent("");
