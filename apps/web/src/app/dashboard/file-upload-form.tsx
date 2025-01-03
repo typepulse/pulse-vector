@@ -92,7 +92,7 @@ export function FileUploadForm({ apiKey }: { apiKey: string }) {
       </div>
       {files.length > 0 && (
         <div className="mt-4 space-y-4">
-          <div className="flex items-center justify-between bg-gray-100 p-2 rounded">
+          <div className="flex items-center justify-between p-2 rounded bg-muted/50">
             <div className="flex items-center">
               <File className="h-5 w-5 text-blue-500 mr-2" />
               <span className="text-sm font-medium">{files[0].name}</span>
