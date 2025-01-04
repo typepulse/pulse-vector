@@ -9,19 +9,15 @@ export const WhatIsRag = () => {
         <h2 className="text-foreground mb-6 text-balance font-medium text-3xl">
           What is RAG?
         </h2>
-        <div className="text-muted-foreground text-balance space-y-4">
+        <div className="text-muted-foreground text-balance space-y-3">
           <p>
-            RAG (Retrieval-Augmented Generation) is a powerful approach that
-            enhances AI responses with relevant information from your documents.
-            Instead of relying solely on an AI's general knowledge, RAG searches
-            through your specific documents to provide accurate, context-aware
-            answers.
+            RAG (Retrieval-Augmented Generation) enhances AI responses by
+            combining them with relevant information from your documents.
           </p>
           <p>
-            Think of RAG as giving your AI assistant access to your
-            organization's knowledge base. When you ask a question, it first
-            finds the most relevant information from your documents, then uses
-            this specific context to generate a precise answer.
+            Instead of relying on general AI knowledge alone, RAG searches your
+            documents to provide precise, context-aware answers based on your
+            specific content.
           </p>
         </div>
         <a
