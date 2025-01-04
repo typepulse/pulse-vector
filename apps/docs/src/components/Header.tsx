@@ -91,7 +91,7 @@ export const Header = forwardRef<
           <ThemeToggle />
         </div>
         <div className="hidden min-[416px]:contents">
-          <Button href="#">Sign in</Button>
+          <Button href="https://www.supavec.com/login">Sign in</Button>
         </div>
       </div>
     </motion.div>
