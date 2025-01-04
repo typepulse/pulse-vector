@@ -19,7 +19,17 @@ export function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
           <img src="/logo.png" alt="logo" className="size-8" />
           <span className="font-semibold text-lg">{siteConfig.name}</span>
         </Link>
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex gap-x-2">
+          <a
+            href="https://docs.supavec.com/"
+            target="_blank"
+            className={cn(
+              buttonVariants({ variant: "ghost" }),
+              "rounded-lg h-8 tracking-tight font-medium"
+            )}
+          >
+            API Docs
+          </a>
           {isLoggedIn ? (
             <Link
               href="/dashboard"

@@ -33,6 +33,13 @@ export function MobileDrawer({ isLoggedIn }: { isLoggedIn: boolean }) {
           <DrawerDescription>{siteConfig.description}</DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
+          <a
+            href="https://docs.supavec.com/"
+            target="_blank"
+            className={cn(buttonVariants({ variant: "ghost" }), "rounded-full")}
+          >
+            API Docs
+          </a>
           {isLoggedIn ? (
             <Link
               href="/dashboard"
