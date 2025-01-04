@@ -125,6 +125,10 @@ export const siteConfig = {
         icon: <Icons.discord className="h-5 w-5" />,
         url: "https://discord.gg/MS9CjPeXF4",
       },
+      {
+        icon: <Icons.beehiiv className="size-5" />,
+        url: "https://supavec-ship-letter.beehiiv.com/",
+      },
     ],
     // links: [
     //   { text: "Pricing", url: "#" },
