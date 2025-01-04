@@ -97,10 +97,12 @@ export function Property({
   name,
   children,
   type,
+  required = false,
 }: {
   name: string
   children: React.ReactNode
   type?: string
+  required?: boolean
 }) {
   return (
     <li className="m-0 px-0 py-4 first:pt-0 last:pb-0">
@@ -109,6 +111,16 @@ export function Property({
         <dd>
           <code>{name}</code>
         </dd>
+        {required && (
+          <>
+            <dt className="sr-only">Required</dt>
+            <dd>
+              <code className="border-red-500/20 bg-red-50/50 text-red-900 dark:border-red-500/30 dark:bg-red-500/5 dark:text-red-200 dark:[--tw-prose-links-hover:theme(colors.red.300)] dark:[--tw-prose-links:theme(colors.white)]">
+                Required
+              </code>
+            </dd>
+          </>
+        )}
         {type && (
           <>
             <dt className="sr-only">Type</dt>

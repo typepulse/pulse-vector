@@ -13,11 +13,11 @@ export const metadata = {
   ##  Request Body {{ tag: 'POST', label: '/upload_text' }}
 
   <Properties>
-    <Property name="contents" type="string">
-      `Required`. The text content to upload. Minimum length: `5`.
+    <Property name="contents" type="string" required>
+      The text content to upload. Minimum length: `5`.
     </Property>
     <Property name="name" type="string">
-      The first ID on the page you're currently on when you want to fetch the previous page.
+      The name of the content.
     </Property>
     <Property name="chunk_size" type="integer">
       The chunk size (in tokens) applied when splitting the document.
