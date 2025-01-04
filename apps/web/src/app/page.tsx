@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/sections/header";
 import { Hero } from "@/components/sections/hero";
+import { WhatIsRag } from "@/components/sections/what-is-rag";
 import { Community } from "@/components/sections/community";
 import { CTA } from "@/components/sections/cta";
 import { Footer } from "@/components/sections/footer";
@@ -19,6 +20,7 @@ export default async function Home() {
     <main>
       <Header isLoggedIn={!!user?.user} />
       <Hero />
+      <WhatIsRag />
       <Community />
       <CTA />
       <Footer />
