@@ -57,7 +57,7 @@ export function AppSidebar({
       // },
       {
         title: "Documentation",
-        url: "https://github.com/taishikato/supavec/blob/main/packages/api/README.md",
+        url: "https://docs.supavec.com/",
         icon: BookOpen,
         isExternal: true,
       },
