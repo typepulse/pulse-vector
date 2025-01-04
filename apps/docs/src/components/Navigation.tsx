@@ -240,7 +240,7 @@ export const navigation: Array<NavGroup> = [
   },
   {
     title: 'Retrieval',
-    links: [{ title: 'Search', href: '/endpoint/embeddings' }],
+    links: [{ title: 'Search', href: '/endpoint/embeddings/embeddings' }],
   },
   // {
   //   title: 'Guides',
