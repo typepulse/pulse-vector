@@ -138,7 +138,6 @@ export const uploadFile = async (req: Request, res: Response) => {
       return res.json({
         success: true,
         message: `${isTextFile ? "Text" : "PDF"} file processed successfully`,
-        fileName: storageData.path,
         file_id: fileId,
         chunks: chunks.length,
         chunk_size: chunk_size ?? DEFAULT_CHUNK_SIZE,
