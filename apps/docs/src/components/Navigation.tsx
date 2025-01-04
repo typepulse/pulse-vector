@@ -235,7 +235,7 @@ export const navigation: Array<NavGroup> = [
     links: [
       { title: 'Upload File', href: '/endpoint/files/upload_file' },
       { title: 'Upload Text', href: '/endpoint/files/upload_text' },
-      { title: 'View Files', href: '/endpoint/user_files' },
+      { title: 'View Files', href: '/endpoint/files/user_files' },
     ],
   },
   {
