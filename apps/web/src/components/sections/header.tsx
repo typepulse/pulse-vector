@@ -19,7 +19,7 @@ export function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
           <img src="/logo.png" alt="logo" className="size-8" />
           <span className="font-semibold text-lg">{siteConfig.name}</span>
         </Link>
-        <div className="hidden lg:flex gap-x-2">
+        <div className="hidden lg:flex gap-x-4">
           <a
             href="https://docs.supavec.com/"
             target="_blank"
