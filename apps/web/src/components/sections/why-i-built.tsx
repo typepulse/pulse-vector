@@ -12,8 +12,8 @@ export const WhyIBuit = () => {
           <HeroVideoDialog
             className="dark:hidden block"
             animationStyle="from-center"
-            videoSrc="supavec-intro.mp4"
-            thumbnailSrc="intro-video-cover.jpg"
+            videoSrc="/supavec-intro.mp4"
+            thumbnailSrc="/intro-video-cover.jpg"
             thumbnailAlt="Why I Built Supavec"
           />
         </div>
