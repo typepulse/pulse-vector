@@ -10,7 +10,7 @@ export const WhyIBuit = () => {
         </h2>
         <div className="relative">
           <HeroVideoDialog
-            className="dark:hidden block"
+            className="block"
             animationStyle="from-center"
             videoSrc="/supavec-intro.mp4"
             thumbnailSrc="/intro-video-cover.jpg"
