@@ -78,6 +78,7 @@ export type Database = {
           file_id: string | null
           file_name: string | null
           id: number
+          storage_path: string | null
           team_id: string | null
           type: string | null
           user_id: string | null
@@ -87,6 +88,7 @@ export type Database = {
           file_id?: string | null
           file_name?: string | null
           id?: number
+          storage_path?: string | null
           team_id?: string | null
           type?: string | null
           user_id?: string | null
@@ -96,6 +98,7 @@ export type Database = {
           file_id?: string | null
           file_name?: string | null
           id?: number
+          storage_path?: string | null
           team_id?: string | null
           type?: string | null
           user_id?: string | null

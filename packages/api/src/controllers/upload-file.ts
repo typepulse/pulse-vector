@@ -134,6 +134,7 @@ export const uploadFile = async (req: Request, res: Response) => {
         type: `${isTextFile ? "text" : "pdf"}`,
         file_name: fileName,
         team_id: teamId,
+        storage_path: storageData.path,
       });
 
       return res.json({
