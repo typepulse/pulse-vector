@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/sections/header";
 import { Hero } from "@/components/sections/hero";
+import { WhyIBuit } from "@/components/sections/why-i-built";
 import { WhatIsRag } from "@/components/sections/what-is-rag";
 import { Community } from "@/components/sections/community";
 import { CTA } from "@/components/sections/cta";
@@ -20,6 +21,7 @@ export default async function Home() {
     <main>
       <Header isLoggedIn={!!user?.user} />
       <Hero />
+      <WhyIBuit />
       <WhatIsRag />
       <Community />
       <CTA />
