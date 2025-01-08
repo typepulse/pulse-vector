@@ -114,6 +114,7 @@ export const uploadFile = async (req: Request, res: Response) => {
     // Add file_id metadata to each chunk
     chunks.forEach((chunk) => {
       chunk.metadata.file_id = fileId;
+      chunk.metadata.team_id = teamId;
     });
 
     // Create embeddings
