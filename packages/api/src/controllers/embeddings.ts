@@ -16,6 +16,66 @@ const embeddingsSchema = z.object({
   ),
 });
 
+type EmbeddingsRequest = z.infer<typeof embeddingsSchema>;
+
+async function validateRequest(req: Request): Promise<{
+  success: boolean;
+  data?: EmbeddingsRequest;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error?: any;
+  statusCode?: number;
+}> {
+  // Validate request body
+  const validationResult = embeddingsSchema.safeParse(req.body);
+  if (!validationResult.success) {
+    return {
+      success: false,
+      error: validationResult.error.issues,
+      statusCode: 400,
+    };
+  }
+
+  // Validate API key and get team ID
+  const apiKey = req.headers.authorization as string;
+  const { data: apiKeyData, error: apiKeyError } = await supabase
+    .from("api_keys")
+    .select("team_id")
+    .match({ api_key: apiKey })
+    .single();
+
+  if (apiKeyError || !apiKeyData?.team_id) {
+    return {
+      success: false,
+      error: "Invalid API key",
+      statusCode: 401,
+    };
+  }
+
+  // Verify file ownership
+  const { data: files, error: filesError } = await supabase
+    .from("files")
+    .select("file_id")
+    .in("file_id", validationResult.data.file_ids)
+    .match({ team_id: apiKeyData.team_id });
+
+  if (filesError) {
+    throw new Error(`Failed to verify file ownership: ${filesError.message}`);
+  }
+
+  if (!files || files.length !== validationResult.data.file_ids.length) {
+    return {
+      success: false,
+      error: "One or more files do not belong to your team",
+      statusCode: 403,
+    };
+  }
+
+  return {
+    success: true,
+    data: validationResult.data,
+  };
+}
+
 const supabase = createClient<Database>(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -23,52 +83,15 @@ const supabase = createClient<Database>(
 
 export const getEmbeddings = async (req: Request, res: Response) => {
   try {
-    const validationResult = embeddingsSchema.safeParse(req.body);
-
-    if (!validationResult.success) {
-      return res.status(400).json({
+    const validation = await validateRequest(req);
+    if (!validation.success) {
+      return res.status(validation.statusCode!).json({
         success: false,
-        error: validationResult.error.issues,
+        error: validation.error,
       });
     }
 
-    const { query, k, file_ids } = validationResult.data;
-
-    // Get team ID from API key
-    const apiKey = req.headers.authorization as string;
-    const { data: apiKeyData, error: apiKeyError } = await supabase
-      .from("api_keys")
-      .select("team_id")
-      .match({ api_key: apiKey })
-      .single();
-
-    if (apiKeyError || !apiKeyData?.team_id) {
-      return res.status(401).json({
-        success: false,
-        error: "Invalid API key",
-      });
-    }
-
-    const teamId = apiKeyData.team_id;
-
-    // Verify file ownership
-    const { data: files, error: filesError } = await supabase
-      .from("files")
-      .select("file_id")
-      .in("file_id", file_ids)
-      .match({ team_id: teamId });
-
-    if (filesError) {
-      throw new Error(`Failed to verify file ownership: ${filesError.message}`);
-    }
-
-    // Throw error if any file is not found or doesn't belong to the team
-    if (!files || files.length !== file_ids.length) {
-      return res.status(403).json({
-        success: false,
-        error: "One or more files do not belong to your team",
-      });
-    }
+    const { query, k, file_ids } = validation.data!;
 
     const vectorStore = new SupabaseVectorStore(
       new OpenAIEmbeddings({
