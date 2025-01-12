@@ -52,6 +52,7 @@ export type Database = {
         Row: {
           content: string | null
           created_at: string
+          deleted_at: string | null
           embedding: string | null
           id: number
           metadata: Json | null
@@ -59,6 +60,7 @@ export type Database = {
         Insert: {
           content?: string | null
           created_at?: string
+          deleted_at?: string | null
           embedding?: string | null
           id?: number
           metadata?: Json | null
@@ -66,6 +68,7 @@ export type Database = {
         Update: {
           content?: string | null
           created_at?: string
+          deleted_at?: string | null
           embedding?: string | null
           id?: number
           metadata?: Json | null
@@ -75,6 +78,7 @@ export type Database = {
       files: {
         Row: {
           created_at: string
+          deleted_at: string | null
           file_id: string | null
           file_name: string | null
           id: number
@@ -85,6 +89,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          deleted_at?: string | null
           file_id?: string | null
           file_name?: string | null
           id?: number
@@ -95,6 +100,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          deleted_at?: string | null
           file_id?: string | null
           file_name?: string | null
           id?: number

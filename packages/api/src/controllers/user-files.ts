@@ -53,6 +53,7 @@ export const userFiles = async (req: Request, res: Response) => {
       .from("files")
       .select("type, file_id, created_at, file_name, team_id")
       .match({ team_id: teamId })
+      .is("deleted_at", null)
       .range(pagination.offset, pagination.offset + pagination.limit - 1)
       .order("created_at", { ascending: order_dir === "asc" });
 
