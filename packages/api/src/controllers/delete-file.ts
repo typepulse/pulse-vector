@@ -20,7 +20,7 @@ async function getFileData(fileId: string, teamId: string) {
   const { data: file, error: filesError } = await supabase
     .from("files")
     .select("file_id, storage_path")
-    .match({ id: fileId, team_id: teamId })
+    .match({ file_id: fileId, team_id: teamId })
     .is("deleted_at", null)
     .single();
 
@@ -63,7 +63,7 @@ export const deleteFile = async (req: ValidatedRequest, res: Response) => {
     const { error: filesUpdateError } = await supabase
       .from("files")
       .update({ deleted_at: now })
-      .match({ id: file_id });
+      .match({ file_id });
 
     if (filesUpdateError) {
       throw new Error(`Failed to update file: ${filesUpdateError.message}`);
@@ -73,7 +73,7 @@ export const deleteFile = async (req: ValidatedRequest, res: Response) => {
     const { error: documentsUpdateError } = await supabase
       .from("documents")
       .update({ deleted_at: now })
-      .filter("metadata->>'file_id'", "eq", file_id);
+      .filter("metadata->>file_id", "eq", file_id);
 
     if (documentsUpdateError) {
       throw new Error(
