@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { createClient } from "@supabase/supabase-js";
-import { z } from "zod";
 import type { Database } from "@supavec/web/src/types/supabase";
 
 const supabase = createClient<Database>(
@@ -8,48 +7,13 @@ const supabase = createClient<Database>(
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
-const requestSchema = z.object({
-  file_id: z.string().uuid(),
-});
-
-type ValidatedRequest = {
-  file_id: string;
-  teamId: string;
-};
-
-type CustomError = {
-  status?: number;
-  message: string;
-  details?: z.ZodError["errors"];
-};
-
-async function validateRequest(req: Request): Promise<ValidatedRequest> {
-  const validation = requestSchema.safeParse(req.body);
-  if (!validation.success) {
-    throw {
-      status: 400,
-      message: "Invalid request parameters",
-      details: validation.error.errors,
+interface ValidatedRequest extends Request {
+  body: {
+    validatedData: {
+      file_id: string;
+      teamId: string;
     };
-  }
-
-  const { file_id } = validation.data;
-  const apiKey = req.headers.authorization as string;
-
-  const { data: apiKeyData, error: apiKeyError } = await supabase
-    .from("api_keys")
-    .select("team_id")
-    .match({ api_key: apiKey })
-    .single();
-
-  if (apiKeyError || !apiKeyData?.team_id) {
-    throw {
-      status: 401,
-      message: "Invalid API key",
-    };
-  }
-
-  return { file_id, teamId: apiKeyData.team_id };
+  };
 }
 
 async function getFileData(fileId: string, teamId: string) {
@@ -74,9 +38,9 @@ async function getFileData(fileId: string, teamId: string) {
   return file;
 }
 
-export const deleteFiles = async (req: Request, res: Response) => {
+export const deleteFiles = async (req: ValidatedRequest, res: Response) => {
   try {
-    const { file_id, teamId } = await validateRequest(req);
+    const { file_id, teamId } = req.body.validatedData;
     const file = await getFileData(file_id, teamId);
 
     // Delete file from storage if storage path exists
