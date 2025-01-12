@@ -9,10 +9,7 @@ const supabase = createClient<Database>(
 );
 
 const requestSchema = z.object({
-  file_ids: z.array(z.string().uuid()).min(
-    1,
-    "At least one file ID is required",
-  ),
+  file_id: z.string().uuid(),
 });
 
 export const deleteFiles = async (req: Request, res: Response) => {
@@ -26,7 +23,7 @@ export const deleteFiles = async (req: Request, res: Response) => {
       });
     }
 
-    const { file_ids } = validation.data;
+    const { file_id } = validation.data;
 
     // Get team ID from API key
     const apiKey = req.headers.authorization as string;
@@ -45,39 +42,35 @@ export const deleteFiles = async (req: Request, res: Response) => {
 
     const teamId = apiKeyData.team_id;
 
-    // Get files data to verify ownership and get storage paths
-    const { data: files, error: filesError } = await supabase
+    // Get file data to verify ownership and get storage path
+    const { data: file, error: filesError } = await supabase
       .from("files")
       .select("file_id, storage_path")
-      .in("file_id", file_ids)
-      .match({ team_id: teamId })
-      .is("deleted_at", null);
+      .match({ id: file_id, team_id: teamId })
+      .is("deleted_at", null)
+      .single();
 
     if (filesError) {
-      throw new Error(`Failed to fetch files: ${filesError.message}`);
+      throw new Error(`Failed to fetch file: ${filesError.message}`);
     }
 
-    if (!files.length) {
+    if (!file) {
       return res.status(404).json({
         success: false,
-        error: "No files found with the provided IDs for this team",
+        error: "No file found with the provided ID for this team",
       });
     }
 
-    const foundFileIds = files.map((file) => file.file_id as string);
-    const storagePaths = files
-      .map((file) => file.storage_path)
-      .filter((path): path is string => path !== null);
-
-    // Delete files from storage
-    const storageErrors: string[] = [];
-    for (const path of storagePaths) {
-      const { error: storageError } = await supabase.storage
+    // Delete file from storage if storage path exists
+    let storageError: string | undefined;
+    if (file.storage_path) {
+      const { error: deleteError } = await supabase.storage
         .from("user-documents")
-        .remove([path]);
+        .remove([file.storage_path]);
 
-      if (storageError) {
-        storageErrors.push(`Failed to delete ${path}: ${storageError.message}`);
+      if (deleteError) {
+        storageError =
+          `Failed to delete ${file.storage_path}: ${deleteError.message}`;
       }
     }
 
@@ -88,21 +81,17 @@ export const deleteFiles = async (req: Request, res: Response) => {
     const { error: filesUpdateError } = await supabase
       .from("files")
       .update({ deleted_at: now })
-      .in("file_id", foundFileIds);
+      .match({ id: file_id });
 
     if (filesUpdateError) {
-      throw new Error(`Failed to update files: ${filesUpdateError.message}`);
+      throw new Error(`Failed to update file: ${filesUpdateError.message}`);
     }
 
     // Update documents table with deleted_at
     const { error: documentsUpdateError } = await supabase
       .from("documents")
       .update({ deleted_at: now })
-      .filter(
-        "metadata->>'file_id'",
-        "in",
-        `(${foundFileIds.map((id) => `'${id}'`).join(",")})`,
-      );
+      .filter("metadata->>'file_id'", "eq", file_id);
 
     if (documentsUpdateError) {
       throw new Error(
@@ -112,15 +101,15 @@ export const deleteFiles = async (req: Request, res: Response) => {
 
     return res.json({
       success: true,
-      message: "Files marked as deleted successfully",
-      deleted_file_ids: foundFileIds,
-      storage_errors: storageErrors.length > 0 ? storageErrors : undefined,
+      message: "File marked as deleted successfully",
+      deleted_file_id: file_id,
+      storage_error: storageError,
     });
   } catch (error) {
-    console.error("Error deleting files:", error);
+    console.error("Error deleting file:", error);
     return res.status(500).json({
       success: false,
-      error: `Failed to delete files${
+      error: `Failed to delete file${
         error instanceof Error ? `: ${error.message}` : ""
       }`,
     });
