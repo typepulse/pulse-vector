@@ -89,13 +89,11 @@ export const deleteFiles = async (req: ValidatedRequest, res: Response) => {
     });
   } catch (error: unknown) {
     console.error("Error deleting file:", error);
-    const customError = error as CustomError;
-    const status = customError.status || 500;
+    const customError = error as Error;
     const message = customError.message || "Failed to delete file";
-    return res.status(status).json({
+    return res.status(500).json({
       success: false,
       error: message,
-      ...(customError.details && { details: customError.details }),
     });
   }
 };
