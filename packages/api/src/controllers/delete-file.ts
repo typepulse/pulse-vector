@@ -38,7 +38,7 @@ async function getFileData(fileId: string, teamId: string) {
   return file;
 }
 
-export const deleteFiles = async (req: ValidatedRequest, res: Response) => {
+export const deleteFile = async (req: ValidatedRequest, res: Response) => {
   try {
     const { file_id, teamId } = req.body.validatedData;
     const file = await getFileData(file_id, teamId);
