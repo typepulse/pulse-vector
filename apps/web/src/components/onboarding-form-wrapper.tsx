@@ -1,5 +1,4 @@
 import { APP_NAME } from "@/app/consts";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,8 +9,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { OnboardingSubmitButton } from "./onboarding-submit-button";
 
-export function OnboardingForm({
+export function OnboardingFormWrapper({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
@@ -27,26 +27,33 @@ export function OnboardingForm({
         <form className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="name">Your Name</Label>
-            <Input id="name" placeholder="Elon Musk" />
+            <Input id="name" name="name" placeholder="Elon Musk" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="goal">Main Goal with Supavec</Label>
-            <Input id="goal" placeholder={`Use ${APP_NAME} to build AI apps`} />
+            <Input
+              id="goal"
+              name="goal"
+              placeholder={`Use ${APP_NAME} to build AI apps`}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="occupation">What do you do in life?</Label>
             <Textarea
-              id="occupation"
+              id="job"
+              name="job"
               placeholder="Tell us about your occupation or main activities"
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="source">How did you hear about Supavec?</Label>
-            <Input id="source" placeholder="Google, Twitter, etc." />
+            <Input
+              id="how_know"
+              name="how_know"
+              placeholder="Google, Twitter, etc."
+            />
           </div>
-          <Button type="submit" className="w-full">
-            Complete Onboarding
-          </Button>
+          <OnboardingSubmitButton />
         </form>
       </CardContent>
     </Card>
