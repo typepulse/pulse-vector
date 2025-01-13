@@ -126,6 +126,44 @@ export type Database = {
           },
         ]
       }
+      onboarding_answers: {
+        Row: {
+          created_at: string
+          goal: string | null
+          how_know: string | null
+          id: number
+          job: string | null
+          name: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          goal?: string | null
+          how_know?: string | null
+          id?: number
+          job?: string | null
+          name?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          goal?: string | null
+          how_know?: string | null
+          id?: number
+          job?: string | null
+          name?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "onboarding_answers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
