@@ -1,3 +1,4 @@
+import { APP_NAME } from "@/app/consts";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -26,27 +27,22 @@ export function OnboardingForm({
         <form className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="name">Your Name</Label>
-            <Input id="name" placeholder="John Doe" required />
+            <Input id="name" placeholder="Elon Musk" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="goal">Main Goal with Supavec</Label>
-            <Input
-              id="goal"
-              placeholder="Your main goal with Supavec"
-              required
-            />
+            <Input id="goal" placeholder={`Use ${APP_NAME} to build AI apps`} />
           </div>
           <div className="space-y-2">
             <Label htmlFor="occupation">What do you do in life?</Label>
             <Textarea
               id="occupation"
               placeholder="Tell us about your occupation or main activities"
-              required
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="source">How did you hear about Supavec?</Label>
-            <Input id="source" placeholder="How you heard about us" required />
+            <Input id="source" placeholder="Google, Twitter, etc." />
           </div>
           <Button type="submit" className="w-full">
             Complete Onboarding
