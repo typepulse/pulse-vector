@@ -27,5 +27,11 @@ export async function completeOnboarding(formData: FormData) {
     };
   }
 
+  await supabase.from("profiles").update({
+    onboarding_at: new Date().toISOString(),
+  }).match({
+    id: user.data.user.id,
+  });
+
   redirect("/onboarding/complete");
 }
