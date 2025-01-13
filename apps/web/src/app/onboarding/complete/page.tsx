@@ -1,6 +1,6 @@
 import { APP_NAME } from "@/app/consts";
 import { Icons } from "@/components/icons";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,6 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default function OnboardingCompletePage() {
   return (
@@ -25,15 +27,22 @@ export default function OnboardingCompletePage() {
             Join our Discord community to connect with other Supavec users and
             get support.
           </p>
-          <Button variant="outline" className="w-full">
+          <a
+            target="_blank"
+            href="https://discord.gg/MS9CjPeXF4"
+            className={cn(buttonVariants({ variant: "outline" }), "w-full")}
+          >
             <Icons.discord className="mr-2 size-4" />
             Join {APP_NAME} Discord
-          </Button>
+          </a>
         </CardContent>
         <CardFooter>
-          <Button className="w-full" size="lg">
+          <Link
+            href="/dashboard"
+            className={cn(buttonVariants({ size: "lg" }), "w-full")}
+          >
             Go to Dashboard
-          </Button>
+          </Link>
         </CardFooter>
       </Card>
     </>
