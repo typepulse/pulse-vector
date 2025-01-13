@@ -8,7 +8,9 @@ export async function completeOnboarding(formData: FormData) {
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
   if (!user.data.user?.id) {
-    return;
+    return {
+      error: "User not found",
+    };
   }
 
   const { error } = await supabaseAdmin.from("onboarding_answers").insert({
@@ -20,8 +22,9 @@ export async function completeOnboarding(formData: FormData) {
   });
 
   if (error) {
-    console.error(error);
-    return;
+    return {
+      error: "Failed to complete onboarding",
+    };
   }
 
   redirect("/onboarding/complete");

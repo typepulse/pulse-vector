@@ -6,10 +6,19 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { completeOnboarding } from "@/app/onboarding/actions";
+import { toast } from "sonner";
 
 export const OnboardingForm = () => {
   return (
-    <form className="space-y-6" action={completeOnboarding}>
+    <form
+      className="space-y-6"
+      action={async (formData) => {
+        const result = await completeOnboarding(formData);
+        if (result.error) {
+          toast.error(result.error);
+        }
+      }}
+    >
       <div className="space-y-2">
         <Label htmlFor="name">Your Name</Label>
         <Input id="name" name="name" placeholder="Elon Musk" />
