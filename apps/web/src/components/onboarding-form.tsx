@@ -5,10 +5,11 @@ import { OnboardingSubmitButton } from "./onboarding-submit-button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import { completeOnboarding } from "@/app/onboarding/actions";
 
 export const OnboardingForm = () => {
   return (
-    <form className="space-y-6">
+    <form className="space-y-6" action={completeOnboarding}>
       <div className="space-y-2">
         <Label htmlFor="name">Your Name</Label>
         <Input id="name" name="name" placeholder="Elon Musk" />
