@@ -1,4 +1,9 @@
+import type { Metadata } from "next";
 import { APP_NAME } from "../consts";
+
+export const metadata: Metadata = {
+  title: `Welcome to ${APP_NAME}`,
+};
 
 export default function OnboardingLayout({
   children,
