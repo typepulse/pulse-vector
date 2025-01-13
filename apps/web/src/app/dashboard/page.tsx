@@ -18,13 +18,19 @@ import { UploadedFilesList } from "./uploaded-files-list";
 import { EmbeddingsQuery } from "./embeddings-query";
 import { FileUploadForm } from "./file-upload-form";
 import { ContentSubmission } from "./content-submission";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
   const supabase = await createClient();
   const { data } = await supabase
     .from("profiles")
-    .select("id, name, email")
+    .select("id, name, email, onboarding_at")
     .single();
+
+  if (!data?.onboarding_at) {
+    redirect("/onboarding");
+  }
+
   const { data: apiKeys } = await supabase.from("api_keys").select("*");
   const { data: uploadedFiles } = await supabase
     .from("files")
