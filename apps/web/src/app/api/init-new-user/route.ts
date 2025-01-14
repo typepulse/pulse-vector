@@ -8,11 +8,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "Not authorized" }, { status: 401 });
   }
 
-  // get post request body
   const reqJson = await req.json();
 
-  // Loops
-  axios.post(
+  // loops
+  await axios.post(
     "https://app.loops.so/api/v1/events/send",
     {
       email: reqJson.record.email,
