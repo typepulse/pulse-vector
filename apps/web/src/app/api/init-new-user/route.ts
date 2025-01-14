@@ -17,7 +17,8 @@ export async function POST(req: NextRequest) {
     {
       email: reqJson.record.email,
       userId: reqJson.record.id,
-      firstName: reqJson.record.name.split(" ")[0] ?? null,
+      firstName: reqJson.record.name?.split(" ")[0] ?? null,
+      lastName: reqJson.record.name?.split(" ")[1] ?? null,
       eventName: "new-signup",
     },
     {
