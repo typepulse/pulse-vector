@@ -1,7 +1,8 @@
 "use client";
 
-import { File } from "lucide-react";
 import type { Tables } from "@/types/supabase";
+import { File, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function UploadedFilesList({
   files,
@@ -22,10 +23,13 @@ export function UploadedFilesList({
               key={file.id}
               className="flex items-center justify-between bg-muted p-3 rounded-md"
             >
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-3 w-full">
                 <File className="h-5 w-5 text-blue-500" />
-                <div>
+                <div className="flex items-center justify-between w-full">
                   <p className="font-medium">{file.file_name}</p>
+                  <Button variant="ghost" size="icon">
+                    <Trash2 className="size-5 text-muted-foreground" />
+                  </Button>
                 </div>
               </div>
             </li>
