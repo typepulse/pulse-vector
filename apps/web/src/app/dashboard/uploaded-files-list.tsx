@@ -5,6 +5,7 @@ import { File, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export function UploadedFilesList({
   files,
@@ -13,6 +14,7 @@ export function UploadedFilesList({
   files: Tables<"files">[] | null;
   apiKey: string;
 }) {
+  const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async (fileId: string, fileName: string) => {
@@ -31,7 +33,7 @@ export function UploadedFilesList({
             authorization: apiKey,
           },
           body: JSON.stringify({
-            fileId,
+            file_id: fileId,
           }),
         }
       );
@@ -42,6 +44,9 @@ export function UploadedFilesList({
           errorData.message || `Failed to delete file: ${response.status}`
         );
       }
+
+      toast.success("File deleted successfully");
+      router.refresh();
     } catch (error) {
       toast.error(
         `Failed to delete file: ${error instanceof Error ? error.message : "Unknown error"}`
