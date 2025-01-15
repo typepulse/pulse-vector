@@ -8,8 +8,10 @@ import { toast } from "sonner";
 
 export function UploadedFilesList({
   files,
+  apiKey,
 }: {
   files: Tables<"files">[] | null;
+  apiKey: string;
 }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -26,6 +28,7 @@ export function UploadedFilesList({
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            authorization: apiKey,
           },
           body: JSON.stringify({
             fileId,

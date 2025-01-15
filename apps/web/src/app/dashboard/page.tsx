@@ -91,7 +91,10 @@ export default async function Page() {
                             Upload PDF files to generate embeddings.
                           </p>
                           <FileUploadForm apiKey={apiKeys[0].api_key!} />
-                          <UploadedFilesList files={uploadedFiles} />
+                          <UploadedFilesList
+                            files={uploadedFiles}
+                            apiKey={apiKeys[0].api_key!}
+                          />
                         </div>
                       </TabsContent>
                       <TabsContent value="content">
