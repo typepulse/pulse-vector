@@ -6,6 +6,7 @@ import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase"
 import { z } from "zod";
 import { randomUUID } from "crypto";
 import type { Database } from "@supavec/web/src/types/supabase";
+import { updateLoopsContact } from "../utils/loops";
 
 const DEFAULT_CHUNK_SIZE = 1000;
 const DEFAULT_CHUNK_OVERLAP = 200;
@@ -37,7 +38,7 @@ export const uploadText = async (req: Request, res: Response) => {
     // Get team ID from API key
     const { data: apiKeyData, error: apiKeyError } = await supabase
       .from("api_keys")
-      .select("team_id")
+      .select("team_id, user_id, profiles(email)")
       .match({ api_key: apiKey })
       .single();
 
@@ -102,6 +103,18 @@ export const uploadText = async (req: Request, res: Response) => {
       team_id: teamId,
       storage_path: storageData.path,
     });
+
+    // Update Loops contact
+    if (apiKeyData.profiles?.email) {
+      try {
+        updateLoopsContact({
+          email: apiKeyData.profiles.email,
+          isFileUploaded: true,
+        });
+      } catch (error) {
+        console.error("Error updating Loops contact:", error);
+      }
+    }
 
     return res.status(200).json({
       success: true,

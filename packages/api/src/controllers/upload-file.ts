@@ -10,11 +10,13 @@ import { randomUUID } from "crypto";
 import { z } from "zod";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { Document } from "@langchain/core/documents";
+import { updateLoopsContact } from "../utils/loops";
+import type { Database } from "@supavec/web/src/types/supabase";
 
 const DEFAULT_CHUNK_SIZE = 1000;
 const DEFAULT_CHUNK_OVERLAP = 200;
 
-const supabase = createClient(
+const supabase = createClient<Database>(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
@@ -31,7 +33,7 @@ export const uploadFile = async (req: Request, res: Response) => {
     // Get team ID from API key
     const { data: apiKeyData, error: apiKeyError } = await supabase
       .from("api_keys")
-      .select("team_id")
+      .select("team_id, user_id, profiles(email)")
       .match({ api_key: apiKey })
       .single();
 
@@ -136,6 +138,18 @@ export const uploadFile = async (req: Request, res: Response) => {
         team_id: teamId,
         storage_path: storageData.path,
       });
+
+      // Update Loops contact
+      if (apiKeyData.profiles?.email) {
+        try {
+          updateLoopsContact({
+            email: apiKeyData.profiles.email,
+            isFileUploaded: true,
+          });
+        } catch (error) {
+          console.error("Error updating Loops contact:", error);
+        }
+      }
 
       return res.json({
         success: true,
