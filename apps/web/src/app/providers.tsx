@@ -2,6 +2,7 @@
 
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
+import { SuspendedPostHogPageView } from "./PostHogPageView";
 
 if (typeof window !== "undefined") {
   posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY as string, {
@@ -11,5 +12,10 @@ if (typeof window !== "undefined") {
   });
 }
 export function CSPostHogProvider({ children }: { children: React.ReactNode }) {
-  return <PostHogProvider client={posthog}>{children}</PostHogProvider>;
+  return (
+    <PostHogProvider client={posthog}>
+      <SuspendedPostHogPageView />
+      {children}
+    </PostHogProvider>
+  );
 }
