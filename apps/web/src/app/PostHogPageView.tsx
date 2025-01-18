@@ -1,14 +1,32 @@
-// app/PostHogPageView.tsx
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, Suspense } from "react";
 import { usePostHog } from "posthog-js/react";
+import { createClient } from "@/utils/supabase/client";
 
 function PostHogPageView(): null {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const posthog = usePostHog();
+  const supabase = createClient();
+
+  // set an identity for Posthog
+  useEffect(() => {
+    const setUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      posthog.identify(user.id, {
+        email: user.email,
+      });
+    };
+
+    setUser();
+  }, [supabase, posthog]);
 
   // Track pageviews
   useEffect(() => {
@@ -25,9 +43,6 @@ function PostHogPageView(): null {
   return null;
 }
 
-// Wrap this in Suspense to avoid the `useSearchParams` usage above
-// from de-opting the whole app into client-side rendering
-// See: https://nextjs.org/docs/messages/deopted-into-client-rendering
 export function SuspendedPostHogPageView() {
   return (
     <Suspense fallback={null}>
