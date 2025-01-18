@@ -7,16 +7,27 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { completeOnboarding } from "@/app/onboarding/actions";
 import { toast } from "sonner";
+import { usePostHog } from "posthog-js/react";
 
 export const OnboardingForm = () => {
+  const posthog = usePostHog();
+
   return (
     <form
       className="space-y-6"
       action={async (formData) => {
         const result = await completeOnboarding(formData);
+
         if (result.error) {
           toast.error(result.error);
         }
+
+        posthog.capture("signup_completed", {
+          name: formData.get("name"),
+          goal: formData.get("goal"),
+          job: formData.get("job"),
+          how_know: formData.get("how_know"),
+        });
       }}
     >
       <div className="space-y-2">
