@@ -10,6 +10,7 @@ import morgan from "morgan";
 import { router } from "./routes";
 import { errorHandler } from "./middleware/errorHandler";
 import { rateLimit } from "./middleware/rate-limit";
+import { client as posthogClient } from "./utils/posthog";
 
 const requiredEnvVars = [
   "OPENAI_API_KEY",
@@ -39,6 +40,25 @@ app.use("/", router);
 
 app.use(errorHandler);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+});
+
+// Graceful shutdown
+process.on("SIGTERM", async () => {
+  console.log("SIGTERM signal received. Closing HTTP server...");
+  await posthogClient.shutdown();
+  server.close(() => {
+    console.log("HTTP server closed");
+    process.exit(0);
+  });
+});
+
+process.on("SIGINT", async () => {
+  console.log("SIGINT signal received. Closing HTTP server...");
+  await posthogClient.shutdown();
+  server.close(() => {
+    console.log("HTTP server closed");
+    process.exit(0);
+  });
 });

@@ -7,6 +7,7 @@ import { z } from "zod";
 import { randomUUID } from "crypto";
 import type { Database } from "@supavec/web/src/types/supabase";
 import { updateLoopsContact } from "../utils/loops";
+import { client } from "../utils/posthog";
 
 const DEFAULT_CHUNK_SIZE = 1000;
 const DEFAULT_CHUNK_OVERLAP = 200;
@@ -115,6 +116,16 @@ export const uploadText = async (req: Request, res: Response) => {
         console.error("Error updating Loops contact:", error);
       }
     }
+
+    client.capture({
+      distinctId: apiKeyData.profiles?.email as string,
+      event: "text_upload_completed",
+      properties: {
+        file_name: fileName,
+        file_type: "text",
+        file_size: contents.length,
+      },
+    });
 
     return res.status(200).json({
       success: true,
