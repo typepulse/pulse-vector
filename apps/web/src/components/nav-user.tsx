@@ -7,6 +7,7 @@ import {
   // CreditCard,
   // Sparkles,
 } from "lucide-react";
+import { usePostHog } from "posthog-js/react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -37,6 +38,7 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+  const posthog = usePostHog();
 
   return (
     <SidebarMenu>
@@ -104,7 +106,12 @@ export function NavUser({
             </DropdownMenuGroup> */}
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <form action={signOut}>
+              <form
+                action={async () => {
+                  await signOut();
+                  posthog.reset();
+                }}
+              >
                 <LogoutButton />
               </form>
             </DropdownMenuItem>
