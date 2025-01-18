@@ -22,12 +22,7 @@ export const OnboardingForm = () => {
           toast.error(result.error);
         }
 
-        posthog.capture("signup_completed", {
-          name: formData.get("name"),
-          goal: formData.get("goal"),
-          job: formData.get("job"),
-          how_know: formData.get("how_know"),
-        });
+        posthog.capture("signup_completed");
       }}
     >
       <div className="space-y-2">
