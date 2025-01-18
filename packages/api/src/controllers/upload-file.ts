@@ -12,6 +12,7 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { Document } from "@langchain/core/documents";
 import { updateLoopsContact } from "../utils/loops";
 import type { Database } from "@supavec/web/src/types/supabase";
+import { client } from "../utils/posthog";
 
 const DEFAULT_CHUNK_SIZE = 1000;
 const DEFAULT_CHUNK_OVERLAP = 200;
@@ -150,6 +151,16 @@ export const uploadFile = async (req: Request, res: Response) => {
           console.error("Error updating Loops contact:", error);
         }
       }
+
+      client.capture({
+        distinctId: apiKeyData.profiles?.email as string,
+        event: "file_upload_completed",
+        properties: {
+          file_name: fileName,
+          file_type: isTextFile ? "text" : "pdf",
+          file_size: buffer.length,
+        },
+      });
 
       return res.json({
         success: true,
