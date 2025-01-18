@@ -16,13 +16,12 @@ export const OnboardingForm = () => {
     <form
       className="space-y-6"
       action={async (formData) => {
+        posthog.capture("signup_completed");
         const result = await completeOnboarding(formData);
 
         if (result.error) {
           toast.error(result.error);
         }
-
-        posthog.capture("signup_completed");
       }}
     >
       <div className="space-y-2">

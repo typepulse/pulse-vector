@@ -108,8 +108,8 @@ export function NavUser({
             <DropdownMenuItem asChild>
               <form
                 action={async () => {
-                  await signOut();
                   posthog.reset();
+                  await signOut();
                 }}
               >
                 <LogoutButton />
