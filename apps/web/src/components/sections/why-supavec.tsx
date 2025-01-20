@@ -18,7 +18,7 @@ export function WhySupavec() {
                 )}
               >
                 <div className="flex flex-col gap-y-2 items-center">
-                  <div className="bg-gradient-to-b from-primary to-primary/80 p-2 rounded-lg text-white transition-colors group-hover:from-secondary group-hover:to-secondary/80">
+                  <div className="p-2 rounded-lg text-foreground transition-colors group-hover:from-secondary group-hover:to-secondary/80">
                     {Icon}
                   </div>
                   <h2 className="text-xl font-medium text-card-foreground text-center text-balance">
