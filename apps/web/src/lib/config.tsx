@@ -1,10 +1,14 @@
 import { Icons } from "@/components/icons";
 import {
   BrainIcon,
+  Code2,
   CodeIcon,
   GlobeIcon,
+  Lock,
   PlugIcon,
+  Scale,
   UsersIcon,
+  Wrench,
   ZapIcon,
 } from "lucide-react";
 
@@ -27,6 +31,32 @@ export const siteConfig = {
       "The open-source alternative to Carbon.ai. Build powerful RAG applications with any data source, at any scale.",
     cta: "Get Started",
   },
+  whySupavec: [
+    {
+      name: "Full Control with Open Source",
+      description:
+        "Choose between our cloud version or self-host on your infrastructure - unlike Carbon.ai, you're never locked in. Fully open source under MIT license, giving you the freedom to adapt and modify.",
+      icon: <Code2 className="size-6" />,
+    },
+    {
+      name: "Enterprise-Grade Privacy",
+      description:
+        "Built with Supabase Row Level Security (RLS), ensuring your data stays private and secure on your infrastructure with granular access control.",
+      icon: <Lock className="size-6" />,
+    },
+    {
+      name: "Built to Scale",
+      description:
+        "Handle millions of documents, process any size, support concurrent processing, and scale horizontally. Built on Supabase, Next.js, and TypeScript.",
+      icon: <Scale className="size-6" />,
+    },
+    {
+      name: "Developer-First",
+      description:
+        "Simple API, comprehensive documentation, easy integration, and quick setup with a modern tech stack.",
+      icon: <Wrench className="size-6" />,
+    },
+  ],
   features: [
     {
       name: "Simple Agent Workflows",
