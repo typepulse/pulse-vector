@@ -1,14 +1,14 @@
 import { APP_NAME } from "@/app/consts";
-import { FeatureSelector } from "@/components/feature-selector";
+import { StepsSelector } from "@/components/steps-selector";
 import { Section } from "@/components/section";
 
-interface FeatureOption {
+type StepOption = {
   id: number;
   title: string;
   description: string;
-}
+};
 
-const featureOptions: FeatureOption[] = [
+const steps: StepOption[] = [
   {
     id: 1,
     title: "Create an account",
@@ -30,7 +30,7 @@ export async function HowToUse() {
   return (
     <Section id="how-to-use" title={`How to use ${APP_NAME}`}>
       <div className="border-x border-t">
-        <FeatureSelector features={featureOptions} />
+        <StepsSelector steps={steps} />
       </div>
     </Section>
   );
