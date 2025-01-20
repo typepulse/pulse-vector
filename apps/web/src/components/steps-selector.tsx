@@ -37,9 +37,9 @@ export const StepsSelector: React.FC<StepsSelectorProps> = ({ steps }) => {
           className="block"
           previewClassName="rounded-none"
           animationStyle="from-center"
-          videoSrc="/supavec-intro.mp4"
-          thumbnailSrc="/intro-video-cover.jpg"
-          thumbnailAlt="Why I Built Supavec"
+          videoSrc="https://qxxlcbvvszqlusrmczke.supabase.co/storage/v1/object/public/public-files/supavec-demo.mp4"
+          thumbnailSrc="/supavec-demo-cover.jpg"
+          thumbnailAlt="Supavec Demo"
         />
       </div>
     </div>
