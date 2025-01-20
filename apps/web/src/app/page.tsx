@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
+import { createClient } from "@/utils/supabase/server";
 import { Header } from "@/components/sections/header";
 import { Hero } from "@/components/sections/hero";
 import { WhyIBuit } from "@/components/sections/why-i-built";
 import { WhatIsRag } from "@/components/sections/what-is-rag";
+import { WhySupavec } from "@/components/sections/why-supavec";
 import { Community } from "@/components/sections/community";
 import { CTA } from "@/components/sections/cta";
 import { Footer } from "@/components/sections/footer";
-import { createClient } from "@/utils/supabase/server";
 
 export const metadata: Metadata = {
   description:
@@ -23,6 +24,7 @@ export default async function Home() {
       <Hero />
       <WhyIBuit />
       <WhatIsRag />
+      <WhySupavec />
       <Community />
       <CTA />
       <Footer />
