@@ -19,6 +19,11 @@ import { EmbeddingsQuery } from "./embeddings-query";
 import { FileUploadForm } from "./file-upload-form";
 import { ContentSubmission } from "./content-submission";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  robots: "noindex, nofollow",
+};
 
 export default async function Page() {
   const supabase = await createClient();
