@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useState } from "react";
 import { HeroVideoDialog } from "./ui/hero-video-dialog";
 
 interface FeatureOption {
@@ -16,19 +15,14 @@ interface FeatureSelectorProps {
 export const FeatureSelector: React.FC<FeatureSelectorProps> = ({
   features,
 }) => {
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 relative">
       <div className="md:col-span-2 border-b md:border-b-0 bg-background md:border-r border-border sticky top-[var(--header-height)]">
         <div className="flex md:flex-col md:h-full feature-btn-container overflow-x-auto p-4 pb-2">
-          {features.map((option, index) => (
+          {features.map((option) => (
             <button
               key={option.id}
-              onClick={() => setSelectedIndex(index)}
-              className={`flex-shrink-0 md:flex-1 w-64 md:w-full text-left p-4 mb-2 mr-2 last:mr-0 md:mr-0 rounded border border-border ${
-                selectedIndex === index ? "bg-accent/70" : "hover:bg-muted/50"
-              }`}
+              className={`flex-shrink-0 md:flex-1 w-64 md:w-full text-left p-4 mb-2 mr-2 last:mr-0 md:mr-0 rounded border border-border`}
             >
               <h3 className="font-medium tracking-tight">{option.title}</h3>
               <p className="text-sm text-muted-foreground">
