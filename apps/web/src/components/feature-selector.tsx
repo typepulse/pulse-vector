@@ -35,6 +35,7 @@ export const FeatureSelector: React.FC<FeatureSelectorProps> = ({
       <div className="col-span-1 md:col-span-3">
         <HeroVideoDialog
           className="block"
+          previewClassName="rounded-none"
           animationStyle="from-center"
           videoSrc="/supavec-intro.mp4"
           thumbnailSrc="/intro-video-cover.jpg"
