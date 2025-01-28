@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { z } from "zod";
 import type { Database } from "@supavec/web/src/types/supabase";
+import { client } from "../utils/posthog";
 
 const embeddingsSchema = z.object({
   query: z.string().min(1, "Query is required"),
@@ -22,6 +23,8 @@ async function validateRequest(req: Request): Promise<{
   success: boolean;
   data?: EmbeddingsRequest;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  apiKeyData?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: any;
   statusCode?: number;
 }> {
@@ -39,7 +42,7 @@ async function validateRequest(req: Request): Promise<{
   const apiKey = req.headers.authorization as string;
   const { data: apiKeyData, error: apiKeyError } = await supabase
     .from("api_keys")
-    .select("team_id")
+    .select("team_id, user_id, profiles(email)")
     .match({ api_key: apiKey })
     .single();
 
@@ -73,6 +76,7 @@ async function validateRequest(req: Request): Promise<{
   return {
     success: true,
     data: validationResult.data,
+    apiKeyData,
   };
 }
 
@@ -116,6 +120,11 @@ export const getEmbeddings = async (req: Request, res: Response) => {
         score: score.toFixed(3),
       });
     }
+
+    client.capture({
+      distinctId: validation.apiKeyData.profiles?.email as string,
+      event: "/embeddings API Call",
+    });
 
     const response = {
       success: true,

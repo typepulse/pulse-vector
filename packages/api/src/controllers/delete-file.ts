@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@supavec/web/src/types/supabase";
+import { client } from "../utils/posthog";
 
 const supabase = createClient<Database>(
   process.env.SUPABASE_URL!,
@@ -12,6 +13,8 @@ interface ValidatedRequest extends Request {
     validatedData: {
       file_id: string;
       teamId: string;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      apiKeyData: any;
     };
   };
 }
@@ -40,7 +43,7 @@ async function getFileData(fileId: string, teamId: string) {
 
 export const deleteFile = async (req: ValidatedRequest, res: Response) => {
   try {
-    const { file_id, teamId } = req.body.validatedData;
+    const { file_id, teamId, apiKeyData } = req.body.validatedData;
     const file = await getFileData(file_id, teamId);
 
     // Delete file from storage if storage path exists
@@ -80,6 +83,11 @@ export const deleteFile = async (req: ValidatedRequest, res: Response) => {
         `Failed to update documents: ${documentsUpdateError.message}`,
       );
     }
+
+    client.capture({
+      distinctId: apiKeyData.profiles?.email as string,
+      event: "/delete_file API Call",
+    });
 
     return res.json({
       success: true,

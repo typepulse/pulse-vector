@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import type { Database } from "@supavec/web/src/types/supabase";
+import { client } from "../utils/posthog";
 
 const supabase = createClient<Database>(
   process.env.SUPABASE_URL!,
@@ -35,7 +36,7 @@ export const userFiles = async (req: Request, res: Response) => {
     const apiKey = req.headers.authorization as string;
     const { data: apiKeyData, error: apiKeyError } = await supabase
       .from("api_keys")
-      .select("team_id")
+      .select("team_id, user_id, profiles(email)")
       .match({ api_key: apiKey })
       .single();
 
@@ -73,6 +74,11 @@ export const userFiles = async (req: Request, res: Response) => {
     if (countError) {
       throw new Error(`Failed to get total count: ${countError.message}`);
     }
+
+    client.capture({
+      distinctId: apiKeyData.profiles?.email as string,
+      event: "/user_files API Call",
+    });
 
     return res.json({
       success: true,

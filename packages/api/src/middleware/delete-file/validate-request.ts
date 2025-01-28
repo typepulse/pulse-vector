@@ -33,7 +33,7 @@ export const validateRequestMiddleware = () => {
 
       const { data: apiKeyData, error: apiKeyError } = await supabase
         .from("api_keys")
-        .select("team_id")
+        .select("team_id, user_id, profiles(email)")
         .match({ api_key: apiKey })
         .single();
 
@@ -44,7 +44,11 @@ export const validateRequestMiddleware = () => {
         });
       }
 
-      req.body.validatedData = { file_id, teamId: apiKeyData.team_id };
+      req.body.validatedData = {
+        file_id,
+        teamId: apiKeyData.team_id,
+        apiKeyData,
+      };
       return next();
     } catch (error) {
       console.error("Error validating request:", error);
