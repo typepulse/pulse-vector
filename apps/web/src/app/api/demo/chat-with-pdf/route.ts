@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "redaxios";
+import { openai } from "@ai-sdk/openai";
+import { generateText } from "ai";
 
 export async function POST(req: NextRequest) {
   const reqJson = await req.json();
@@ -19,8 +21,19 @@ export async function POST(req: NextRequest) {
       },
     );
 
-    console.log({ response });
-    return NextResponse.json({ status: "done" });
+    console.log({ response: response.data.documents });
+
+    const { text } = await generateText({
+      model: openai("gpt-4o-mini"),
+      prompt: `Answer to the query based on the provided context below:
+      ${response.data.documents.map((doc: any) => doc.content).join("\n")}
+      Query: ${reqJson.query}`,
+    });
+
+    return NextResponse.json({
+      success: true,
+      answer: text,
+    });
   } catch (error) {
     if (
       error && typeof error === "object" && "data" in error && error.data &&
