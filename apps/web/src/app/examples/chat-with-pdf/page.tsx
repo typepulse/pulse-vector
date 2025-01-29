@@ -1,3 +1,6 @@
+import { FAQ } from "./_components/faq";
+import { CTA } from "./_components/cta";
+
 export const metadata = {
   title: "Free Chat with PDF",
   description:
@@ -24,6 +27,8 @@ export default function ChatWithPdf() {
         </p>
       </div>
       <div className="w-full h-96 bg-gray-300 rounded-lg mt-8"></div>
+      <FAQ />
+      <CTA />
     </>
   );
 }
