@@ -3,6 +3,10 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Login",
+  description: "Login to your account",
+  alternates: {
+    canonical: "/login",
+  },
 };
 
 export default function LoginPage() {

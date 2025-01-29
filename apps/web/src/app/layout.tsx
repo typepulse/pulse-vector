@@ -13,6 +13,10 @@ export const metadata: Metadata = {
     template: `%s - ${APP_NAME}`,
     default: `${APP_NAME} - The open source RAG as a Service platform.`,
   },
+  metadataBase: new URL("https://www.supavec.com"),
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({
