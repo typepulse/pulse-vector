@@ -3,11 +3,16 @@
 import { FileUploadForm } from "@/app/dashboard/file-upload-form";
 import { CornerRightUp } from "lucide-react";
 import { useChat } from "ai/react";
+import { useState } from "react";
 
 export const Demo = () => {
+  const [showResult, setShowResult] = useState(false);
   const { messages, isLoading, handleSubmit, input, setInput } = useChat({
     api: "/api/demo/chat-with-pdf",
     initialMessages: [],
+    onResponse() {
+      setShowResult(true);
+    },
   });
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,7 +40,11 @@ export const Demo = () => {
           </button>
         </form>
       </div>
-      {isLoading ? <p>Loading...</p> : <p>{messages.at(-1)?.content}</p>}
+      {isLoading && !showResult ? (
+        <p>Loading...</p>
+      ) : (
+        <p>{messages.at(-1)?.content}</p>
+      )}
     </div>
   );
 };
