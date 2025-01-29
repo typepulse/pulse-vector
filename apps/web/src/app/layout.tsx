@@ -11,7 +11,7 @@ import { CSPostHogProvider } from "./providers";
 export const metadata: Metadata = {
   title: {
     template: `%s - ${APP_NAME}`,
-    default: `${APP_NAME} - Connect your data to LLMs, no matter the source.`,
+    default: `${APP_NAME} - The open source RAG as a Service platform.`,
   },
 };
 
