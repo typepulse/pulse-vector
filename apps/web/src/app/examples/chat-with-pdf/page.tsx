@@ -26,7 +26,7 @@ export default function ChatWithPdf() {
           No email required. 100% free. Done in 30 seconds.
         </p>
       </div>
-      <div className="w-full h-96 bg-gray-300 rounded-lg mt-8"></div>
+      <div className="w-full h-96 rounded-lg mt-8 border"></div>
       <FAQ />
       <CTA />
     </>
