@@ -4,6 +4,10 @@ import { openai } from "@ai-sdk/openai";
 import { type Message, streamText } from "ai";
 import { getMostRecentUserMessage } from "@/app/examples/chat-with-pdf/utils";
 
+type Document = {
+  content: string;
+};
+
 export async function POST(req: NextRequest) {
   const { messages }: { messages: Array<Message> } = await req.json();
 
@@ -33,7 +37,7 @@ export async function POST(req: NextRequest) {
     const result = streamText({
       model: openai("gpt-4o-mini"),
       prompt: `Answer to the query based on the provided context below:
-      ${response.data.documents.map((doc: any) => doc.content).join("\n")}
+      ${response.data.documents.map((doc: Document) => doc.content).join("\n")}
       Query: ${userMessage.content}`,
     });
 
