@@ -1,6 +1,8 @@
+import { ButtonColorful } from "@/components/ui/button-colorful";
+
 export const CTA = () => {
   return (
-    <section>
+    <section className="text-center">
       <p className="text-sm font-semibold tracking-tight text-balance text-muted-foreground text-center">
         Ready to build youir own?
       </p>
@@ -11,6 +13,9 @@ export const CTA = () => {
         With Supavec, you can easily connect your files to AI and build an app
         in minutes.
       </div>
+      <a href="https://www.supavec.com?src=examples-chat-with-pdf">
+        <ButtonColorful className="mt-6" label="Get started" />
+      </a>
     </section>
   );
 };
