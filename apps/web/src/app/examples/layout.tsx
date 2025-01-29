@@ -12,7 +12,7 @@ export default async function ExamplesLayout({
   return (
     <>
       <Header isLoggedIn={!!user?.user} />
-      <main className="w-full max-w-screen-xl mx-auto py-24">{children}</main>
+      <main className="w-full max-w-screen-lg mx-auto py-24">{children}</main>
     </>
   );
 }
