@@ -1,6 +1,7 @@
 "use client";
 
 import { FileUploadForm } from "@/app/dashboard/file-upload-form";
+import { CornerRightUp } from "lucide-react";
 
 export const Demo = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -26,21 +27,7 @@ export const Demo = () => {
             className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 rounded-xl bg-black/5 dark:bg-white/5 py-1 px-1"
             type="submit"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-corner-right-up w-3.5 sm:w-4 h-3.5 sm:h-4 transition-opacity dark:text-white opacity-30"
-            >
-              <polyline points="10 9 15 4 20 9"></polyline>
-              <path d="M4 20h7a4 4 0 0 0 4-4V4"></path>
-            </svg>
+            <CornerRightUp className="w-4 h-4" />
           </button>
         </form>
       </div>
