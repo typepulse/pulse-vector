@@ -1,16 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "redaxios";
 import { openai } from "@ai-sdk/openai";
-import { generateText } from "ai";
+import { type Message, streamText } from "ai";
+import { getMostRecentUserMessage } from "@/app/examples/chat-with-pdf/utils";
 
 export async function POST(req: NextRequest) {
-  const reqJson = await req.json();
+  const { messages }: { messages: Array<Message> } = await req.json();
+
+  const userMessage = getMostRecentUserMessage(messages);
+
+  if (!userMessage) {
+    return new Response("No user message found", { status: 400 });
+  }
 
   try {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/embeddings`,
       {
-        query: reqJson.query,
+        query: userMessage.content,
         file_ids: ["fcf9d747-e22d-4803-9678-69f80bc15b32"],
       },
       {
@@ -23,17 +30,14 @@ export async function POST(req: NextRequest) {
 
     console.log({ response: response.data.documents });
 
-    const { text } = await generateText({
+    const result = streamText({
       model: openai("gpt-4o-mini"),
       prompt: `Answer to the query based on the provided context below:
       ${response.data.documents.map((doc: any) => doc.content).join("\n")}
-      Query: ${reqJson.query}`,
+      Query: ${userMessage.content}`,
     });
 
-    return NextResponse.json({
-      success: true,
-      answer: text,
-    });
+    return result.toDataStreamResponse();
   } catch (error) {
     if (
       error && typeof error === "object" && "data" in error && error.data &&
