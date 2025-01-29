@@ -1,3 +1,4 @@
+import { Demo } from "./_components/demo";
 import { FAQ } from "./_components/faq";
 import { CTA } from "./_components/cta";
 
@@ -26,7 +27,7 @@ export default function ChatWithPdf() {
           No email required. 100% free. Done in 30 seconds.
         </p>
       </div>
-      <div className="w-full h-96 rounded-lg mt-8 border"></div>
+      <Demo />
       <FAQ />
       <CTA />
     </>
