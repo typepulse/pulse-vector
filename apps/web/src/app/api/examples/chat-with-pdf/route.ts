@@ -9,7 +9,8 @@ type Document = {
 };
 
 export async function POST(req: NextRequest) {
-  const { messages }: { messages: Array<Message> } = await req.json();
+  const { messages, fileId }: { messages: Array<Message>; fileId: string } =
+    await req.json();
 
   const userMessage = getMostRecentUserMessage(messages);
 
@@ -22,7 +23,7 @@ export async function POST(req: NextRequest) {
       `${process.env.NEXT_PUBLIC_API_URL}/embeddings`,
       {
         query: userMessage.content,
-        file_ids: ["fcf9d747-e22d-4803-9678-69f80bc15b32"],
+        file_ids: [fileId],
       },
       {
         headers: {
