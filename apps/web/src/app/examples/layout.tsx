@@ -1,5 +1,6 @@
-import { Header } from "@/components/sections/header";
 import { createClient } from "@/utils/supabase/server";
+import { Header } from "@/components/sections/header";
+import { Footer } from "@/components/sections/footer";
 
 export default async function ExamplesLayout({
   children,
@@ -13,6 +14,7 @@ export default async function ExamplesLayout({
     <>
       <Header isLoggedIn={!!user?.user} />
       <main className="w-full container mx-auto py-24">{children}</main>
+      <Footer />
     </>
   );
 }
