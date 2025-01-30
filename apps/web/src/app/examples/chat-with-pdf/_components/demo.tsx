@@ -1,10 +1,10 @@
 "use client";
 
 import { FileUploadForm } from "@/app/dashboard/file-upload-form";
-import { CornerRightUp, X } from "lucide-react";
+import { CornerRightUp } from "lucide-react";
 import { useChat } from "ai/react";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { FileList } from "./file-list";
 
 export const Demo = () => {
   const [showResult, setShowResult] = useState(false);
@@ -52,12 +52,7 @@ export const Demo = () => {
         submitFile={submitFile}
       />
       <div className="relative max-w-xl w-full mx-auto flex flex-col gap-4">
-        <div className="bg-secondary-foreground/15 p-3 rounded-md flex items-center justify-between">
-          <span>{fileName}</span>
-          <Button size="icon" variant="ghost">
-            <X />
-          </Button>
-        </div>
+        {fileName && <FileList fileName={fileName} setFileName={setFileName} />}
         <form className="relative" onSubmit={submitForm}>
           <textarea
             className="mx-auto h-[52px] flex border border-input px-3 shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm max-w-xl bg-black/5 dark:bg-white/5 w-full rounded-2xl sm:rounded-3xl pl-10 sm:pl-12 pr-12 sm:pr-16 placeholder:text-black/70 dark:placeholder:text-white/70 border-none ring-black/30 dark:ring-white/30 text-black dark:text-white text-wrap py-3 sm:py-4 text-sm sm:text-base max-h-[200px] overflow-y-auto resize-none leading-[1.2] min-h-[52px]"
