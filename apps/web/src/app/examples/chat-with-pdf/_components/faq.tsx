@@ -17,6 +17,10 @@ const faqs = [
     answer:
       "I built this using Supavec. It's an open source platform to create apps with RAG.",
   },
+  {
+    question: "Do you store the PDFs I uploaded?",
+    answer: "No. we delete PDFs uploaded on this free tool after 24 hours.",
+  },
 ];
 
 export const FAQ = () => {
