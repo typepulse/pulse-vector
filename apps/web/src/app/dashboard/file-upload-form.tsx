@@ -57,6 +57,10 @@ export function FileUploadForm({
 
       const response = await submitFile(formData);
 
+      if (response.success === false) {
+        throw new Error(response.error);
+      }
+
       const result = await response.json();
 
       if (!response.ok || !result.success) {

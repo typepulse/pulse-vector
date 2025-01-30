@@ -4,6 +4,7 @@ import { FileUploadForm } from "@/app/dashboard/file-upload-form";
 import { useEffect, useState } from "react";
 import { FileList } from "./file-list";
 import { Chat } from "./chat";
+import { toast } from "sonner";
 
 export const Demo = () => {
   const [doneUploading, setDoneUploading] = useState(false);
@@ -30,12 +31,16 @@ export const Demo = () => {
       body: formData,
     });
 
-    if (response.ok) {
+    if (!response.ok) {
       const responseClone = response.clone();
       const result = await responseClone.json();
-      localStorage.setItem("pdfFileId_demo", result.file_id);
-      localStorage.setItem("pdfFileName_demo", result.file_name);
+      toast.error(result.error);
+      return { success: false };
     }
+
+    const result = await response.json();
+    localStorage.setItem("pdfFileId_demo", result.file_id);
+    localStorage.setItem("pdfFileName_demo", result.file_name);
 
     return response;
   };
