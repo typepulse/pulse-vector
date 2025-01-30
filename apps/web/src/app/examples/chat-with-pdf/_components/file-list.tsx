@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import { X, File } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export const FileList = ({
@@ -14,8 +14,11 @@ export const FileList = ({
   const router = useRouter();
 
   return (
-    <div className="bg-secondary-foreground/15 p-3 rounded-md flex items-center justify-between">
-      <span>{fileName}</span>
+    <div className="bg-muted-foreground/15 p-2 rounded-lg flex items-center justify-between">
+      <div className="flex items-center gap-2">
+        <File className="size-5" />
+        <span>{fileName}</span>
+      </div>
       <Button
         size="icon"
         variant="ghost"
