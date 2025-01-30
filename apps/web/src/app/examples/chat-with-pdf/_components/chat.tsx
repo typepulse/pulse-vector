@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useChat } from "ai/react";
 import { CornerRightUp } from "lucide-react";
 import { useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Chat = ({ fileId }: { fileId: string }) => {
   const [showResult, setShowResult] = useState(false);
@@ -44,11 +45,18 @@ export const Chat = ({ fileId }: { fileId: string }) => {
           <CornerRightUp className="w-4 h-4 text-muted-foreground" />
         </button>
       </form>
-      {isLoading && !showResult ? (
-        <p>Loading...</p>
-      ) : (
-        <p>{messages.at(-1)?.content}</p>
-      )}
+      <div className="mt-4">
+        {isLoading && !showResult ? (
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+          </div>
+        ) : (
+          <p>{messages.at(-1)?.content}</p>
+        )}
+      </div>
     </div>
   );
 };
