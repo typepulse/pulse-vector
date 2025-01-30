@@ -16,10 +16,10 @@ import { GenerateForm } from "./generate-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UploadedFilesList } from "./uploaded-files-list";
 import { EmbeddingsQuery } from "./embeddings-query";
-import { FileUploadForm } from "./file-upload-form";
 import { ContentSubmission } from "./content-submission";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
+import { UploadFormWrapper } from "./upload-form-wrappper";
 
 export const metadata: Metadata = {
   robots: "noindex, nofollow",
@@ -95,7 +95,7 @@ export default async function Page() {
                           <p className="mb-4">
                             Upload PDF files to generate embeddings.
                           </p>
-                          <FileUploadForm apiKey={apiKeys[0].api_key!} />
+                          <UploadFormWrapper apiKey={apiKeys[0].api_key!} />
                           <UploadedFilesList
                             files={uploadedFiles}
                             apiKey={apiKeys[0].api_key!}
