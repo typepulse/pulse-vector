@@ -59,11 +59,13 @@ export const Demo = () => {
 
   return (
     <div className="space-y-8 min-w-[400px] w-full p-4 mt-8">
-      <FileUploadForm
-        placeholder="Drag 'n' drop a PDF file here (max 20MB), or click to select one"
-        submitFile={submitFile}
-        callBack={callBack}
-      />
+      {!fileName && (
+        <FileUploadForm
+          placeholder="Drag 'n' drop a PDF file here (max 20MB), or click to select one"
+          submitFile={submitFile}
+          callBack={callBack}
+        />
+      )}
       <div className="relative max-w-xl w-full mx-auto flex flex-col gap-4">
         {fileName && <FileList fileName={fileName} setFileName={setFileName} />}
         {fileName && fileId && <Chat fileId={fileId} />}
