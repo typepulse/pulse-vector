@@ -15,7 +15,7 @@ export default function ChatWithPdf() {
   return (
     <>
       <div className="text-center">
-        <h1 className="text-5xl font-semibold tracking-tight text-balance text-foreground sm:text-7xl">
+        <h1 className="text-4xl font-semibold tracking-tight text-balance text-foreground sm:text-7xl">
           Free Chat with PDF
         </h1>
         <p className="mt-8 text-lg font-medium text-pretty text-muted-foreground sm:text-xl/8">
