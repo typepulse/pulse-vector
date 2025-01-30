@@ -2,16 +2,20 @@
 
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Upload, File, X, Loader2 } from "lucide-react";
+import { File, X, Loader2, ImagePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 export function FileUploadForm({
   submitFile,
+  placeholder = "Drag 'n' drop a PDF or text file here (max 20MB), or click to select one",
+  callBack,
 }: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   submitFile: (formData: FormData) => Promise<any>;
+  placeholder?: string;
+  callBack?: () => void;
 }) {
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -26,8 +30,12 @@ export function FileUploadForm({
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      "application/pdf": [".pdf"],
-      "text/plain": [".txt"],
+      ...(placeholder.toLowerCase().includes("pdf")
+        ? { "application/pdf": [".pdf"] }
+        : {}),
+      ...(placeholder.toLowerCase().includes("text")
+        ? { "text/plain": [".txt"] }
+        : {}),
     },
     maxFiles: 1,
   });
@@ -49,6 +57,10 @@ export function FileUploadForm({
 
       const response = await submitFile(formData);
 
+      if (response.success === false) {
+        throw new Error(response.error);
+      }
+
       const result = await response.json();
 
       if (!response.ok || !result.success) {
@@ -58,6 +70,8 @@ export function FileUploadForm({
       console.log("File processed successfully:", result);
       setFiles([]);
       router.refresh();
+      callBack?.();
+
       toast.success("File processed successfully");
     } catch (error) {
       console.error("Upload failed:", error);
@@ -73,18 +87,14 @@ export function FileUploadForm({
     <div className="mt-4">
       <div
         {...getRootProps()}
-        className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
-          isDragActive
-            ? "border-primary bg-primary/10"
-            : "border-gray-300 hover:border-primary"
-        }`}
+        className="border-2 border-dashed border-muted-foreground/25 hover:bg-muted rounded-lg p-6 cursor-pointer transition-colors bg-muted/50 flex flex-col items-center justify-center"
       >
         <input {...getInputProps()} />
-        <Upload className="mx-auto h-12 w-12 text-gray-400" />
-        <p className="mt-2 text-sm text-gray-600">
-          {isDragActive
-            ? "Drop the file here"
-            : "Drag 'n' drop a PDF or text file here (max 20MB), or click to select one"}
+        <div className="rounded-full bg-background p-3 shadow-sm">
+          <ImagePlus className="size-6 text-muted-foreground" />
+        </div>
+        <p className="mt-2 text-sm">
+          {isDragActive ? "Drop the file here" : placeholder}
         </p>
       </div>
       {files.length > 0 && (
