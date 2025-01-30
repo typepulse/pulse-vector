@@ -7,13 +7,12 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 export function FileUploadForm({
-  apiKey,
+  submitFile,
   placeholder = "Drag 'n' drop a PDF or text file here (max 20MB), or click to select one",
 }: {
-  apiKey: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  submitFile: (formData: FormData) => Promise<any>;
   placeholder?: string;
 }) {
   const [files, setFiles] = useState<File[]>([]);
@@ -50,13 +49,7 @@ export function FileUploadForm({
       const formData = new FormData();
       formData.append("file", files[0]);
 
-      const response = await fetch(`${API_URL}/upload_file`, {
-        method: "POST",
-        headers: {
-          authorization: apiKey,
-        },
-        body: formData,
-      });
+      const response = await submitFile(formData);
 
       const result = await response.json();
 
