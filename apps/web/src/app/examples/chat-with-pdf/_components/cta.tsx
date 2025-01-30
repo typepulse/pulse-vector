@@ -4,9 +4,11 @@ import { ButtonColorful } from "@/components/ui/button-colorful";
 import { RetroGrid } from "@/components/ui/retro-grid";
 import { APP_NAME } from "@/app/consts";
 import { usePostHog } from "posthog-js/react";
+import { useRouter } from "next/navigation";
 
 export const CTA = () => {
   const posthog = usePostHog();
+  const router = useRouter();
 
   return (
     <section className="text-center border-x border-b">
@@ -22,17 +24,21 @@ export const CTA = () => {
           <br />
           You can connect your data to AI in minutes.
         </div>
-        <a
-          href="https://www.supavec.com?src=examples-chat-with-pdf"
+        <ButtonColorful
+          className="mt-6 z-10"
+          label="Create your Chat with PDF app"
           onClick={() => {
-            posthog.capture("Click CTA in Chat with PDF example");
+            posthog.capture(
+              "Click CTA in Chat with PDF example",
+              {},
+              {
+                send_instantly: true,
+              }
+            );
+
+            router.push("https://www.supavec.com?src=examples-chat-with-pdf");
           }}
-        >
-          <ButtonColorful
-            className="mt-6 z-10"
-            label="Create your Chat with PDF app"
-          />
-        </a>
+        />
         <RetroGrid />
       </div>
     </section>
