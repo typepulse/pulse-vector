@@ -1,3 +1,5 @@
+"use client";
+
 import { ButtonColorful } from "@/components/ui/button-colorful";
 import { RetroGrid } from "@/components/ui/retro-grid";
 import { APP_NAME } from "@/app/consts";
