@@ -25,9 +25,14 @@ export const FAQ = () => {
     <section>
       <div className="mx-auto w-full text-center px-6 py-24 sm:py-32 lg:px-8 lg:py-40">
         <div className="mx-auto max-w-4xl divide-y text-muted-foreground">
-          <h2 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-            Frequently asked questions
-          </h2>
+          <div>
+            <h2 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+              Frequently asked questions
+            </h2>
+            <p className="mt-4 text-lg font-medium text-muted-foreground">
+              Answers to common questions about our free Chat with PDF app.
+            </p>
+          </div>
           <dl className="mt-10 space-y-6 divide-y text-muted-foreground">
             {faqs.map((faq) => (
               <Disclosure key={faq.question} as="div" className="pt-6">
