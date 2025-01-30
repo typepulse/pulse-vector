@@ -34,20 +34,23 @@ export const Chat = ({ fileId }: { fileId: string }) => {
   return (
     <div>
       <form className="relative" onSubmit={submitForm}>
-        <Input
-          className="mx-auto h-[52px] flex border border-input px-3 shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm max-w-xl bg-muted-foreground/15 w-full rounded-2xl sm:rounded-3xl pl-10 sm:pl-12 pr-12 sm:pr-16 placeholder:text-black/70 dark:placeholder:text-white/70 border-none ring-black/30 dark:ring-white/30 text-black dark:text-white text-wrap py-3 sm:py-4 text-sm sm:text-base max-h-[200px] overflow-y-auto resize-none leading-[1.2] min-h-[52px]"
-          placeholder="What do you want to ask?"
-          value={input}
-          disabled={isLoading}
-          onChange={(e) => setInput(e.target.value)}
-        />
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 rounded-xl bg-black/5 dark:bg-white/5 py-1 px-1"
-        >
-          <CornerRightUp className="w-4 h-4 text-muted-foreground" />
-        </button>
+        <div className="relative">
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 z-0" />
+          <Input
+            className="relative mx-auto h-[52px] flex border border-input px-3 shadow-sm focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed md:text-sm max-w-xl bg-muted w-full rounded-2xl sm:rounded-3xl pl-10 sm:pl-12 pr-12 sm:pr-16 placeholder:text-foreground/70 border-none dark:ring-white/30 text-black dark:text-white text-wrap py-3 sm:py-4 text-sm sm:text-base max-h-[200px] overflow-y-auto leading-[1.2] min-h-[52px] z-10"
+            placeholder="What do you want to ask?"
+            value={input}
+            disabled={isLoading}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 rounded-xl bg-black/5 dark:bg-white/5 py-1 px-1 z-10"
+          >
+            <CornerRightUp className="w-4 h-4 text-muted-foreground" />
+          </button>
+        </div>
       </form>
       <div className="mt-4">
         {isLoading && !showResult ? (

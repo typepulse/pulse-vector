@@ -66,7 +66,7 @@ export const Demo = () => {
           callBack={callBack}
         />
       )}
-      <div className="relative max-w-xl w-full mx-auto flex flex-col gap-4">
+      <div className="relative max-w-xl w-full mx-auto flex flex-col gap-5">
         {fileName && <FileList fileName={fileName} setFileName={setFileName} />}
         {fileName && fileId && <Chat fileId={fileId} />}
       </div>
