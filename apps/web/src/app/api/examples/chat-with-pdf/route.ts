@@ -33,8 +33,6 @@ export async function POST(req: NextRequest) {
       },
     );
 
-    console.log({ response: response.data.documents });
-
     const result = streamText({
       model: openai("gpt-4o-mini"),
       prompt: `Answer to the query based on the provided context below:
