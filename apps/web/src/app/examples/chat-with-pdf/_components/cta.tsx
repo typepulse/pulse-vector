@@ -1,21 +1,33 @@
 import { ButtonColorful } from "@/components/ui/button-colorful";
+import { RetroGrid } from "@/components/ui/retro-grid";
+import { APP_NAME } from "@/app/consts";
 
 export const CTA = () => {
   return (
-    <section className="text-center">
-      <p className="text-sm font-semibold tracking-tight text-balance text-muted-foreground text-center">
-        Ready to build youir own?
-      </p>
-      <h2 className="mt-2 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl text-center">
-        Build your AI app in minutes
-      </h2>
-      <div className="text-center text-muted-foreground mt-2 text-lg">
-        With Supavec, you can easily connect your files to AI and build an app
-        in minutes.
+    <section className="text-center border-x border-b">
+      <div className="relative flex h-[400px] w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-background md:shadow-xl">
+        <p className="text-sm z-10 font-semibold tracking-tight text-balance text-muted-foreground text-center">
+          Ready to build youir own?
+        </p>
+        <h2 className="mt-2 text-4xl z-10 font-semibold tracking-tight text-foreground sm:text-5xl text-center">
+          Build your AI app in minutes
+        </h2>
+        <div className="text-center text-muted-foreground mt-2 text-lg z-10">
+          {/* With Supavec, you can easily connect your files to AI and build an app
+          in minutes. */}
+          {APP_NAME} is an open-source platform to create apps with RAG.
+          <br />
+          You can connect your data to AI in minutes.
+        </div>
+        <a href="https://www.supavec.com?src=examples-chat-with-pdf">
+          <ButtonColorful
+            className="mt-6 z-10"
+            label="Create your Chat with PDF app"
+          />
+        </a>
+
+        <RetroGrid />
       </div>
-      <a href="https://www.supavec.com?src=examples-chat-with-pdf">
-        <ButtonColorful className="mt-6" label="Get started" />
-      </a>
     </section>
   );
 };

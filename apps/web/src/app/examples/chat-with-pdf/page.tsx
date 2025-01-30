@@ -1,6 +1,5 @@
 import { Demo } from "./_components/demo";
 import { FAQ } from "./_components/faq";
-import { CTA } from "./_components/cta";
 
 export const metadata = {
   title: "Free Chat with PDF",
@@ -29,7 +28,6 @@ export default function ChatWithPdf() {
       </div>
       <Demo />
       <FAQ />
-      <CTA />
     </>
   );
 }
