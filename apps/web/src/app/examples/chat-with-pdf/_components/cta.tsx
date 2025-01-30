@@ -13,8 +13,6 @@ export const CTA = () => {
           Build your AI app in minutes
         </h2>
         <div className="text-center text-muted-foreground mt-2 text-lg z-10">
-          {/* With Supavec, you can easily connect your files to AI and build an app
-          in minutes. */}
           {APP_NAME} is an open-source platform to create apps with RAG.
           <br />
           You can connect your data to AI in minutes.
@@ -25,7 +23,6 @@ export const CTA = () => {
             label="Create your Chat with PDF app"
           />
         </a>
-
         <RetroGrid />
       </div>
     </section>
