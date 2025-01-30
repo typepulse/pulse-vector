@@ -1,8 +1,11 @@
 import { ButtonColorful } from "@/components/ui/button-colorful";
 import { RetroGrid } from "@/components/ui/retro-grid";
 import { APP_NAME } from "@/app/consts";
+import { usePostHog } from "posthog-js/react";
 
 export const CTA = () => {
+  const posthog = usePostHog();
+
   return (
     <section className="text-center border-x border-b">
       <div className="relative flex h-[400px] w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-background md:shadow-xl">
@@ -17,7 +20,12 @@ export const CTA = () => {
           <br />
           You can connect your data to AI in minutes.
         </div>
-        <a href="https://www.supavec.com?src=examples-chat-with-pdf">
+        <a
+          href="https://www.supavec.com?src=examples-chat-with-pdf"
+          onClick={() => {
+            posthog.capture("Click CTA in Chat with PDF example");
+          }}
+        >
           <ButtonColorful
             className="mt-6 z-10"
             label="Create your Chat with PDF app"
