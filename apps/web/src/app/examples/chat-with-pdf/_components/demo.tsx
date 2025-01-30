@@ -8,7 +8,7 @@ import { useState } from "react";
 export const Demo = () => {
   const [showResult, setShowResult] = useState(false);
   const { messages, isLoading, handleSubmit, input, setInput } = useChat({
-    api: "/api/demo/chat-with-pdf",
+    api: "/api/examples/chat-with-pdf",
     initialMessages: [],
     onResponse() {
       setShowResult(true);
