@@ -30,8 +30,12 @@ export function FileUploadForm({
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      "application/pdf": [".pdf"],
-      "text/plain": [".txt"],
+      ...(placeholder.toLowerCase().includes("pdf")
+        ? { "application/pdf": [".pdf"] }
+        : {}),
+      ...(placeholder.toLowerCase().includes("text")
+        ? { "text/plain": [".txt"] }
+        : {}),
     },
     maxFiles: 1,
   });
