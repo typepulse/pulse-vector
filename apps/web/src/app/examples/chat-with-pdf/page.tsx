@@ -1,3 +1,4 @@
+import { APP_NAME } from "@/app/consts";
 import { Demo } from "./_components/demo";
 import { FAQ } from "./_components/faq";
 
@@ -25,6 +26,22 @@ export default function ChatWithPdf() {
         <p className="mt-8 text-lg font-medium text-pretty text-muted-foreground sm:text-xl/8">
           No email required. 100% free. Done in 30 seconds.
         </p>
+        <div className="space-y-2 mt-4">
+          <p className="text-base text-muted-foreground">
+            Try summarizing your PDF or asking questions with our free Chat with
+            PDF.
+          </p>
+          <p className="text-base text-muted-foreground">
+            You can build an app like this in minutes with{" "}
+            <a
+              href="https://www.supavec.com"
+              className="underline text-sky-400"
+            >
+              {APP_NAME}
+            </a>
+            .
+          </p>
+        </div>
       </div>
       <Demo />
       <FAQ />
