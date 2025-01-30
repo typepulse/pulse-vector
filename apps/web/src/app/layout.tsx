@@ -30,12 +30,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://api.fontshare.com/css?f%5B%5D=switzer@400,500,600,700&amp;display=swap"
-        />
-      </head>
       <CSPostHogProvider>
         <body className="min-h-screen bg-background antialiased w-full mx-auto scroll-smooth font-sans">
           <ThemeProvider
