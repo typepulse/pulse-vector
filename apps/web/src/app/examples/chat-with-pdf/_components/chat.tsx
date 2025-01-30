@@ -8,8 +8,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { usePostHog } from "posthog-js/react";
 
 export const Chat = ({ fileId }: { fileId: string }) => {
-  const [showResult, setShowResult] = useState(false);
   const posthog = usePostHog();
+
+  const [showResult, setShowResult] = useState(false);
+  const [latestUserQuery, setLatestUserQuery] = useState<string | null>(null);
 
   const { messages, isLoading, handleSubmit, input, setInput } = useChat({
     body: {
@@ -25,6 +27,7 @@ export const Chat = ({ fileId }: { fileId: string }) => {
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setShowResult(false);
+    setLatestUserQuery(input);
     posthog.capture("Chatting with PDF example", {}, { send_instantly: true });
 
     console.log("submitted");
@@ -52,7 +55,12 @@ export const Chat = ({ fileId }: { fileId: string }) => {
           </button>
         </div>
       </form>
-      <div className="mt-4">
+      <div className="mt-6">
+        {latestUserQuery && (
+          <div className="text-base font-semibold text-muted-foreground mb-2">
+            {latestUserQuery}
+          </div>
+        )}
         {isLoading && !showResult ? (
           <div className="space-y-2">
             <Skeleton className="h-4 w-full" />
