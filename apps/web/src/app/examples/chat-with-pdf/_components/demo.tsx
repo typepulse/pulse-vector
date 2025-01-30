@@ -5,8 +5,11 @@ import { useEffect, useState } from "react";
 import { FileList } from "./file-list";
 import { Chat } from "./chat";
 import { toast } from "sonner";
+import { usePostHog } from "posthog-js/react";
 
 export const Demo = () => {
+  const posthog = usePostHog();
+
   const [doneUploading, setDoneUploading] = useState(false);
   const [fileId, setFileId] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -40,6 +43,12 @@ export const Demo = () => {
 
     localStorage.setItem("pdfFileId_demo", result.file_id);
     localStorage.setItem("pdfFileName_demo", result.file_name);
+
+    posthog.capture(
+      "Upload file in Chat with PDF example",
+      {},
+      { send_instantly: true }
+    );
 
     return response;
   };
