@@ -17,7 +17,6 @@ const faqs = [
     answer:
       "I built this using Supavec. It's an open source platform to create apps with RAG.",
   },
-  // More questions...
 ];
 
 export const FAQ = () => {
