@@ -3,7 +3,7 @@ import { Demo } from "./_components/demo";
 import { FAQ } from "./_components/faq";
 
 export const metadata = {
-  title: "Free Chat with PDF",
+  title: "100% Free Chat with PDF",
   description:
     "Chat with any PDF document for free. No email required. Get instant answers from your PDF files using AI.",
   openGraph: {
