@@ -2,7 +2,7 @@
 
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Upload, File, X, Loader2 } from "lucide-react";
+import { File, X, Loader2, ImagePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -76,15 +76,13 @@ export function FileUploadForm({ apiKey }: { apiKey: string }) {
     <div className="mt-4">
       <div
         {...getRootProps()}
-        className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
-          isDragActive
-            ? "border-primary bg-primary/10"
-            : "border-gray-300 hover:border-primary"
-        }`}
+        className="border-2 border-dashed border-muted-foreground/25 hover:bg-muted rounded-lg p-6 cursor-pointer transition-colors bg-muted/50 flex flex-col items-center justify-center"
       >
         <input {...getInputProps()} />
-        <Upload className="mx-auto h-12 w-12 text-gray-400" />
-        <p className="mt-2 text-sm text-gray-600">
+        <div className="rounded-full bg-background p-3 shadow-sm">
+          <ImagePlus className="size-6 text-muted-foreground" />
+        </div>
+        <p className="mt-2 text-sm">
           {isDragActive
             ? "Drop the file here"
             : "Drag 'n' drop a PDF or text file here (max 20MB), or click to select one"}
