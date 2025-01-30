@@ -1,5 +1,13 @@
 import { BorderText } from "@/components/ui/border-number";
 import { siteConfig } from "@/lib/config";
+import Link from "next/link";
+
+const examples = [
+  {
+    title: "Chat with PDF",
+    href: "/examples/chat-with-pdf",
+  },
+];
 
 export function Footer() {
   return (
@@ -11,6 +19,21 @@ export function Footer() {
           <h2 className="text-lg font-bold text-foreground">
             {siteConfig.name}
           </h2>
+        </div>
+
+        <div>
+          <h6 className="text-sm text-secondary-foreground/80 font-semibold mb-2">
+            Examples
+          </h6>
+          {examples.map((example) => (
+            <Link
+              key={example.href}
+              href={example.href}
+              className="text-sm text-muted-foreground hover:text-foreground transition-color ease-linear"
+            >
+              {example.title}
+            </Link>
+          ))}
         </div>
 
         <div className="flex gap-x-2">
