@@ -22,7 +22,7 @@ export const Demo = () => {
   };
 
   return (
-    <div className="space-y-8 min-w-[400px] w-full border rounded-3xl p-4 mt-8">
+    <div className="space-y-8 min-w-[400px] w-full p-4 mt-8">
       <FileUploadForm apiKey={`fdshj`} />
       <div className="relative max-w-xl w-full mx-auto flex flex-col gap-2">
         <form className="relative" onSubmit={submitForm}>

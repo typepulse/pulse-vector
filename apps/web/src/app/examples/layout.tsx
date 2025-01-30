@@ -13,7 +13,9 @@ export default async function ExamplesLayout({
   return (
     <>
       <Header isLoggedIn={!!user?.user} />
-      <main className="w-full container mx-auto py-24">{children}</main>
+      <main className="w-full container mx-auto py-24 border-x border-b">
+        {children}
+      </main>
       <Footer />
     </>
   );
