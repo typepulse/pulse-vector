@@ -19,7 +19,9 @@ export default function ChatWithPdf() {
           Free Chat with PDF
         </h1>
         <p className="mt-8 text-lg font-medium text-pretty text-muted-foreground sm:text-xl/8">
-          No email required. 100% free. Done in 30 seconds.
+          No email required. 100% free.
+          <br />
+          Just upload a PDF and start to chat with it.
         </p>
         <div className="space-y-2 mt-4">
           <p className="text-base text-muted-foreground">
