@@ -8,12 +8,18 @@ import { FileList } from "./file-list";
 
 export const Demo = () => {
   const [showResult, setShowResult] = useState(false);
-  const [fileId, setFileId] = useState<string | null>(null);
+  const [doneUploading, setDoneUploading] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
+
   useEffect(() => {
-    setFileId(localStorage.getItem("pdfFileId_demo"));
-    setFileName(localStorage.getItem("pdfFileName_demo"));
+    localStorage.removeItem("pdfFileName_demo");
   }, []);
+
+  useEffect(() => {
+    if (doneUploading) {
+      setFileName(localStorage.getItem("pdfFileName_demo"));
+    }
+  }, [doneUploading]);
 
   const { messages, isLoading, handleSubmit, input, setInput } = useChat({
     api: "/api/examples/chat-with-pdf",
@@ -30,6 +36,8 @@ export const Demo = () => {
   };
 
   const submitFile = async (formData: FormData) => {
+    setDoneUploading(false);
+
     const response = await fetch("/api/examples/upload-file", {
       method: "POST",
       body: formData,
@@ -45,11 +53,16 @@ export const Demo = () => {
     return response;
   };
 
+  const callBack = () => {
+    setDoneUploading(true);
+  };
+
   return (
     <div className="space-y-8 min-w-[400px] w-full p-4 mt-8">
       <FileUploadForm
         placeholder="Drag 'n' drop a PDF file here (max 20MB), or click to select one"
         submitFile={submitFile}
+        callBack={callBack}
       />
       <div className="relative max-w-xl w-full mx-auto flex flex-col gap-4">
         {fileName && <FileList fileName={fileName} setFileName={setFileName} />}

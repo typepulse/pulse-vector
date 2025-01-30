@@ -10,10 +10,12 @@ import { useRouter } from "next/navigation";
 export function FileUploadForm({
   submitFile,
   placeholder = "Drag 'n' drop a PDF or text file here (max 20MB), or click to select one",
+  callBack,
 }: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   submitFile: (formData: FormData) => Promise<any>;
   placeholder?: string;
+  callBack?: () => void;
 }) {
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -60,6 +62,8 @@ export function FileUploadForm({
       console.log("File processed successfully:", result);
       setFiles([]);
       router.refresh();
+      callBack?.();
+
       toast.success("File processed successfully");
     } catch (error) {
       console.error("Upload failed:", error);
