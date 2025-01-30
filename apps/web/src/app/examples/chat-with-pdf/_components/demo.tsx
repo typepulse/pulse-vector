@@ -31,14 +31,13 @@ export const Demo = () => {
       body: formData,
     });
 
+    const responseClone = response.clone();
+    const result = await responseClone.json();
     if (!response.ok) {
-      const responseClone = response.clone();
-      const result = await responseClone.json();
       toast.error(result.error);
       return { success: false };
     }
 
-    const result = await response.json();
     localStorage.setItem("pdfFileId_demo", result.file_id);
     localStorage.setItem("pdfFileName_demo", result.file_name);
 
