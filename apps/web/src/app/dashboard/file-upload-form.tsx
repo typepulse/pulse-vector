@@ -9,7 +9,13 @@ import { useRouter } from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export function FileUploadForm({ apiKey }: { apiKey: string }) {
+export function FileUploadForm({
+  apiKey,
+  placeholder = "Drag 'n' drop a PDF or text file here (max 20MB), or click to select one",
+}: {
+  apiKey: string;
+  placeholder?: string;
+}) {
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -83,9 +89,7 @@ export function FileUploadForm({ apiKey }: { apiKey: string }) {
           <ImagePlus className="size-6 text-muted-foreground" />
         </div>
         <p className="mt-2 text-sm">
-          {isDragActive
-            ? "Drop the file here"
-            : "Drag 'n' drop a PDF or text file here (max 20MB), or click to select one"}
+          {isDragActive ? "Drop the file here" : placeholder}
         </p>
       </div>
       {files.length > 0 && (

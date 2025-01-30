@@ -23,7 +23,10 @@ export const Demo = () => {
 
   return (
     <div className="space-y-8 min-w-[400px] w-full p-4 mt-8">
-      <FileUploadForm apiKey={`fdshj`} />
+      <FileUploadForm
+        apiKey={`fdshj`}
+        placeholder="Drag 'n' drop a PDF file here (max 20MB), or click to select one"
+      />
       <div className="relative max-w-xl w-full mx-auto flex flex-col gap-2">
         <form className="relative" onSubmit={submitForm}>
           <textarea
