@@ -5,9 +5,11 @@ import { useChat } from "ai/react";
 import { CornerRightUp } from "lucide-react";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { usePostHog } from "posthog-js/react";
 
 export const Chat = ({ fileId }: { fileId: string }) => {
   const [showResult, setShowResult] = useState(false);
+  const posthog = usePostHog();
 
   const { messages, isLoading, handleSubmit, input, setInput } = useChat({
     body: {
@@ -23,6 +25,8 @@ export const Chat = ({ fileId }: { fileId: string }) => {
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setShowResult(false);
+    posthog.capture("Chatting with PDF example", {}, { send_instantly: true });
+
     console.log("submitted");
     handleSubmit();
   };
