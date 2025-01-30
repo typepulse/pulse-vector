@@ -5,12 +5,7 @@ import { FAQ } from "./_components/faq";
 export const metadata = {
   title: "100% Free Chat with PDF",
   description:
-    "Chat with any PDF document for free. No email required. Get instant answers from your PDF files using AI.",
-  openGraph: {
-    title: "Free Chat with PDF",
-    description:
-      "Chat with any PDF document for free. No email required. Get instant answers from your PDF files using AI.",
-  },
+    "Chat with any PDF document instantly using our free AI-powered tool! Simply upload your PDF and start asking questions to get quick, accurate answers from your documents. No more endless scrolling or searching - interact naturally with your PDFs and extract the information you need in seconds.",
   alternates: {
     canonical: "/examples/chat-with-pdf",
   },
