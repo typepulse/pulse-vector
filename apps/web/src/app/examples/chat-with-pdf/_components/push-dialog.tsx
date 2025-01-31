@@ -1,26 +1,24 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { posthog } from "posthog-js";
+import { ButtonColorful } from "@/components/ui/button-colorful";
+import { useRouter } from "next/navigation";
+import { APP_NAME } from "@/app/consts";
+import meDialog from "..//me-dialog.png";
+import Image from "next/image";
 
 export const PushDialog = ({
   open,
@@ -34,12 +32,17 @@ export const PushDialog = ({
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="w-full max-w-[600px]">
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
-            </DialogDescription>
+            <Image
+              src={meDialog}
+              className="w-full"
+              alt="Want to Build an AI app in minutes with your data?"
+            />
+
+            <DialogTitle className="text-center text-xl font-bold mt-8">
+              Build your next AI app with {APP_NAME} in minutes.
+            </DialogTitle>
           </DialogHeader>
           <ProfileForm />
         </DialogContent>
@@ -49,36 +52,46 @@ export const PushDialog = ({
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerContent>
+      <DrawerContent className="pb-8">
         <DrawerHeader className="text-left">
-          <DrawerTitle>Edit profile</DrawerTitle>
-          <DrawerDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DrawerDescription>
+          <Image
+            src={meDialog}
+            className="w-full"
+            alt="Want to Build an AI app in minutes with your data?"
+          />
+
+          <DrawerTitle className="text-center text-lg font-bold mt-8">
+            Build your next AI app with {APP_NAME} in minutes.
+          </DrawerTitle>
         </DrawerHeader>
-        <ProfileForm className="px-4" />
-        <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter>
+        <ProfileForm />
       </DrawerContent>
     </Drawer>
   );
 };
 
-function ProfileForm({ className }: React.ComponentProps<"form">) {
+function ProfileForm() {
+  const router = useRouter();
+
   return (
-    <form className={cn("grid items-start gap-4", className)}>
-      <div className="grid gap-2">
-        <Label htmlFor="email">Email</Label>
-        <Input type="email" id="email" defaultValue="shadcn@example.com" />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="username">Username</Label>
-        <Input id="username" defaultValue="@shadcn" />
-      </div>
-      <Button type="submit">Save changes</Button>
-    </form>
+    <div className="flex flex-col items-center gap-y-3">
+      <ButtonColorful
+        className="z-10"
+        label="Create your Chat with PDF app"
+        onClick={() => {
+          posthog.capture(
+            "Click Dialog CTA in Chat with PDF example",
+            {},
+            {
+              send_instantly: true,
+            }
+          );
+
+          router.push(
+            "https://www.supavec.com/login?src=examples-chat-with-pdf"
+          );
+        }}
+      />
+    </div>
   );
 }
