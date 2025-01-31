@@ -36,7 +36,7 @@ export const Chat = ({ fileId }: { fileId: string }) => {
     async onFinish() {
       if (hasShownDialog()) return;
 
-      await sleep(5000);
+      await sleep(4000);
 
       localStorage.setItem("hasShownChatPdfDialog", Date.now().toString());
       setOpenDialog(true);
@@ -47,7 +47,11 @@ export const Chat = ({ fileId }: { fileId: string }) => {
     e.preventDefault();
     setShowResult(false);
     setLatestUserQuery(input);
-    posthog.capture("Chatting with PDF example", {}, { send_instantly: true });
+    posthog.capture(
+      "Chatting with PDF example",
+      { query: input },
+      { send_instantly: true }
+    );
     handleSubmit();
   };
 
