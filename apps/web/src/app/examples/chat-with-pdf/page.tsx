@@ -1,6 +1,7 @@
 import { APP_NAME } from "@/app/consts";
 import { Demo } from "./_components/demo";
 import { FAQ } from "./_components/faq";
+import { DemoVideo } from "./_components/demo-video";
 
 export const metadata = {
   title: "100% Free Chat with PDF",
@@ -41,6 +42,7 @@ export default function ChatWithPdf() {
         </div>
       </div>
       <Demo />
+      <DemoVideo />
       <FAQ />
     </>
   );
