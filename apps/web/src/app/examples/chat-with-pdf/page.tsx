@@ -23,7 +23,7 @@ export default function ChatWithPdf() {
           <br />
           Just upload a PDF and start to chat with it.
         </p>
-        <div className="space-y-2 mt-4">
+        <div className="space-y-1 mt-4">
           <p className="text-base text-muted-foreground">
             Try summarizing your PDF or asking questions with our free Chat with
             PDF.
