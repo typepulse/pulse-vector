@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePostHog } from "posthog-js/react";
 import { PushDialog } from "./push-dialog";
+import { sleep } from "@/lib/utils";
 
 const hasShownDialog = () => {
   const hasShownDialog = localStorage.getItem("hasShownChatPdfDialog");
@@ -32,8 +33,10 @@ export const Chat = ({ fileId }: { fileId: string }) => {
     onResponse() {
       setShowResult(true);
     },
-    onFinish() {
+    async onFinish() {
       if (hasShownDialog()) return;
+
+      await sleep(5000);
 
       localStorage.setItem("hasShownChatPdfDialog", Date.now().toString());
       setOpenDialog(true);
