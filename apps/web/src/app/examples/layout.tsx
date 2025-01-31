@@ -15,7 +15,7 @@ export default async function ExamplesLayout({
     <>
       <Header isLoggedIn={!!user?.user} />
       <main className="w-full container mx-auto">
-        <div className="border-x border-b pt-12 md:py-24">{children}</div>
+        <div className="border-x border-b pt-12 pb-6">{children}</div>
         <CTA />
       </main>
       <Footer />

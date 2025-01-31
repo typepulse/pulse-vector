@@ -25,46 +25,44 @@ const faqs = [
 
 export const FAQ = () => {
   return (
-    <section>
-      <div className="mx-auto w-full text-center px-6 py-24 sm:py-32 lg:px-8 lg:py-40">
-        <div className="mx-auto max-w-4xl divide-y text-muted-foreground">
-          <div>
-            <h2 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-              Frequently asked questions
-            </h2>
-            <p className="mt-4 text-lg font-medium text-muted-foreground">
-              Answers to common questions about our free Chat with PDF app.
-            </p>
-          </div>
-          <dl className="mt-10 space-y-6 divide-y text-muted-foreground">
-            {faqs.map((faq) => (
-              <Disclosure key={faq.question} as="div" className="pt-6">
-                <dt>
-                  <DisclosureButton className="group flex w-full items-start justify-between text-left text-foreground">
-                    <span className="text-base/7 font-semibold text-left">
-                      {faq.question}
-                    </span>
-                    <span className="ml-6 flex h-7 items-center">
-                      <PlusSmallIcon
-                        aria-hidden="true"
-                        className="size-6 group-data-[open]:hidden"
-                      />
-                      <MinusSmallIcon
-                        aria-hidden="true"
-                        className="size-6 group-[&:not([data-open])]:hidden"
-                      />
-                    </span>
-                  </DisclosureButton>
-                </dt>
-                <DisclosurePanel as="dd" className="mt-2 pr-12">
-                  <p className="text-base/7 text-muted-foreground text-left">
-                    {faq.answer}
-                  </p>
-                </DisclosurePanel>
-              </Disclosure>
-            ))}
-          </dl>
+    <section className="mx-auto w-full text-center px-6 pt-24 sm:pt-32 lg:px-8">
+      <div className="mx-auto max-w-4xl divide-y text-muted-foreground">
+        <div>
+          <h2 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+            Frequently asked questions
+          </h2>
+          <p className="mt-4 text-lg font-medium text-muted-foreground">
+            Answers to common questions about our free Chat with PDF app.
+          </p>
         </div>
+        <dl className="mt-10 space-y-6 divide-y text-muted-foreground">
+          {faqs.map((faq) => (
+            <Disclosure key={faq.question} as="div" className="pt-6">
+              <dt>
+                <DisclosureButton className="group flex w-full items-start justify-between text-left text-foreground">
+                  <span className="text-base/7 font-semibold text-left">
+                    {faq.question}
+                  </span>
+                  <span className="ml-6 flex h-7 items-center">
+                    <PlusSmallIcon
+                      aria-hidden="true"
+                      className="size-6 group-data-[open]:hidden"
+                    />
+                    <MinusSmallIcon
+                      aria-hidden="true"
+                      className="size-6 group-[&:not([data-open])]:hidden"
+                    />
+                  </span>
+                </DisclosureButton>
+              </dt>
+              <DisclosurePanel as="dd" className="mt-2 pr-12">
+                <p className="text-base/7 text-muted-foreground text-left">
+                  {faq.answer}
+                </p>
+              </DisclosurePanel>
+            </Disclosure>
+          ))}
+        </dl>
       </div>
     </section>
   );
