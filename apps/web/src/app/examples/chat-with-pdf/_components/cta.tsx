@@ -36,7 +36,9 @@ export const CTA = () => {
               }
             );
 
-            router.push("https://www.supavec.com?src=examples-chat-with-pdf");
+            router.push(
+              "https://www.supavec.com/login?src=examples-chat-with-pdf"
+            );
           }}
         />
         <RetroGrid />
