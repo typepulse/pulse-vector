@@ -2,6 +2,7 @@ import { APP_NAME } from "@/app/consts";
 import { Demo } from "./_components/demo";
 import { FAQ } from "./_components/faq";
 import { DemoVideo } from "./_components/demo-video";
+import { Stepper } from "./_components/steppper";
 
 export const metadata = {
   title: "100% Free Chat with PDF",
@@ -33,7 +34,7 @@ export default function ChatWithPdf() {
             You can build an app like this in minutes with{" "}
             <a
               href="https://www.supavec.com"
-              className="underline text-sky-400"
+              className="underline text-blue-500"
             >
               {APP_NAME}
             </a>
@@ -41,6 +42,7 @@ export default function ChatWithPdf() {
           </p>
         </div>
       </div>
+      <Stepper />
       <Demo />
       <DemoVideo />
       <FAQ />
