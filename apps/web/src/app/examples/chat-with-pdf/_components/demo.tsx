@@ -6,6 +6,7 @@ import { FileList } from "./file-list";
 import { Chat } from "./chat";
 import { toast } from "sonner";
 import { usePostHog } from "posthog-js/react";
+import { Stepper } from "./steppper";
 
 export const Demo = () => {
   const posthog = usePostHog();
@@ -59,6 +60,7 @@ export const Demo = () => {
 
   return (
     <div className="min-w-[400px] w-full p-4 mt-8 max-w-4xl mx-auto pb-24 sm:pb-32">
+      <Stepper />
       {!fileName && (
         <FileUploadForm
           placeholder="Drag 'n' drop a PDF file here (max 20MB), or click to select one"
