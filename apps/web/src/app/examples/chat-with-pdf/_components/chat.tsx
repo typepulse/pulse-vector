@@ -16,7 +16,13 @@ const hasShownDialog = () => {
   return !!hasShownDialog;
 };
 
-export const Chat = ({ fileId }: { fileId: string }) => {
+export const Chat = ({
+  fileId,
+  setStep,
+}: {
+  fileId: string;
+  setStep: (step: number) => void;
+}) => {
   const posthog = usePostHog();
 
   const [showResult, setShowResult] = useState(false);
@@ -34,6 +40,8 @@ export const Chat = ({ fileId }: { fileId: string }) => {
       setShowResult(true);
     },
     async onFinish() {
+      setStep(3);
+
       if (hasShownDialog()) return;
 
       await sleep(4000);

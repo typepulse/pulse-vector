@@ -15,6 +15,8 @@ export const Demo = () => {
   const [fileId, setFileId] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
 
+  const [step, setStep] = useState(1);
+
   useEffect(() => {
     localStorage.removeItem("pdfFileId_demo");
     localStorage.removeItem("pdfFileName_demo");
@@ -44,6 +46,7 @@ export const Demo = () => {
 
     localStorage.setItem("pdfFileId_demo", result.file_id);
     localStorage.setItem("pdfFileName_demo", result.file_name);
+    setStep(2);
 
     posthog.capture(
       "Upload file in Chat with PDF example",
@@ -60,7 +63,7 @@ export const Demo = () => {
 
   return (
     <div className="min-w-[400px] w-full p-4 mt-8 max-w-4xl mx-auto pb-24 sm:pb-32">
-      <Stepper />
+      <Stepper currentStep={step} />
       {!fileName && (
         <FileUploadForm
           placeholder="Drag 'n' drop a PDF file here (max 20MB), or click to select one"
@@ -70,7 +73,7 @@ export const Demo = () => {
       )}
       <div className="relative max-w-xl w-full mx-auto flex flex-col gap-5">
         {fileName && <FileList fileName={fileName} setFileName={setFileName} />}
-        {fileName && fileId && <Chat fileId={fileId} />}
+        {fileName && fileId && <Chat fileId={fileId} setStep={setStep} />}
       </div>
     </div>
   );
