@@ -28,9 +28,13 @@ export function Stepper({ currentStep = 1 }: { currentStep?: number }) {
               <FileText className="w-5 h-5 text-white" />
             </div>
             <div className="flex flex-col items-center">
-              <span className="text-sm font-medium text-gray-400">Step 1</span>
-              <span className="text-sm font-medium text-white">Upload PDF</span>
-              <span className="text-xs text-gray-500">
+              <span className="text-sm font-medium text-muted-foreground">
+                Step 1
+              </span>
+              <span className="text-sm font-medium text-foreground">
+                Upload PDF
+              </span>
+              <span className="text-xs text-muted-foreground">
                 Choose your document
               </span>
             </div>
@@ -48,9 +52,11 @@ export function Stepper({ currentStep = 1 }: { currentStep?: number }) {
               <MessageSquare className="w-5 h-5 text-white" />
             </div>
             <div className="flex flex-col items-center">
-              <span className="text-sm font-medium text-gray-400">Step 2</span>
-              <span className="text-sm font-medium text-white">Chat</span>
-              <span className="text-xs text-gray-500">
+              <span className="text-sm font-medium text-muted-foreground">
+                Step 2
+              </span>
+              <span className="text-sm font-medium text-foreground">Chat</span>
+              <span className="text-xs text-muted-foreground">
                 Ask questions about your PDF
               </span>
             </div>
