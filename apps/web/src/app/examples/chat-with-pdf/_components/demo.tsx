@@ -6,7 +6,7 @@ import { FileList } from "./file-list";
 import { Chat } from "./chat";
 import { toast } from "sonner";
 import { usePostHog } from "posthog-js/react";
-import { Stepper } from "./steppper";
+import { Stepper } from "./stepper";
 
 export const Demo = () => {
   const posthog = usePostHog();
