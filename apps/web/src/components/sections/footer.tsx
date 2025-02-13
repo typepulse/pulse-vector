@@ -9,61 +9,79 @@ const examples = [
   },
 ];
 
+const tools = [
+  {
+    title: "Supa Deep Reasearch",
+    href: "https://www.supa-deep-research.com",
+  },
+];
+
 export function Footer() {
   return (
     <footer className="flex flex-col gap-y-5 rounded-lg px-7 py-5 container">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-x-2">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="logo" className="size-8" />
-          <h2 className="text-lg font-bold text-foreground">
-            {siteConfig.name}
-          </h2>
+      <div className="flex gap-y-5 flex-col-reverse md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-3 md:items-start">
+          <div className="flex items-center gap-x-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="logo" className="size-8" />
+            <h2 className="text-lg font-bold text-foreground">
+              {siteConfig.name}
+            </h2>
+          </div>
+
+          <ul className="flex gap-x-5 gap-y-2 text-muted-foreground md:items-center">
+            {siteConfig.footer.socialLinks.map((link, index) => (
+              <li key={index}>
+                <a
+                  target="_blank"
+                  href={link.url}
+                  className="flex h-5 w-5 items-center justify-center text-muted-foreground transition-all duration-100 ease-linear hover:text-foreground hover:underline hover:underline-offset-4"
+                >
+                  {link.icon}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <p className="text-sm font-medium tracking-tight text-muted-foreground">
+            {siteConfig.footer.bottomText}
+          </p>
         </div>
 
-        <div>
-          <h6 className="text-sm text-secondary-foreground/80 font-semibold mb-2">
-            Examples
-          </h6>
-          {examples.map((example) => (
-            <Link
-              key={example.href}
-              href={example.href}
-              className="text-sm text-muted-foreground hover:text-foreground transition-color ease-linear"
-            >
-              {example.title}
-            </Link>
-          ))}
-        </div>
+        <div className="flex flex-1 justify-between md:justify-around">
+          <div>
+            <h6 className="text-sm text-secondary-foreground/80 font-semibold mb-2">
+              Examples
+            </h6>
+            {examples.map((example) => (
+              <Link
+                key={example.href}
+                href={example.href}
+                className="text-sm text-muted-foreground hover:text-foreground transition-color ease-linear"
+              >
+                {example.title}
+              </Link>
+            ))}
+          </div>
 
-        <div className="flex gap-x-2">
-          {siteConfig.footer.socialLinks.map((link, index) => (
-            <a
-              key={index}
-              target="_blank"
-              href={link.url}
-              className="flex h-5 w-5 items-center justify-center text-muted-foreground transition-all duration-100 ease-linear hover:text-foreground hover:underline hover:underline-offset-4"
-            >
-              {link.icon}
-            </a>
-          ))}
+          <div>
+            <h6 className="text-sm text-secondary-foreground/80 font-semibold mb-2">
+              Tools
+            </h6>
+            {tools.map((tool) => (
+              <Link
+                key={tool.href}
+                href={tool.href}
+                target="_blank"
+                className="text-sm text-muted-foreground hover:text-foreground transition-color ease-linear"
+              >
+                {tool.title}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
-      <div className="flex flex-col justify-between gap-y-5 md:flex-row md:items-center">
-        {/* <ul className="flex flex-col gap-x-5 gap-y-2 text-muted-foreground md:flex-row md:items-center">
-          {siteConfig.footer.links.map((link, index) => (
-            <li
-              key={index}
-              className="text-[15px]/normal font-medium text-muted-foreground transition-all duration-100 ease-linear hover:text-foreground hover:underline hover:underline-offset-4"
-            >
-              <a href={link.url}>{link.text}</a>
-            </li>
-          ))}
-        </ul> */}
-        <div className="flex items-center justify-between text-sm font-medium tracking-tight text-muted-foreground">
-          <p>{siteConfig.footer.bottomText}</p>
-        </div>
-      </div>
+
       <BorderText
         text={siteConfig.footer.brandText}
         className="text-[clamp(3rem,15vw,10rem)] overflow-hidden font-mono tracking-tighter font-medium"
