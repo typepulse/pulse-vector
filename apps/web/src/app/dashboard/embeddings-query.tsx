@@ -85,7 +85,7 @@ export function EmbeddingsQuery({
         <div>
           <label
             htmlFor="file-select"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium mb-1"
           >
             Select an uploaded file:
           </label>
@@ -103,10 +103,7 @@ export function EmbeddingsQuery({
           </Select>
         </div>
         <div>
-          <label
-            htmlFor="query"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
+          <label htmlFor="query" className="block text-sm font-medium mb-1">
             Enter your query:
           </label>
           <Input
