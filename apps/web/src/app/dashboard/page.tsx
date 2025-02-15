@@ -70,13 +70,23 @@ export default async function Page() {
             <p>Generate your API key to get started with Supavec.</p>
           </div>
           <div className="min-h-[100vh] flex-1 rounded-xl md:min-h-min p-4">
-            <h3 className="text-xl font-semibold mb-4">API Key Generation</h3>
-            <p>Your API key will appear here once generated.</p>
-            {Array.isArray(apiKeys) && apiKeys?.length > 0 ? (
+            <div className="flex">
+              <div className="p-4 rounded-xl border basis-full md:basis-1/2 bg-muted/50">
+                <h3 className="text-xl font-semibold mb-4">
+                  API Key Generation
+                </h3>
+                <p>Your API key will appear here once generated.</p>
+                {Array.isArray(apiKeys) && apiKeys?.length > 0 ? (
+                  <span className="p-1 text-sm bg-muted-foreground/20 rounded-md">
+                    {apiKeys[0].api_key}
+                  </span>
+                ) : (
+                  <GenerateForm />
+                )}
+              </div>
+            </div>
+            {Array.isArray(apiKeys) && apiKeys?.length > 0 && (
               <>
-                <span className="p-1 text-sm bg-muted-foreground/20 rounded-md">
-                  {apiKeys[0].api_key}
-                </span>
                 <h3 className="text-xl font-semibold mb-4 mt-8">Playground</h3>
                 <div className="flex gap-4 flex-col md:flex-row">
                   <div className="min-h-[50vh] flex-1 rounded-xl bg-muted/50 md:min-h-min p-4 border">
@@ -115,8 +125,6 @@ export default async function Page() {
                   </div>
                 </div>
               </>
-            ) : (
-              <GenerateForm />
             )}
           </div>
         </div>
