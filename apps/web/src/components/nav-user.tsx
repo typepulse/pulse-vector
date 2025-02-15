@@ -27,6 +27,8 @@ import {
 } from "@/components/ui/sidebar";
 import { signOut } from "@/app/login/actions";
 import { LogoutButton } from "./logout-button";
+import { Icons } from "./icons";
+import Link from "next/link";
 
 export function NavUser({
   user,
@@ -42,6 +44,18 @@ export function NavUser({
 
   return (
     <SidebarMenu>
+      <SidebarMenuItem>
+        <SidebarMenuButton asChild tooltip="Discord">
+          <Link
+            href="https://go.supavec.com/discord-dashboard"
+            target="target_blank"
+          >
+            <Icons.discord />
+            <span>Discord</span>
+          </Link>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
