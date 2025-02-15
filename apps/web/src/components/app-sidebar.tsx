@@ -1,7 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { BookOpen, SquareTerminal, GalleryVerticalEnd } from "lucide-react";
+import {
+  BookOpen,
+  SquareTerminal,
+  GalleryVerticalEnd,
+  Video,
+} from "lucide-react";
 
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
@@ -59,6 +64,12 @@ export function AppSidebar({
         title: "Documentation",
         url: "https://docs.supavec.com/",
         icon: BookOpen,
+        isExternal: true,
+      },
+      {
+        title: "Tutorial",
+        url: "https://go.supavec.com/tutorial-video",
+        icon: Video,
         isExternal: true,
       },
     ],
