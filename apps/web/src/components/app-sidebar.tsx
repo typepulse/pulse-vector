@@ -55,11 +55,6 @@ export function AppSidebar({
         icon: SquareTerminal,
         isActive: true,
       },
-      // {
-      //   title: "Generate API Key",
-      //   url: "/dsahboard/generate-apikey",
-      //   icon: Key,
-      // },
       {
         title: "Documentation",
         url: "https://docs.supavec.com/",
