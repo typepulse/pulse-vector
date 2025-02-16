@@ -9,6 +9,7 @@ import { HowToUse } from "@/components/sections/how-to-use";
 import { Community } from "@/components/sections/community";
 import { CTA } from "@/components/sections/cta";
 import { Footer } from "@/components/sections/footer";
+import { ProductHuntHeader } from "@/components/product-hunt-header";
 
 export const metadata: Metadata = {
   description:
@@ -21,6 +22,7 @@ export default async function Home() {
 
   return (
     <main>
+      <ProductHuntHeader />
       <Header isLoggedIn={!!user?.user} />
       <Hero />
       <WhyIBuit />

@@ -144,7 +144,15 @@ export function Hero() {
     <Section id="hero">
       <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-x-8 w-full p-6 lg:p-12 border-x overflow-hidden">
         <div className="flex flex-col justify-start items-start lg:col-span-1">
-          <HeroPill />
+          {/* <HeroPill /> */}
+          <a href="https://go.supavec.com/ph" target="_blank">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=871672&theme=dark&t=1739693060982"
+              alt="Supavec - The&#0032;open&#0032;source&#0032;RAG&#0032;as&#0032;a&#0032;service&#0032;platform | Product Hunt"
+              className="w-[250px] h-[54px]"
+            />
+          </a>
           <HeroTitles />
           <HeroCTA />
         </div>
