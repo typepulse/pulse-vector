@@ -10,6 +10,7 @@ import {
   UsersIcon,
   Wrench,
   ZapIcon,
+  Linkedin,
 } from "lucide-react";
 
 export const BLUR_FADE_DELAY = 0.15;
@@ -22,7 +23,7 @@ export const siteConfig = {
   keywords: ["Rag As A Service", "Tool Integration", "Workflow Automation"],
   links: {
     twitter: "https://x.com/supavec_ai",
-    discord: "https://discord.gg/MS9CjPeXF4",
+    discord: "https://go.supavec.com/discord",
     github: "https://github.com/taishikato/supavec",
   },
   hero: {
@@ -144,20 +145,20 @@ export const siteConfig = {
   footer: {
     socialLinks: [
       {
-        icon: <Icons.github className="h-5 w-5" />,
+        icon: <Icons.github className="size-5" />,
         url: "https://github.com/taishikato/supavec",
       },
       {
-        icon: <Icons.twitter className="h-5 w-5" />,
+        icon: <Icons.twitter className="size-5" />,
         url: "https://x.com/supavec_ai",
       },
       {
-        icon: <Icons.discord className="h-5 w-5" />,
-        url: "https://discord.gg/MS9CjPeXF4",
+        icon: <Icons.discord className="size-5" />,
+        url: "https://go.supavec.com/discord",
       },
       {
-        icon: <Icons.beehiiv className="size-5" />,
-        url: "https://supavec-ship-letter.beehiiv.com/",
+        icon: <Linkedin className="size-5" />,
+        url: "https://www.linkedin.com/company/supavec",
       },
     ],
     // links: [
