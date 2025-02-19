@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { createClient } from "@/utils/supabase/server";
 import { Header } from "@/components/sections/header";
 import { Hero } from "@/components/sections/hero";
+import { FeaturedSection } from "@/components/sections/featured-section";
 import { WhyIBuit } from "@/components/sections/why-i-built";
 import { WhatIsRag } from "@/components/sections/what-is-rag";
 import { WhySupavec } from "@/components/sections/why-supavec";
@@ -23,6 +24,7 @@ export default async function Home() {
     <main>
       <Header isLoggedIn={!!user?.user} />
       <Hero />
+      <FeaturedSection />
       <WhyIBuit />
       <WhatIsRag />
       <WhySupavec />
