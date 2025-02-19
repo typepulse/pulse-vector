@@ -9,11 +9,11 @@ export function FeaturedSection() {
       <div className="border overflow-hidden w-full p-6 lg:p-12">
         <div className="flex flex-col items-center text-center space-y-3">
           <div className="flex items-center justify-center space-x-2">
-            <span className="text-base font-medium text-gray-300">
+            <span className="text-base font-medium text-foreground/90">
               Featured on Product Hunt Newsletter
             </span>
           </div>
-          <p className="max-w-[600px] text-gray-400 text-base">
+          <p className="max-w-[600px] text-muted-foreground text-base">
             A flexible, open-source alternative to closed RAG systems, giving
             developers full control without proprietary limitations.
           </p>
