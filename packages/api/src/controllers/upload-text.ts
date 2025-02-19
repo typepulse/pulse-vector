@@ -129,7 +129,7 @@ export const uploadText = async (req: Request, res: Response) => {
     });
 
     logApiUsageAsync({
-      endpoint: "/embeddings",
+      endpoint: "/upload_text",
       userId: apiKeyData.user_id || "",
       success: true,
     });
@@ -152,7 +152,7 @@ export const uploadText = async (req: Request, res: Response) => {
 
       if (apiKeyData?.user_id) {
         logApiUsageAsync({
-          endpoint: "/embeddings",
+          endpoint: "/upload_text",
           userId: apiKeyData.user_id,
           success: false,
           error: error instanceof Error ? error.message : "Unknown error",

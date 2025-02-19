@@ -82,7 +82,7 @@ export const userFiles = async (req: Request, res: Response) => {
     });
 
     logApiUsageAsync({
-      endpoint: "/user_files",
+      endpoint: "/upload_files",
       userId: apiKeyData.user_id || "",
       success: true,
     });
@@ -108,7 +108,7 @@ export const userFiles = async (req: Request, res: Response) => {
 
       if (apiKeyData?.user_id) {
         logApiUsageAsync({
-          endpoint: "/user_files",
+          endpoint: "/upload_files",
           userId: apiKeyData.user_id,
           success: false,
           error: error instanceof Error ? error.message : "Unknown error",
