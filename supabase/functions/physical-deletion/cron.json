@@ -1,0 +1,6 @@
+{
+  "name": "physical-deletion",
+  "schedule": "0 0 * * *",
+  "function": "physical-deletion",
+  "description": "Daily physical deletion of logically deleted documents older than configured retention period"
+} 

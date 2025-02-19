@@ -1,5 +1,5 @@
 import process from "node:process";
-import { createClient } from "npm:@supabase/supabase-js";
+import { createClient } from "jsr:@supabase/supabase-js@2";
 
 type ActivityResponse = {
   user_id: string;
