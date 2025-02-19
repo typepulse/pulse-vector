@@ -416,6 +416,12 @@ export type Database = {
           similarity: number
         }[]
       }
+      physically_delete_documents: {
+        Args: {
+          document_ids: number[]
+        }
+        Returns: undefined
+      }
       sparsevec_out: {
         Args: {
           "": unknown

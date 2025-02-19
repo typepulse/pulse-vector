@@ -26,6 +26,11 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
+// Add beforeunload event listener to handle shutdown gracefully
+addEventListener("beforeunload", () => {
+  console.log("Physical deletion function will be shutdown");
+});
+
 async function deleteExpiredDocuments(
   supabaseAdmin: SupabaseClient<Database>,
   config: Config,
@@ -97,29 +102,23 @@ async function deleteExpiredDocuments(
   return { deletedCount, errors };
 }
 
-serve(async (req: Request) => {
-  if (req.method === "OPTIONS") {
-    return new Response("ok", { headers: corsHeaders });
-  }
-
+serve(() => {
   try {
-    // Get configuration from request or use defaults
-    let config = DEFAULT_CONFIG;
-    if (req.method === "POST") {
-      const body = await req.json();
-      config = { ...DEFAULT_CONFIG, ...body };
-    }
+    const config = DEFAULT_CONFIG;
 
-    const result = await deleteExpiredDocuments(supabaseAdmin, config);
+    const deletionPromise = deleteExpiredDocuments(supabaseAdmin, config);
+    // Use EdgeRuntime.waitUntil to run the deletion in the background
+    // @ts-expect-error EdgeRuntime is available in Deno
+    EdgeRuntime.waitUntil(deletionPromise);
 
     return new Response(
       JSON.stringify({
         success: true,
-        ...result,
+        message: "Physical deletion process started in the background",
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 200,
+        status: 202,
       },
     );
   } catch (error) {
