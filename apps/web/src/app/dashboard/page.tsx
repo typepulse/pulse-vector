@@ -86,45 +86,41 @@ export default async function Page() {
               </div>
             </div>
             {Array.isArray(apiKeys) && apiKeys?.length > 0 && (
-              <>
+              <div className="flex gap-4 flex-col">
                 <h3 className="text-xl font-semibold mb-4 mt-8">Playground</h3>
-                <div className="flex gap-4 flex-col md:flex-row">
-                  <div className="min-h-[50vh] flex-1 rounded-xl bg-muted/50 md:min-h-min p-4 border">
-                    <Tabs defaultValue="upload" className="space-y-4">
-                      <TabsList>
-                        <TabsTrigger value="upload">Upload files</TabsTrigger>
-                        <TabsTrigger value="content">
-                          Submit Content
-                        </TabsTrigger>
-                      </TabsList>
-                      <TabsContent value="upload" className="space-y-4">
-                        <div className="mt-6">
-                          <h4 className="text-lg font-semibold mb-4">
-                            File Upload
-                          </h4>
-                          <p className="mb-4">
-                            Upload PDF files to generate embeddings.
-                          </p>
-                          <UploadFormWrapper apiKey={apiKeys[0].api_key!} />
-                          <UploadedFilesList
-                            files={uploadedFiles}
-                            apiKey={apiKeys[0].api_key!}
-                          />
-                        </div>
-                      </TabsContent>
-                      <TabsContent value="content">
-                        <ContentSubmission apiKey={apiKeys[0].api_key!} />
-                      </TabsContent>
-                    </Tabs>
-                  </div>
-                  <div className="min-h-[50vh] flex-1 rounded-xl bg-muted/50 md:min-h-min p-4 border">
-                    <EmbeddingsQuery
-                      uploadedFiles={uploadedFiles}
-                      apiKey={apiKeys[0].api_key!}
-                    />
-                  </div>
+                <div className="min-h-[50vh] flex-1 rounded-xl bg-muted/50 md:min-h-min p-4 border">
+                  <Tabs defaultValue="upload" className="space-y-4">
+                    <TabsList>
+                      <TabsTrigger value="upload">Upload files</TabsTrigger>
+                      <TabsTrigger value="content">Submit Content</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="upload" className="space-y-4">
+                      <div className="mt-6">
+                        <h4 className="text-lg font-semibold mb-4">
+                          File Upload
+                        </h4>
+                        <p className="mb-4">
+                          Upload PDF files to generate embeddings.
+                        </p>
+                        <UploadFormWrapper apiKey={apiKeys[0].api_key!} />
+                        <UploadedFilesList
+                          files={uploadedFiles}
+                          apiKey={apiKeys[0].api_key!}
+                        />
+                      </div>
+                    </TabsContent>
+                    <TabsContent value="content">
+                      <ContentSubmission apiKey={apiKeys[0].api_key!} />
+                    </TabsContent>
+                  </Tabs>
                 </div>
-              </>
+                <div className="min-h-[50vh] flex-1 rounded-xl bg-muted/50 md:min-h-min p-4 border">
+                  <EmbeddingsQuery
+                    uploadedFiles={uploadedFiles}
+                    apiKey={apiKeys[0].api_key!}
+                  />
+                </div>
+              </div>
             )}
           </div>
         </div>
