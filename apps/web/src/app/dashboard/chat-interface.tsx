@@ -136,7 +136,7 @@ export function ChatInterface({
             />
             <Button
               type="submit"
-              disabled={isLoading || !selectedFile}
+              disabled={isLoading || !selectedFile || !input.trim()}
               className="rounded-full p-1.5 h-fit border dark:border-zinc-600"
             >
               {isLoading ? (
