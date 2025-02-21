@@ -15,7 +15,6 @@ import { createClient } from "@/utils/supabase/server";
 import { GenerateForm } from "./generate-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UploadedFilesList } from "./uploaded-files-list";
-import { EmbeddingsQuery } from "./embeddings-query";
 import { ContentSubmission } from "./content-submission";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
@@ -117,10 +116,6 @@ export default async function Page() {
                 </div>
                 <div className="min-h-[50vh] flex-1 rounded-xl bg-muted/50 md:min-h-min p-4 border">
                   <ChatInterface
-                    uploadedFiles={uploadedFiles}
-                    apiKey={apiKeys[0].api_key!}
-                  />
-                  <EmbeddingsQuery
                     uploadedFiles={uploadedFiles}
                     apiKey={apiKeys[0].api_key!}
                   />
