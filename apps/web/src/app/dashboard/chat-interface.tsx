@@ -149,11 +149,10 @@ export function ChatInterface({
         <div className="p-4 border-b">
           <h2 className="text-lg font-semibold flex items-center gap-2">
             <Code className="size-5" />
-            Technical Details
+            Embedding data from API
           </h2>
         </div>
         <div className="flex-1">
-          <div className="p-4 border-b">Embedding data from API</div>
           <ScrollArea className="flex-1" scrollHideDelay={0}>
             <div className="p-4">
               {embeddings && (
