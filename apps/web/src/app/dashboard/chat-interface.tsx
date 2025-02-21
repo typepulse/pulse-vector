@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { useScrollToBottom } from "./use-scroll-to-bottom";
 
 type Embedding = {
   success: boolean;
@@ -32,10 +33,11 @@ export function ChatInterface({
   apiKey: string;
 }) {
   const [selectedFile, setSelectedFile] = useState<string>("");
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const [embeddingFromAPI, setEmbeddingFromAPI] = useState<
     Embedding["documents"] | null
   >(null);
+  const [messagesContainerRef, messagesEndRef] =
+    useScrollToBottom<HTMLDivElement>();
 
   const { messages, setMessages, handleSubmit, input, setInput, isLoading } =
     useChat({
@@ -64,7 +66,7 @@ export function ChatInterface({
     );
 
     if (!response.ok) {
-      throw new Error("Failed to fetch embeddings");
+      toast.error("Failed to fetch embeddings");
     }
 
     const data = (await response.json()) as Embedding;
@@ -97,7 +99,10 @@ export function ChatInterface({
             </SelectContent>
           </Select>
         </div>
-        <ScrollArea className="flex-1 p-4">
+        <div
+          className="flex-1 p-4 h-full w-full rounded-[inherit] overflow-auto"
+          ref={messagesContainerRef}
+        >
           {!selectedFile && (
             <div className="text-center text-muted-foreground p-4">
               Please select a file to start chatting ↑
@@ -120,9 +125,12 @@ export function ChatInterface({
                 </div>
               </div>
             ))}
-            <div ref={messagesEndRef} />
           </div>
-        </ScrollArea>
+          <div
+            ref={messagesEndRef}
+            className="shrink-0 min-w-[24px] min-h-[24px]"
+          />
+        </div>
         <form
           onSubmit={async (e) => {
             e.preventDefault();
