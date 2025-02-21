@@ -33,7 +33,9 @@ export function ChatInterface({
 }) {
   const [selectedFile, setSelectedFile] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [embeddings, setEmbeddings] = useState<Embedding["documents"]>([]);
+  const [embeddingFromAPI, setEmbeddingFromAPI] = useState<
+    Embedding["documents"]
+  >([]);
 
   const { messages, setMessages, handleSubmit, input, setInput, isLoading } =
     useChat({
@@ -66,7 +68,7 @@ export function ChatInterface({
     }
 
     const data = (await response.json()) as Embedding;
-    setEmbeddings(data.documents);
+    setEmbeddingFromAPI(data.documents);
   };
 
   const handleFileSelect = (file: string) => {
@@ -159,11 +161,11 @@ export function ChatInterface({
         <div className="flex-1">
           <ScrollArea className="flex-1" scrollHideDelay={0}>
             <div className="p-4">
-              {embeddings && (
+              {embeddingFromAPI && (
                 <div className="font-mono text-sm bg-muted p-4 rounded-lg">
                   <ScrollArea className="w-full whitespace-nowrap">
                     <pre className="whitespace-pre">
-                      {JSON.stringify(embeddings, null, 2)}
+                      {JSON.stringify(embeddingFromAPI, null, 2)}
                     </pre>
                   </ScrollArea>
                 </div>
