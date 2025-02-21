@@ -3,7 +3,7 @@
 import type { Tables } from "@/types/supabase";
 import { useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
-import { Code, MessageCircle, ArrowUpIcon } from "lucide-react";
+import { Code, MessageCircle, ArrowUpIcon, Loader2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -139,7 +139,11 @@ export function ChatInterface({
               disabled={isLoading || !selectedFile}
               className="rounded-full p-1.5 h-fit border dark:border-zinc-600"
             >
-              <ArrowUpIcon size={14} />
+              {isLoading ? (
+                <Loader2 className="animate-spin" size={14} />
+              ) : (
+                <ArrowUpIcon size={14} />
+              )}
             </Button>
           </div>
         </form>
