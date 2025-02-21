@@ -34,8 +34,8 @@ export function ChatInterface({
   const [selectedFile, setSelectedFile] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [embeddingFromAPI, setEmbeddingFromAPI] = useState<
-    Embedding["documents"]
-  >([]);
+    Embedding["documents"] | null
+  >(null);
 
   const { messages, setMessages, handleSubmit, input, setInput, isLoading } =
     useChat({
@@ -100,7 +100,7 @@ export function ChatInterface({
         <ScrollArea className="flex-1 p-4">
           {!selectedFile && (
             <div className="text-center text-muted-foreground p-4">
-              Please select a file to start chatting.
+              Please select a file to start chatting ↑
             </div>
           )}
           <div className="space-y-4">
@@ -161,13 +161,17 @@ export function ChatInterface({
         <div className="flex-1">
           <ScrollArea className="flex-1" scrollHideDelay={0}>
             <div className="p-4">
-              {embeddingFromAPI && (
+              {embeddingFromAPI ? (
                 <div className="font-mono text-sm bg-muted p-4 rounded-lg">
                   <ScrollArea className="w-full whitespace-nowrap">
                     <pre className="whitespace-pre">
                       {JSON.stringify(embeddingFromAPI, null, 2)}
                     </pre>
                   </ScrollArea>
+                </div>
+              ) : (
+                <div className="text-center text-muted-foreground p-4">
+                  Response from Supavec embeddings API will be shown here.
                 </div>
               )}
             </div>
