@@ -1,7 +1,8 @@
 "use client";
 
 import type { Tables } from "@/types/supabase";
-import * as React from "react";
+import { useEffect, useRef, useState } from "react";
+import { useChat } from "@ai-sdk/react";
 import { Code, MessageCircle, ArrowUpIcon } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 type Embedding = {
   query_embedding: number[];
@@ -41,21 +43,29 @@ export function ChatInterface({
 }: {
   uploadedFiles: Tables<"files">[] | null;
 }) {
-  const [messages, setMessages] = React.useState<Message[]>([]);
-  const [input, setInput] = React.useState("");
-  const [selectedFile, setSelectedFile] = React.useState<string>("");
-  const [isLoading, setIsLoading] = React.useState(false);
-  const messagesEndRef = React.useRef<HTMLDivElement>(null);
+  const [selectedFile, setSelectedFile] = useState<string>("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = React.useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, []);
+  const {
+    messages,
+    setMessages,
+    handleSubmit,
+    input,
+    setInput,
+    append,
+    isLoading,
+  } = useChat({
+    api: "/api/protected/chat",
+    body: {
+      selectedFile,
+    },
+    initialMessages: [],
+    onError: (error) => {
+      toast.error("An error occured, please try again!");
+    },
+  });
 
-  React.useEffect(() => {
-    scrollToBottom();
-  }, [scrollToBottom]);
-
-  React.useEffect(() => {
+  useEffect(() => {
     // Simulating an API call to get available files
     const fetchFiles = async () => {
       // In a real scenario, this would be an API call
@@ -69,48 +79,6 @@ export function ChatInterface({
     setSelectedFile(file);
     // Clear previous messages when a new file is selected
     setMessages([]);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || !selectedFile) return;
-
-    const userMessage: Message = {
-      role: "user",
-      content: input,
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-    setInput("");
-    setIsLoading(true);
-
-    try {
-      // Replace with your actual API call
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: input,
-          file: selectedFile,
-        }),
-      });
-
-      const data = await response.json();
-
-      const assistantMessage: Message = {
-        role: "assistant",
-        content: data.response,
-        embedding: data.embedding, // The embedding data from your API
-      };
-
-      setMessages((prev) => [...prev, assistantMessage]);
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   return (
