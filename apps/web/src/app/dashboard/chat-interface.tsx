@@ -1,7 +1,8 @@
 "use client";
 
+import type { Tables } from "@/types/supabase";
 import * as React from "react";
-import { MessagesSquare, Send, Code, FileText } from "lucide-react";
+import { MessagesSquare, Send, Code } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -35,11 +36,14 @@ type Message = {
   embedding?: Embedding;
 };
 
-export default function ChatInterface() {
+export function ChatInterface({
+  uploadedFiles,
+}: {
+  uploadedFiles: Tables<"files">[] | null;
+}) {
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [input, setInput] = React.useState("");
   const [selectedFile, setSelectedFile] = React.useState<string>("");
-  const [availableFiles, setAvailableFiles] = React.useState<string[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
 
@@ -56,12 +60,6 @@ export default function ChatInterface() {
     const fetchFiles = async () => {
       // In a real scenario, this would be an API call
       await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate network delay
-      setAvailableFiles([
-        "document1.pdf",
-        "report2023.pdf",
-        "user-manual.pdf",
-        "technical-specs.pdf",
-      ]);
     };
 
     fetchFiles();
@@ -128,12 +126,9 @@ export default function ChatInterface() {
               <SelectValue placeholder="Choose a file" />
             </SelectTrigger>
             <SelectContent>
-              {availableFiles.map((file) => (
-                <SelectItem key={file} value={file}>
-                  <span className="flex items-center gap-2">
-                    <FileText className="w-4 h-4" />
-                    {file}
-                  </span>
+              {uploadedFiles?.map((file) => (
+                <SelectItem key={file.id} value={file.file_id!}>
+                  {file.file_name}
                 </SelectItem>
               ))}
             </SelectContent>

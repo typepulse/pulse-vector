@@ -20,6 +20,7 @@ import { ContentSubmission } from "./content-submission";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { UploadFormWrapper } from "./upload-form-wrappper";
+import { ChatInterface } from "./chat-interface";
 
 export const metadata: Metadata = {
   robots: "noindex, nofollow",
@@ -115,6 +116,7 @@ export default async function Page() {
                   </Tabs>
                 </div>
                 <div className="min-h-[50vh] flex-1 rounded-xl bg-muted/50 md:min-h-min p-4 border">
+                  <ChatInterface uploadedFiles={uploadedFiles} />
                   <EmbeddingsQuery
                     uploadedFiles={uploadedFiles}
                     apiKey={apiKeys[0].api_key!}
