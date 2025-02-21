@@ -116,7 +116,10 @@ export default async function Page() {
                   </Tabs>
                 </div>
                 <div className="min-h-[50vh] flex-1 rounded-xl bg-muted/50 md:min-h-min p-4 border">
-                  <ChatInterface uploadedFiles={uploadedFiles} />
+                  <ChatInterface
+                    uploadedFiles={uploadedFiles}
+                    apiKey={apiKeys[0].api_key!}
+                  />
                   <EmbeddingsQuery
                     uploadedFiles={uploadedFiles}
                     apiKey={apiKeys[0].api_key!}

@@ -40,30 +40,26 @@ type Message = {
 
 export function ChatInterface({
   uploadedFiles,
+  apiKey,
 }: {
   uploadedFiles: Tables<"files">[] | null;
+  apiKey: string;
 }) {
   const [selectedFile, setSelectedFile] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const {
-    messages,
-    setMessages,
-    handleSubmit,
-    input,
-    setInput,
-    append,
-    isLoading,
-  } = useChat({
-    api: "/api/protected/chat",
-    body: {
-      selectedFile,
-    },
-    initialMessages: [],
-    onError: (error) => {
-      toast.error("An error occured, please try again!");
-    },
-  });
+  const { messages, setMessages, handleSubmit, input, setInput, isLoading } =
+    useChat({
+      api: "/api/protected/chat",
+      body: {
+        apiKey,
+        selectedFile,
+      },
+      initialMessages: [],
+      onError: (error) => {
+        toast.error("An error occured, please try again!");
+      },
+    });
 
   useEffect(() => {
     // Simulating an API call to get available files
