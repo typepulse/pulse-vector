@@ -12,7 +12,7 @@ https://www.supavec.com
 
 [docs.supavec.com](https://docs.supavec.com/).
 
-## Realated repositories
+## Related repositories
 
 - [taishikato/supavec-python-api](https://github.com/taishikato/supavec-python-api)
 
