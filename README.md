@@ -12,6 +12,10 @@ https://www.supavec.com
 
 [docs.supavec.com](https://docs.supavec.com/).
 
+## Realated repositories
+
+- [taishikato/supavec-python-api](https://github.com/taishikato/supavec-python-api)
+
 ## Built with
 
 * [Next.js](https://nextjs.org/)
