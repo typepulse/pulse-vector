@@ -2,11 +2,10 @@
 
 import type { Tables } from "@/types/supabase";
 import * as React from "react";
-import { MessagesSquare, Send, Code } from "lucide-react";
+import { Code, MessageCircle, ArrowUpIcon } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
@@ -15,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 type Embedding = {
   query_embedding: number[];
@@ -118,7 +118,7 @@ export function ChatInterface({
       <Card className="col-span-4 h-[600px] flex flex-col bg-background">
         <div className="p-4 border-b flex justify-between items-center">
           <h2 className="text-lg font-semibold flex items-center gap-2">
-            <MessagesSquare className="w-5 h-5" />
+            <MessageCircle className="size-5" />
             Chat with your files
           </h2>
           <Select onValueChange={handleFileSelect} value={selectedFile}>
@@ -161,15 +161,18 @@ export function ChatInterface({
           </div>
         </ScrollArea>
         <form onSubmit={handleSubmit} className="p-4 border-t">
-          <div className="flex gap-2">
-            <Textarea
+          <div className="flex gap-2 items-center">
+            <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask a question about your file..."
-              className="min-h-[60px]"
             />
-            <Button type="submit" disabled={isLoading || !selectedFile}>
-              <Send className="w-4 h-4" />
+            <Button
+              type="submit"
+              disabled={isLoading || !selectedFile}
+              className="rounded-full p-1.5 h-fit border dark:border-zinc-600"
+            >
+              <ArrowUpIcon size={14} />
             </Button>
           </div>
         </form>
@@ -178,7 +181,7 @@ export function ChatInterface({
       <Card className="col-span-3 h-[600px] flex flex-col bg-background">
         <div className="p-4 border-b">
           <h2 className="text-lg font-semibold flex items-center gap-2">
-            <Code className="w-5 h-5" />
+            <Code className="size-5" />
             Technical Details
           </h2>
         </div>
