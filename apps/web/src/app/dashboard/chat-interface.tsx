@@ -1,13 +1,12 @@
 "use client";
 
 import type { Tables } from "@/types/supabase";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { Code, MessageCircle, ArrowUpIcon } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -19,23 +18,10 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 type Embedding = {
-  query_embedding: number[];
-  document_embeddings: {
-    text: string;
-    embedding: number[];
-    similarity_score: number;
+  success: boolean;
+  documents: {
+    content: string;
   }[];
-  metadata: {
-    model: string;
-    dimensions: number;
-    processing_time_ms: number;
-  };
-};
-
-type Message = {
-  role: "user" | "assistant";
-  content: string;
-  embedding?: Embedding;
 };
 
 export function ChatInterface({
@@ -47,6 +33,7 @@ export function ChatInterface({
 }) {
   const [selectedFile, setSelectedFile] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [embeddings, setEmbeddings] = useState<Embedding["documents"]>([]);
 
   const { messages, setMessages, handleSubmit, input, setInput, isLoading } =
     useChat({
@@ -57,23 +44,33 @@ export function ChatInterface({
       },
       initialMessages: [],
       onError: (error) => {
-        toast.error("An error occured, please try again!");
+        toast.error(`An error occurred: ${error.message}`);
       },
     });
 
-  useEffect(() => {
-    // Simulating an API call to get available files
-    const fetchFiles = async () => {
-      // In a real scenario, this would be an API call
-      await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate network delay
-    };
+  const fetchEmbeddings = async () => {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/embeddings`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: apiKey,
+        },
+        body: JSON.stringify({ query: input, file_ids: [selectedFile] }),
+      }
+    );
 
-    fetchFiles();
-  }, []);
+    if (!response.ok) {
+      throw new Error("Failed to fetch embeddings");
+    }
+
+    const data = (await response.json()) as Embedding;
+    setEmbeddings(data.documents);
+  };
 
   const handleFileSelect = (file: string) => {
     setSelectedFile(file);
-    // Clear previous messages when a new file is selected
     setMessages([]);
   };
 
@@ -124,7 +121,13 @@ export function ChatInterface({
             <div ref={messagesEndRef} />
           </div>
         </ScrollArea>
-        <form onSubmit={handleSubmit} className="p-4 border-t">
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            await Promise.all([handleSubmit(), fetchEmbeddings()]);
+          }}
+          className="p-4 border-t"
+        >
           <div className="flex gap-2 items-center">
             <Input
               value={input}
@@ -149,36 +152,23 @@ export function ChatInterface({
             Technical Details
           </h2>
         </div>
-        <Tabs defaultValue="embedding" className="flex-1">
-          <div className="p-4 border-b">
-            <TabsList>
-              <TabsTrigger value="embedding">Embedding Data</TabsTrigger>
-              <TabsTrigger value="raw">Raw Response</TabsTrigger>
-            </TabsList>
-          </div>
-          <ScrollArea className="flex-1">
-            <TabsContent value="embedding" className="p-4">
-              {messages
-                .filter((message) => message.embedding)
-                .map((message, index) => (
-                  <div key={index} className="mb-4">
-                    <div className="font-mono text-sm bg-muted p-4 rounded-lg overflow-x-auto">
-                      <pre>{JSON.stringify(message.embedding, null, 2)}</pre>
-                    </div>
-                  </div>
-                ))}
-            </TabsContent>
-            <TabsContent value="raw" className="p-4">
-              {messages.map((message, index) => (
-                <div key={index} className="mb-4">
-                  <div className="font-mono text-sm bg-muted p-4 rounded-lg overflow-x-auto">
-                    <pre>{JSON.stringify(message, null, 2)}</pre>
-                  </div>
+        <div className="flex-1">
+          <div className="p-4 border-b">Embedding data from API</div>
+          <ScrollArea className="flex-1" scrollHideDelay={0}>
+            <div className="p-4">
+              {embeddings && (
+                <div className="font-mono text-sm bg-muted p-4 rounded-lg">
+                  <ScrollArea className="w-full whitespace-nowrap">
+                    <pre className="whitespace-pre">
+                      {JSON.stringify(embeddings, null, 2)}
+                    </pre>
+                  </ScrollArea>
                 </div>
-              ))}
-            </TabsContent>
+              )}
+            </div>
+            <ScrollBar orientation="horizontal" />
           </ScrollArea>
-        </Tabs>
+        </div>
       </Card>
     </div>
   );
