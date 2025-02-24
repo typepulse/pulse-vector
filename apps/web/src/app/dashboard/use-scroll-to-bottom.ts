@@ -35,6 +35,8 @@ export function useScrollToBottom<T extends HTMLElement>(): [
     }
   }, []);
 
-  // @ts-expect-error - This is a workaround to the fact that the refs are not typed
-  return [containerRef, endRef];
+  return [
+    containerRef as RefObject<T>,
+    endRef as RefObject<T>,
+  ];
 }
