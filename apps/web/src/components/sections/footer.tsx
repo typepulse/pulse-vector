@@ -16,6 +16,13 @@ const tools = [
   },
 ];
 
+const links = [
+  {
+    title: "API Docs",
+    href: "https://go.supavec.com/docs",
+  },
+];
+
 export function Footer() {
   return (
     <footer className="flex flex-col gap-y-5 rounded-lg px-7 py-5 container">
@@ -49,6 +56,22 @@ export function Footer() {
         </div>
 
         <div className="flex flex-1 justify-between md:justify-around">
+          <div>
+            <h6 className="text-sm text-secondary-foreground/80 font-semibold mb-2">
+              Links
+            </h6>
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                className="text-sm text-muted-foreground hover:text-foreground transition-color ease-linear"
+              >
+                {link.title}
+              </Link>
+            ))}
+          </div>
+
           <div>
             <h6 className="text-sm text-secondary-foreground/80 font-semibold mb-2">
               Examples
