@@ -43,6 +43,10 @@ export function FileListItem({ file, apiKey }: FileListItemProps) {
       }
 
       toast.success("File deleted successfully");
+      // Dispatch a custom event when file is deleted
+      window.dispatchEvent(
+        new CustomEvent("fileDeleted", { detail: { fileId } })
+      );
       router.refresh();
     } catch (error) {
       toast.error(

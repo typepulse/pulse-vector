@@ -1,7 +1,7 @@
 "use client";
 
 import type { Tables } from "@/types/supabase";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
 import { Code, MessageCircle, ArrowUpIcon, Loader2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -51,6 +51,25 @@ export function ChatInterface({
         toast.error(`An error occurred: ${error.message}`);
       },
     });
+
+  // Add event listener for file deletion
+  useEffect(() => {
+    const handleFileDeleted = (event: CustomEvent<{ fileId: string }>) => {
+      if (event.detail.fileId === selectedFile) {
+        setSelectedFile("");
+        setMessages([]);
+        setEmbeddingFromAPI(null);
+      }
+    };
+
+    window.addEventListener("fileDeleted", handleFileDeleted as EventListener);
+    return () => {
+      window.removeEventListener(
+        "fileDeleted",
+        handleFileDeleted as EventListener
+      );
+    };
+  }, [selectedFile, setMessages]);
 
   const fetchEmbeddings = async () => {
     const response = await fetch(
