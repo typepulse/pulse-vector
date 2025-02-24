@@ -158,7 +158,7 @@ export const siteConfig = {
       },
       {
         icon: <Linkedin className="size-5" />,
-        url: "https://www.linkedin.com/company/supavec",
+        url: "https://go.supavec.com/linkedin",
       },
     ],
     // links: [
