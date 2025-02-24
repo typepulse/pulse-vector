@@ -12,6 +12,13 @@
         ".next/**",
         "!.next/cache/**",
         "dist/**"
+      ],
+      "env": [
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "API_ROUTE_SECRET",
+        "LOOPS_API_KEY",
+        "DEMO_SUPA_API_KEY",
+        "OPENAI_API_KEY"
       ]
     },
     "lint": {},
