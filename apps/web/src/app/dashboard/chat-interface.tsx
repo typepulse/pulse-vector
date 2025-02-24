@@ -1,7 +1,7 @@
 "use client";
 
 import type { Tables } from "@/types/supabase";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { Code, MessageCircle, ArrowUpIcon, Loader2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -79,7 +79,31 @@ export function ChatInterface({
   };
 
   return (
-    <div className="grid grid-cols-2 gap-4 p-4">
+    <div className="grid grid-cols-2 gap-4 p-4 relative">
+      {(!uploadedFiles || uploadedFiles.length === 0) && (
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-10 rounded-lg">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full h-full p-4 md:p-8">
+            <div className="flex flex-col items-center justify-center border-2 border-dashed border-muted rounded-lg p-4">
+              <MessageCircle className="size-8 text-muted-foreground mb-2" />
+              <p className="text-lg font-medium text-muted-foreground">
+                Chat Interface
+              </p>
+              <p className="text-sm text-muted-foreground/80 text-center mt-1">
+                Upload files to start chatting with them using AI
+              </p>
+            </div>
+            <div className="flex flex-col items-center justify-center border-2 border-dashed border-muted rounded-lg p-4">
+              <Code className="size-8 text-muted-foreground mb-2" />
+              <p className="text-lg font-medium text-muted-foreground">
+                Embedding Viewer
+              </p>
+              <p className="text-sm text-muted-foreground/80 text-center mt-1">
+                See relevant document snippets as you chat
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
       <Card className="col-span-2 md:col-span-1 h-[600px] flex flex-col bg-background">
         <div className="p-4 border-b flex justify-between items-center">
           <h2 className="text-lg font-semibold flex items-center gap-2">
