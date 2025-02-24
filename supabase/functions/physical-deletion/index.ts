@@ -12,7 +12,7 @@ type Config = {
 
 // Default configuration
 const DEFAULT_CONFIG: Config = {
-  retentionDays: 14,
+  retentionDays: 7,
   batchSize: 1000,
   maxRetries: 3,
 };
