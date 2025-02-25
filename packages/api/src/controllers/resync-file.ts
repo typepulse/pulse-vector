@@ -147,7 +147,7 @@ export const resyncFile = async (req: ValidatedRequest, res: Response) => {
 
       client.capture({
         distinctId: apiKeyData.profiles?.email as string,
-        event: "file_resync_completed",
+        event: "/resync_file API Call",
         properties: {
           file_name: file.file_name,
           file_type: file.type,
