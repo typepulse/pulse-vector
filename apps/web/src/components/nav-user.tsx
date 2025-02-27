@@ -1,7 +1,8 @@
 "use client";
 
-import { ChevronsUpDown } from "lucide-react";
+import { ChevronsUpDown, Mail } from "lucide-react";
 import { usePostHog } from "posthog-js/react";
+import { toast } from "sonner";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -37,6 +38,22 @@ export function NavUser({
 
   return (
     <SidebarMenu>
+      <SidebarMenuItem>
+        <SidebarMenuButton asChild tooltip="Contact Us">
+          <Link
+            href="mailto:hello@supavec.com"
+            onClick={(e) => {
+              e.preventDefault();
+              navigator.clipboard.writeText("hello@supavec.com");
+              toast.success("Email address copied to clipboard");
+              posthog.capture("Email address copied to clipboard from sidebar");
+            }}
+          >
+            <Mail />
+            <span>Contact Us</span>
+          </Link>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
       <SidebarMenuItem>
         <SidebarMenuButton asChild tooltip="Discord">
           <Link
