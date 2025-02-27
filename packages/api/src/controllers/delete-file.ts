@@ -5,7 +5,7 @@ import { supabase } from "../utils/supabase";
 
 console.log("[DELETE-FILE] Module loaded");
 
-interface ValidatedRequest extends Request {
+type ValidatedRequest = Request & {
   body: {
     validatedData: {
       file_id: string;
@@ -14,7 +14,7 @@ interface ValidatedRequest extends Request {
       apiKeyData: any;
     };
   };
-}
+};
 
 async function getFileData(fileId: string, teamId: string) {
   console.log("[DELETE-FILE] Fetching file data", { fileId, teamId });
