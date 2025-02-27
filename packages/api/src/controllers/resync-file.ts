@@ -1,3 +1,4 @@
+import type { PostgrestError } from "@supabase/supabase-js";
 import { Request, Response } from "express";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
@@ -156,20 +157,87 @@ export const resyncFile = async (req: ValidatedRequest, res: Response) => {
     // Soft delete existing embeddings
     console.log("[RESYNC-FILE] Soft deleting existing embeddings");
     const now = new Date().toISOString();
-    const { error: documentsUpdateError } = await supabase
-      .from("documents")
-      .update({ deleted_at: now })
-      .filter("metadata->>file_id", "eq", file_id);
+
+    // Add retry logic for the document update operation
+    let documentsUpdateError: PostgrestError | Error | null = null;
+    let retryCount = 0;
+    const maxRetries = 3;
+
+    while (retryCount < maxRetries) {
+      try {
+        console.log(
+          `[RESYNC-FILE] Attempting to update documents (attempt ${
+            retryCount + 1
+          }/${maxRetries})`,
+        );
+        const { error } = await supabase
+          .from("documents")
+          .update({ deleted_at: now })
+          .filter("metadata->>file_id", "eq", file_id);
+
+        if (!error) {
+          console.log(
+            "[RESYNC-FILE] Existing embeddings marked as deleted successfully",
+          );
+          documentsUpdateError = null;
+          break;
+        } else {
+          documentsUpdateError = error;
+          console.log(
+            `[RESYNC-FILE] Error updating documents (attempt ${
+              retryCount + 1
+            }/${maxRetries})`,
+            {
+              error: documentsUpdateError,
+            },
+          );
+
+          // Only retry if we haven't reached max retries yet
+          if (retryCount < maxRetries - 1) {
+            // Exponential backoff: 1s, 2s, 4s, etc.
+            const backoffTime = Math.pow(2, retryCount) * 1000;
+            console.log(`[RESYNC-FILE] Retrying in ${backoffTime}ms...`);
+            await new Promise((resolve) => setTimeout(resolve, backoffTime));
+          }
+        }
+      } catch (error) {
+        documentsUpdateError = error instanceof Error ? error : new Error(
+          typeof error === "object" ? JSON.stringify(error) : String(error),
+        );
+        console.log(
+          `[RESYNC-FILE] Exception during document update (attempt ${
+            retryCount + 1
+          }/${maxRetries})`,
+          {
+            error: error instanceof Error ? error.message : "Unknown error",
+          },
+        );
+
+        // Only retry if we haven't reached max retries yet
+        if (retryCount < maxRetries - 1) {
+          // Exponential backoff: 1s, 2s, 4s, etc.
+          const backoffTime = Math.pow(2, retryCount) * 1000;
+          console.log(`[RESYNC-FILE] Retrying in ${backoffTime}ms...`);
+          await new Promise((resolve) => setTimeout(resolve, backoffTime));
+        }
+      }
+
+      retryCount++;
+    }
 
     if (documentsUpdateError) {
-      console.log("[RESYNC-FILE] Error updating existing documents", {
-        error: documentsUpdateError,
-      });
+      console.log(
+        "[RESYNC-FILE] All attempts to update existing documents failed",
+        {
+          error: documentsUpdateError,
+        },
+      );
       throw new Error(
-        `Failed to update existing documents: ${documentsUpdateError.message}`,
+        `Failed to update existing documents after ${maxRetries} attempts: ${
+          documentsUpdateError.message || JSON.stringify(documentsUpdateError)
+        }`,
       );
     }
-    console.log("[RESYNC-FILE] Existing embeddings marked as deleted");
 
     // Create new embeddings
     console.log("[RESYNC-FILE] Creating embeddings");
