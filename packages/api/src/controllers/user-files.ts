@@ -1,14 +1,10 @@
 import { Request, Response } from "express";
-import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
-import type { Database } from "@supavec/web/src/types/supabase";
 import { client } from "../utils/posthog";
 import { logApiUsageAsync } from "../utils/async-logger";
+import { supabase } from "../utils/supabase";
 
-const supabase = createClient<Database>(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-);
+console.log("[USER-FILES] Module loaded");
 
 const requestSchema = z.object({
   pagination: z
@@ -21,9 +17,11 @@ const requestSchema = z.object({
 });
 
 export const userFiles = async (req: Request, res: Response) => {
+  console.log("[USER-FILES] Request received", { body: req.body });
   try {
     const validation = requestSchema.safeParse(req.body);
     if (!validation.success) {
+      console.log("[USER-FILES] Validation failed", validation.error.errors);
       return res.status(400).json({
         success: false,
         error: "Invalid request parameters",
@@ -32,9 +30,14 @@ export const userFiles = async (req: Request, res: Response) => {
     }
 
     const { pagination, order_dir } = validation.data;
+    console.log("[USER-FILES] Validated request data", {
+      pagination,
+      order_dir,
+    });
 
     // Get team ID from API key
     const apiKey = req.headers.authorization as string;
+    console.log("[USER-FILES] Verifying API key");
     const { data: apiKeyData, error: apiKeyError } = await supabase
       .from("api_keys")
       .select("team_id, user_id, profiles(email)")
@@ -42,6 +45,7 @@ export const userFiles = async (req: Request, res: Response) => {
       .single();
 
     if (apiKeyError || !apiKeyData?.team_id) {
+      console.log("[USER-FILES] Invalid API key", { error: apiKeyError });
       return res.status(401).json({
         success: false,
         error: "Invalid API key",
@@ -49,8 +53,10 @@ export const userFiles = async (req: Request, res: Response) => {
     }
 
     const teamId = apiKeyData.team_id;
+    console.log("[USER-FILES] Team ID retrieved", { teamId });
 
     // Fetch files with pagination
+    console.log("[USER-FILES] Fetching files with pagination");
     const { data: files, error: filesError } = await supabase
       .from("files")
       .select("type, file_id, created_at, file_name, team_id")
@@ -60,10 +66,15 @@ export const userFiles = async (req: Request, res: Response) => {
       .order("created_at", { ascending: order_dir === "asc" });
 
     if (filesError) {
+      console.log("[USER-FILES] Error fetching files", { error: filesError });
       throw new Error(`Failed to fetch files: ${filesError.message}`);
     }
+    console.log("[USER-FILES] Files fetched successfully", {
+      count: files?.length,
+    });
 
     // Get total count for pagination
+    console.log("[USER-FILES] Getting total count");
     const { count, error: countError } = await supabase
       .from("files")
       .select("id", {
@@ -73,20 +84,25 @@ export const userFiles = async (req: Request, res: Response) => {
       .match({ team_id: teamId });
 
     if (countError) {
+      console.log("[USER-FILES] Error getting count", { error: countError });
       throw new Error(`Failed to get total count: ${countError.message}`);
     }
+    console.log("[USER-FILES] Total count retrieved", { count });
 
     client.capture({
       distinctId: apiKeyData.profiles?.email as string,
       event: "/user_files API Call",
     });
+    console.log("[USER-FILES] PostHog event captured");
 
     logApiUsageAsync({
       endpoint: "/upload_files",
       userId: apiKeyData.user_id || "",
       success: true,
     });
+    console.log("[USER-FILES] API usage logged");
 
+    console.log("[USER-FILES] Sending successful response");
     return res.json({
       success: true,
       results: files,
@@ -96,10 +112,11 @@ export const userFiles = async (req: Request, res: Response) => {
       count,
     });
   } catch (error) {
-    console.error("Error fetching user files:", error);
+    console.error("[USER-FILES] Error fetching user files:", error);
 
     if (req.headers.authorization) {
       const apiKey = req.headers.authorization as string;
+      console.log("[USER-FILES] Attempting to log error with user ID");
       const { data: apiKeyData } = await supabase
         .from("api_keys")
         .select("user_id")
@@ -113,9 +130,13 @@ export const userFiles = async (req: Request, res: Response) => {
           success: false,
           error: error instanceof Error ? error.message : "Unknown error",
         });
+        console.log("[USER-FILES] Error logged for user", {
+          userId: apiKeyData.user_id,
+        });
       }
     }
 
+    console.log("[USER-FILES] Sending error response");
     return res.status(500).json({
       success: false,
       error: `Failed to fetch files${

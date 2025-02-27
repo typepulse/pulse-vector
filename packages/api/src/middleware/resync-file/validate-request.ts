@@ -2,8 +2,13 @@ import { z } from "zod";
 import type { NextFunction, Request, Response } from "express";
 import { supabase } from "../../utils/supabase";
 
+const DEFAULT_CHUNK_SIZE = 1000;
+const DEFAULT_CHUNK_OVERLAP = 200;
+
 const requestSchema = z.object({
   file_id: z.string().uuid(),
+  chunk_size: z.number().positive().optional(),
+  chunk_overlap: z.number().positive().optional(),
 });
 
 export const validateRequestMiddleware = () => {
@@ -22,7 +27,7 @@ export const validateRequestMiddleware = () => {
         });
       }
 
-      const { file_id } = validation.data;
+      const { file_id, chunk_size, chunk_overlap } = validation.data;
       const apiKey = req.headers.authorization as string;
 
       const { data: apiKeyData, error: apiKeyError } = await supabase
@@ -40,6 +45,8 @@ export const validateRequestMiddleware = () => {
 
       req.body.validatedData = {
         file_id,
+        chunk_size: chunk_size ?? DEFAULT_CHUNK_SIZE,
+        chunk_overlap: chunk_overlap ?? DEFAULT_CHUNK_OVERLAP,
         teamId: apiKeyData.team_id,
         apiKeyData,
       };

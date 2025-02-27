@@ -12,7 +12,7 @@ const ratelimit = new Ratelimit({
 export const rateLimit = () => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const ip = req.ip ?? req.socket?.remoteAddress;
-    console.log({ ip });
+    console.log(`Request from IP: ${ip}`);
 
     const identifier = ip;
     const { success } = await ratelimit.limit(identifier ?? "fdsdsa");
