@@ -96,20 +96,68 @@ export const deleteFile = async (req: ValidatedRequest, res: Response) => {
 
     // Update documents table with deleted_at
     console.log("[DELETE-FILE] Soft deleting document records");
-    const { error: documentsUpdateError } = await supabase
-      .from("documents")
-      .update({ deleted_at: now })
-      .filter("metadata->>file_id", "eq", file_id);
+
+    // Add retry logic for document update
+    let documentsUpdateError = null;
+    let retryCount = 0;
+    const maxRetries = 3;
+
+    while (retryCount < maxRetries) {
+      try {
+        const { error } = await supabase
+          .from("documents")
+          .update({ deleted_at: now })
+          .filter("metadata->>file_id", "eq", file_id);
+
+        if (!error) {
+          console.log(
+            "[DELETE-FILE] Document records marked as deleted successfully",
+          );
+          documentsUpdateError = null;
+          break;
+        }
+
+        documentsUpdateError = error;
+        retryCount++;
+
+        if (retryCount < maxRetries) {
+          const backoffTime = Math.pow(2, retryCount) * 500; // Exponential backoff: 1s, 2s, 4s
+          console.log(
+            `[DELETE-FILE] Retry ${retryCount}/${maxRetries} after ${backoffTime}ms due to error:`,
+            error,
+          );
+          await new Promise((resolve) => setTimeout(resolve, backoffTime));
+        }
+      } catch (err) {
+        documentsUpdateError = err;
+        retryCount++;
+
+        if (retryCount < maxRetries) {
+          const backoffTime = Math.pow(2, retryCount) * 500;
+          console.log(
+            `[DELETE-FILE] Retry ${retryCount}/${maxRetries} after ${backoffTime}ms due to exception:`,
+            err,
+          );
+          await new Promise((resolve) => setTimeout(resolve, backoffTime));
+        }
+      }
+    }
 
     if (documentsUpdateError) {
-      console.log("[DELETE-FILE] Error updating document records", {
-        error: documentsUpdateError,
-      });
+      console.log(
+        "[DELETE-FILE] Error updating document records after all retries",
+        {
+          error: documentsUpdateError,
+        },
+      );
       throw new Error(
-        `Failed to update documents: ${documentsUpdateError.message}`,
+        `Failed to update documents after ${maxRetries} attempts: ${
+          documentsUpdateError instanceof Error
+            ? documentsUpdateError.message
+            : JSON.stringify(documentsUpdateError)
+        }`,
       );
     }
-    console.log("[DELETE-FILE] Document records marked as deleted");
 
     console.log("[DELETE-FILE] Capturing PostHog event");
     client.capture({
