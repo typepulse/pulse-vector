@@ -1,15 +1,9 @@
-import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import type { NextFunction, Request, Response } from "express";
-import type { Database } from "@supavec/web/src/types/supabase";
+import { supabase } from "../../utils/supabase";
 
 const DEFAULT_CHUNK_SIZE = 1000;
 const DEFAULT_CHUNK_OVERLAP = 200;
-
-const supabase = createClient<Database>(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-);
 
 const requestSchema = z.object({
   file_id: z.string().uuid(),

@@ -1,6 +1,4 @@
-import type { Database } from "@supavec/web/src/types/supabase";
 import { Request, Response } from "express";
-import { createClient } from "@supabase/supabase-js";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
@@ -11,11 +9,7 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { Document } from "@langchain/core/documents";
 import { client } from "../utils/posthog";
 import { logApiUsageAsync } from "../utils/async-logger";
-
-const supabase = createClient<Database>(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-);
+import { supabase } from "../utils/supabase";
 
 type ValidatedRequest = Request & {
   body: {

@@ -1,22 +1,16 @@
 import { Request, Response } from "express";
-import { createClient } from "@supabase/supabase-js";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
 import { z } from "zod";
 import { randomUUID } from "crypto";
-import type { Database } from "@supavec/web/src/types/supabase";
 import { updateLoopsContact } from "../utils/loops";
 import { client } from "../utils/posthog";
 import { logApiUsageAsync } from "../utils/async-logger";
+import { supabase } from "../utils/supabase";
 
 const DEFAULT_CHUNK_SIZE = 1000;
 const DEFAULT_CHUNK_OVERLAP = 200;
-
-const supabase = createClient<Database>(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-);
 
 const uploadTextSchema = z.object({
   contents: z.string().min(5, "Content must be at least 5 characters long"),

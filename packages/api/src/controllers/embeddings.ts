@@ -1,11 +1,10 @@
 import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
-import { createClient } from "@supabase/supabase-js";
 import { Request, Response } from "express";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { z } from "zod";
-import type { Database } from "@supavec/web/src/types/supabase";
 import { client } from "../utils/posthog";
 import { logApiUsageAsync } from "../utils/async-logger";
+import { supabase } from "../utils/supabase";
 
 const embeddingsSchema = z.object({
   query: z.string().min(1, "Query is required"),
@@ -80,11 +79,6 @@ async function validateRequest(req: Request): Promise<{
     apiKeyData,
   };
 }
-
-const supabase = createClient<Database>(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-);
 
 export const getEmbeddings = async (req: Request, res: Response) => {
   try {

@@ -1,13 +1,7 @@
 import { Request, Response } from "express";
-import { createClient } from "@supabase/supabase-js";
-import type { Database } from "@supavec/web/src/types/supabase";
 import { client } from "../utils/posthog";
 import { logApiUsageAsync } from "../utils/async-logger";
-
-const supabase = createClient<Database>(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-);
+import { supabase } from "../utils/supabase";
 
 interface ValidatedRequest extends Request {
   body: {
