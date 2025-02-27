@@ -105,7 +105,10 @@ export const resyncFile = async (req: ValidatedRequest, res: Response) => {
     const tempFileName = `${file_id}.${fileExtension}`;
     const tempFilePath = join(tmpdir(), tempFileName);
     console.log("[RESYNC-FILE] Saving file to temp location", { tempFilePath });
-    await writeFile(tempFilePath, Buffer.from(await fileData.arrayBuffer()));
+
+    // Store the array buffer in a variable to avoid calling it multiple times
+    const fileBuffer = Buffer.from(await fileData.arrayBuffer());
+    await writeFile(tempFilePath, fileBuffer);
 
     // Process file content
     console.log("[RESYNC-FILE] Processing file content");
@@ -113,9 +116,7 @@ export const resyncFile = async (req: ValidatedRequest, res: Response) => {
     if (isTextFile) {
       // For text files, create a single document from the content
       console.log("[RESYNC-FILE] Processing text file");
-      const textContent = Buffer.from(await fileData.arrayBuffer()).toString(
-        "utf-8",
-      );
+      const textContent = fileBuffer.toString("utf-8");
       documents = [
         new Document({
           pageContent: textContent,
