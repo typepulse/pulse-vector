@@ -6,7 +6,9 @@
     "build": "turbo build",
     "build:api": "turbo build --filter=@supavec/api",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "supabase:start": "cd supabase && supabase start",
+    "supabase:stop": "cd supabase && supabase stop"
   },
   "devDependencies": {
     "@turbo/gen": "^1.11.3",

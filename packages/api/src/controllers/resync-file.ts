@@ -89,7 +89,7 @@ export const resyncFile = async (req: ValidatedRequest, res: Response) => {
       path: file.storage_path,
     });
     const { data: fileData, error: downloadError } = await supabase.storage
-      .from("user-documents")
+      .from("user_documents")
       .download(file.storage_path);
 
     if (downloadError) {

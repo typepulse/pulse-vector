@@ -78,7 +78,7 @@ export const uploadText = async (req: Request, res: Response) => {
     // Upload text content to Supabase Storage
     console.log("[UPLOAD-TEXT] Uploading to Supabase Storage");
     const { data: storageData, error: uploadError } = await supabase.storage
-      .from("user-documents")
+      .from("user_documents")
       .upload(`/${teamId}/${fileName}`, contents, {
         contentType: "text/plain",
         upsert: false,

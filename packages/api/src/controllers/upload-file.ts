@@ -98,7 +98,7 @@ export const uploadFile = async (req: Request, res: Response) => {
     // Upload file to Supabase Storage with team ID in path
     console.log("[UPLOAD-FILE] Uploading to Supabase Storage");
     const { data: storageData, error: storageError } = await supabase.storage
-      .from("user-documents")
+      .from("user_documents")
       .upload(`/${teamId}/${tempFileName}`, buffer, {
         contentType: isTextFile ? "text/plain" : "application/pdf",
         upsert: false,

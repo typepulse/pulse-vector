@@ -27,7 +27,7 @@ for (const envVar of requiredEnvVars) {
 }
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 5998;
 
 app.use(helmet());
 app.use(cors());

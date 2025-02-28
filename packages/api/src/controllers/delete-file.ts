@@ -62,7 +62,7 @@ export const deleteFile = async (req: ValidatedRequest, res: Response) => {
         path: file.storage_path,
       });
       const { error: deleteError } = await supabase.storage
-        .from("user-documents")
+        .from("user_documents")
         .remove([file.storage_path]);
 
       if (deleteError) {
