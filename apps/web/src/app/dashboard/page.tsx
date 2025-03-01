@@ -20,6 +20,7 @@ import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { UploadFormWrapper } from "./upload-form-wrappper";
 import { ChatInterface } from "./chat-interface";
+import { UsageCard } from "@/components/usage-card";
 
 export const metadata: Metadata = {
   robots: "noindex, nofollow",
@@ -70,8 +71,8 @@ export default async function Page() {
             <p>Generate your API key to get started with Supavec.</p>
           </div>
           <div className="min-h-[100vh] flex-1 rounded-xl md:min-h-min p-4">
-            <div className="flex">
-              <div className="p-4 rounded-xl border basis-full md:basis-1/2 bg-muted/50">
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="p-4 rounded-xl border basis-full md:basis-1/2 bg-muted/10">
                 <h3 className="text-xl font-semibold mb-4">
                   API Key Generation
                 </h3>
@@ -84,6 +85,8 @@ export default async function Page() {
                   <GenerateForm />
                 )}
               </div>
+
+              <UsageCard initialHasProSubscription={false} />
             </div>
             {Array.isArray(apiKeys) && apiKeys?.length > 0 && (
               <div className="flex gap-4 flex-col">
