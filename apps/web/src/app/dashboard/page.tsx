@@ -86,7 +86,7 @@ export default async function Page() {
                 )}
               </div>
 
-              <UsageCard initialHasProSubscription={false} />
+              <UsageCard />
             </div>
             {Array.isArray(apiKeys) && apiKeys?.length > 0 && (
               <div className="flex gap-4 flex-col">
