@@ -3,10 +3,10 @@ import { createClient } from "@/utils/supabase/server";
 import { Header } from "@/components/sections/header";
 import { Hero } from "@/components/sections/hero";
 import { FeaturedSection } from "@/components/sections/featured-section";
-import { WhyIBuit } from "@/components/sections/why-i-built";
+// import { WhyIBuit } from "@/components/sections/why-i-built";
 import { WhatIsRag } from "@/components/sections/what-is-rag";
 import { WhySupavec } from "@/components/sections/why-supavec";
-import { HowToUse } from "@/components/sections/how-to-use";
+// import { HowToUse } from "@/components/sections/how-to-use";
 import { Community } from "@/components/sections/community";
 import { CTA } from "@/components/sections/cta";
 import { Footer } from "@/components/sections/footer";
@@ -25,10 +25,10 @@ export default async function Home() {
       <Header isLoggedIn={!!user?.user} />
       <Hero />
       <FeaturedSection />
-      <WhyIBuit />
+      {/* <WhyIBuit /> */}
       <WhatIsRag />
       <WhySupavec />
-      <HowToUse />
+      {/* <HowToUse /> */}
       <Community />
       <CTA />
       <Footer />
