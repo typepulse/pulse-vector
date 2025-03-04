@@ -24,6 +24,7 @@ const requiredEnvVars = [
   "SUPABASE_SERVICE_ROLE_KEY",
   "UPSTASH_REDIS_REST_URL",
   "UPSTASH_REDIS_REST_TOKEN",
+  "NEXT_PUBLIC_URL"
 ];
 
 for (const envVar of requiredEnvVars) {
@@ -37,7 +38,7 @@ const port = process.env.PORT || 5998;
 
 app.use(helmet());
 app.use(cors({
-  origin: process.env.NEXT_PUBLIC_URL,
+  origin: "*",
   credentials: true
 }));
 
