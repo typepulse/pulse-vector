@@ -5,9 +5,9 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "bun build ./src/server.ts --outdir ./dist --target bun",
+    "build": "tsc",
     "dev": "bun --watch src/server.ts --port 5998",
-    "start": "bun run src/server.ts",
+    "start": "node ./dist/server.js",
     "lint": "eslint \"src/**/*.ts\"",
     "clean": "rm -rf .turbo node_modules dist"
   },
