@@ -1,52 +1,52 @@
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/components/app-sidebar"
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
+} from "@/components/ui/breadcrumb"
+import { Separator } from "@/components/ui/separator"
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar";
-import { createClient } from "@/utils/supabase/server";
-import { GenerateForm } from "./generate-form";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { UploadedFilesList } from "./uploaded-files-list";
-import { ContentSubmission } from "./content-submission";
-import { redirect } from "next/navigation";
-import type { Metadata } from "next";
-import { UploadFormWrapper } from "./upload-form-wrappper";
-import { ChatInterface } from "./chat-interface";
-import { UsageCard } from "@/components/usage-card";
+} from "@/components/ui/sidebar"
+import { createClient } from "@/utils/supabase/server"
+import { GenerateForm } from "./generate-form"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { UploadedFilesList } from "./uploaded-files-list"
+import { ContentSubmission } from "./content-submission"
+import { redirect } from "next/navigation"
+import type { Metadata } from "next"
+import { UploadFormWrapper } from "./upload-form-wrappper"
+import { ChatInterface } from "./chat-interface"
+import { UsageCard } from "@/components/usage-card"
 
 export const metadata: Metadata = {
   robots: "noindex, nofollow",
-};
+}
 
 export default async function Page() {
-  const supabase = await createClient();
+  const supabase = await createClient()
   const { data } = await supabase
     .from("profiles")
     .select("id, name, email, onboarding_at")
-    .single();
+    .single()
 
   if (!data?.onboarding_at) {
-    redirect("/onboarding");
+    redirect("/onboarding")
   }
 
-  const { data: apiKeys } = await supabase.from("api_keys").select("*");
+  const { data: apiKeys } = await supabase.from("api_keys").select("*")
   const { data: uploadedFiles } = await supabase
     .from("files")
     .select("*")
     .match({ team_id: apiKeys?.[0]?.team_id })
     .is("deleted_at", null)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })
   const { data: teamMemberships } = await supabase
     .from("team_memberships")
-    .select("id, teams(name, id)");
+    .select("id, teams(name, id)")
 
   return (
     <SidebarProvider>
@@ -129,5 +129,5 @@ export default async function Page() {
         </div>
       </SidebarInset>
     </SidebarProvider>
-  );
+  )
 }
