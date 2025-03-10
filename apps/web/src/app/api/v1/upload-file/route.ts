@@ -186,25 +186,10 @@ export async function POST(request: NextRequest) {
 
     try {
       console.log("[UPLOAD-FILE] Storing documents in vector store");
-       // Configure batch size
-      const BATCH_SIZE = 20;
-      const totalBatches = Math.ceil(chunks.length / BATCH_SIZE);
-      
-      for (let i = 0; i < chunks.length; i += BATCH_SIZE) {
-        const batchChunks = chunks.slice(i, i + BATCH_SIZE);
-        console.log(`[UPLOAD-FILE] Processing batch ${Math.floor(i/BATCH_SIZE) + 1}/${totalBatches}`);
-        
-        await SupabaseVectorStore.fromDocuments(batchChunks, embeddings, {
-          client: supabaseAdmin,
-          tableName: "documents",
-          queryName: `upload_batch_${Math.floor(i/BATCH_SIZE)}`,
-        });
-        
-        // Add a small delay between batches to prevent rate limiting
-        if (i + BATCH_SIZE < chunks.length) {
-          await new Promise(resolve => setTimeout(resolve, 1000));
-        }
-      }
+      await SupabaseVectorStore.fromDocuments(chunks, embeddings, {
+        client: supabaseAdmin,
+        tableName: "documents",
+      });
       console.log("[UPLOAD-FILE] Documents stored in vector store");
 
       console.log("[UPLOAD-FILE] Inserting file record");
