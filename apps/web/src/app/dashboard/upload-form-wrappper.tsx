@@ -6,7 +6,7 @@ import { FileUploadForm } from "./file-upload-form"
 
 export const UploadFormWrapper = ({ apiKey }: { apiKey: string }) => {
   const submitFile = async (formData: FormData) => {
-    const response = await fetch(`/api/upload-file`, {
+    const response = await fetch(`/api/v1/upload-file`, {
       method: "POST",
       headers: {
         authorization: apiKey,

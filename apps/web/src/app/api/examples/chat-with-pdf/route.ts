@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/embeddings`,
+      `${process.env.NEXT_PUBLIC_URL}/api/v1/embeddings`,
       {
         query: userMessage.content,
         file_ids: [fileId],

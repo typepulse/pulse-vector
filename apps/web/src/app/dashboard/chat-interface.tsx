@@ -1,43 +1,43 @@
-"use client";
+"use client"
 
-import type { Tables } from "@/types/supabase";
-import { useState, useEffect } from "react";
-import { useChat } from "@ai-sdk/react";
-import { Code, MessageCircle, ArrowUpIcon, Loader2 } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import type { Tables } from "@/types/supabase"
+import { useState, useEffect } from "react"
+import { useChat } from "@ai-sdk/react"
+import { Code, MessageCircle, ArrowUpIcon, Loader2 } from "lucide-react"
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { useScrollToBottom } from "./use-scroll-to-bottom";
+} from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
+import { toast } from "sonner"
+import { useScrollToBottom } from "./use-scroll-to-bottom"
 
 type Embedding = {
-  success: boolean;
+  success: boolean
   documents: {
-    content: string;
-  }[];
-};
+    content: string
+  }[]
+}
 
 export function ChatInterface({
   uploadedFiles,
   apiKey,
 }: {
-  uploadedFiles: Tables<"files">[] | null;
-  apiKey: string;
+  uploadedFiles: Tables<"files">[] | null
+  apiKey: string
 }) {
-  const [selectedFile, setSelectedFile] = useState<string>("");
+  const [selectedFile, setSelectedFile] = useState<string>("")
   const [embeddingFromAPI, setEmbeddingFromAPI] = useState<
     Embedding["documents"] | null
-  >(null);
+  >(null)
   const [messagesContainerRef, messagesEndRef] =
-    useScrollToBottom<HTMLDivElement>();
+    useScrollToBottom<HTMLDivElement>()
 
   const { messages, setMessages, handleSubmit, input, setInput, isLoading } =
     useChat({
@@ -48,54 +48,51 @@ export function ChatInterface({
       },
       initialMessages: [],
       onError: (error) => {
-        toast.error(`An error occurred: ${error.message}`);
+        toast.error(`An error occurred: ${error.message}`)
       },
-    });
+    })
 
   // Add event listener for file deletion
   useEffect(() => {
     const handleFileDeleted = (event: CustomEvent<{ fileId: string }>) => {
       if (event.detail.fileId === selectedFile) {
-        setSelectedFile("");
-        setMessages([]);
-        setEmbeddingFromAPI(null);
+        setSelectedFile("")
+        setMessages([])
+        setEmbeddingFromAPI(null)
       }
-    };
+    }
 
-    window.addEventListener("fileDeleted", handleFileDeleted as EventListener);
+    window.addEventListener("fileDeleted", handleFileDeleted as EventListener)
     return () => {
       window.removeEventListener(
         "fileDeleted",
         handleFileDeleted as EventListener
-      );
-    };
-  }, [selectedFile, setMessages]);
+      )
+    }
+  }, [selectedFile, setMessages])
 
   const fetchEmbeddings = async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/embeddings`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: apiKey,
-        },
-        body: JSON.stringify({ query: input, file_ids: [selectedFile] }),
-      }
-    );
+    const response = await fetch(`/api/v1/embeddings`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: apiKey,
+      },
+      body: JSON.stringify({ query: input, file_ids: [selectedFile] }),
+    })
 
     if (!response.ok) {
-      toast.error("Failed to fetch embeddings");
+      toast.error("Failed to fetch embeddings")
     }
 
-    const data = (await response.json()) as Embedding;
-    setEmbeddingFromAPI(data.documents);
-  };
+    const data = (await response.json()) as Embedding
+    setEmbeddingFromAPI(data.documents)
+  }
 
   const handleFileSelect = (file: string) => {
-    setSelectedFile(file);
-    setMessages([]);
-  };
+    setSelectedFile(file)
+    setMessages([])
+  }
 
   return (
     <div className="grid grid-cols-2 gap-4 p-4 relative">
@@ -176,8 +173,8 @@ export function ChatInterface({
         </div>
         <form
           onSubmit={async (e) => {
-            e.preventDefault();
-            await Promise.all([handleSubmit(), fetchEmbeddings()]);
+            e.preventDefault()
+            await Promise.all([handleSubmit(), fetchEmbeddings()])
           }}
           className="p-4 border-t"
         >
@@ -231,5 +228,5 @@ export function ChatInterface({
         </div>
       </Card>
     </div>
-  );
+  )
 }

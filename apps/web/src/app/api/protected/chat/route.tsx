@@ -1,8 +1,8 @@
-import { type Message, createDataStreamResponse, streamText } from "ai";
+import { type Message, createDataStreamResponse, streamText } from "ai"
 
-import { getMostRecentUserMessage } from "@/lib/utils";
+import { getMostRecentUserMessage } from "@/lib/utils"
 
-import { openai } from "@ai-sdk/openai";
+import { openai } from "@ai-sdk/openai"
 
 export async function POST(request: Request) {
   const {
@@ -10,20 +10,20 @@ export async function POST(request: Request) {
     selectedFile,
     apiKey,
   }: {
-    messages: Array<Message>;
-    selectedFile: string;
-    apiKey: string;
-  } = await request.json();
+    messages: Array<Message>
+    selectedFile: string
+    apiKey: string
+  } = await request.json()
 
-  const userMessage = getMostRecentUserMessage(messages);
+  const userMessage = getMostRecentUserMessage(messages)
 
   if (!userMessage) {
-    return new Response("No user message found", { status: 400 });
+    return new Response("No user message found", { status: 400 })
   }
 
   // Call supavec embeddings API
   const embeddingsResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/embeddings`,
+    `${process.env.NEXT_PUBLIC_URL}/api/v1/embeddings`,
     {
       method: "POST",
       headers: {
@@ -35,17 +35,17 @@ export async function POST(request: Request) {
         file_ids: [selectedFile],
       }),
     }
-  );
+  )
 
   if (!embeddingsResponse.ok) {
-    const errorData = await embeddingsResponse.json();
-    console.error("Embeddings API error:", errorData);
+    const errorData = await embeddingsResponse.json()
+    console.error("Embeddings API error:", errorData)
     return new Response("Failed to get embeddings", {
       status: embeddingsResponse.status,
-    });
+    })
   }
 
-  const embeddings = await embeddingsResponse.json();
+  const embeddings = await embeddingsResponse.json()
 
   return createDataStreamResponse({
     execute: (dataStream) => {
@@ -57,16 +57,16 @@ export async function POST(request: Request) {
             .map((doc: { content: string }) => doc.content)
             .join("\n"),
         messages,
-      });
+      })
 
-      result.consumeStream();
+      result.consumeStream()
 
       result.mergeIntoDataStream(dataStream, {
         sendReasoning: true,
-      });
+      })
     },
     onError: () => {
-      return "Oops, an error occured!";
+      return "Oops, an error occured!"
     },
-  });
+  })
 }

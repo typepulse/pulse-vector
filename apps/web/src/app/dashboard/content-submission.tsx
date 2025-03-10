@@ -1,62 +1,62 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { AlertCircle } from "lucide-react"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 export function ContentSubmission({ apiKey }: { apiKey: string }) {
-  const router = useRouter();
+  const router = useRouter()
 
-  const [name, setName] = useState("");
-  const [content, setContent] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [name, setName] = useState("")
+  const [content, setContent] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError(null);
+    e.preventDefault()
+    setIsLoading(true)
+    setError(null)
 
     if (content.length < 5) {
-      setError("Content must be at least 5 characters long");
-      setIsLoading(false);
-      return;
+      setError("Content must be at least 5 characters long")
+      setIsLoading(false)
+      return
     }
 
     try {
-      const response = await fetch(`${API_URL}/upload_text`, {
+      const response = await fetch(`/api/v1/upload_text`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           authorization: apiKey,
         },
         body: JSON.stringify({ name, contents: content }),
-      });
+      })
 
-      const result = await response.json();
+      const result = await response.json()
 
       if (!response.ok || !result.success) {
-        throw new Error("Failed to submit content");
+        throw new Error("Failed to submit content")
       }
 
-      setName("");
-      setContent("");
-      router.refresh();
-      toast.success("Content submitted successfully");
+      setName("")
+      setContent("")
+      router.refresh()
+      toast.success("Content submitted successfully")
     } catch (err) {
-      setError("An error occurred while submitting content");
-      console.error(err);
+      setError("An error occurred while submitting content")
+      console.error(err)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <div className="mt-6">
@@ -106,5 +106,5 @@ export function ContentSubmission({ apiKey }: { apiKey: string }) {
         </Alert>
       )}
     </div>
-  );
+  )
 }

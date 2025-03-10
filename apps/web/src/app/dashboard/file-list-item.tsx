@@ -21,7 +21,7 @@ export function FileListItem({ file, apiKey }: FileListItemProps) {
 
     setIsDeleting(true)
     try {
-      const response = await fetch(`/api/delete-file`, {
+      const response = await fetch(`/api/v1/delete-file`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
