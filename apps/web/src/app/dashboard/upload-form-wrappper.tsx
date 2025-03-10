@@ -1,8 +1,6 @@
-"use client"
+"use client";
 
-import { FileUploadForm } from "./file-upload-form"
-
-// const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { FileUploadForm } from "./file-upload-form";
 
 export const UploadFormWrapper = ({ apiKey }: { apiKey: string }) => {
   const submitFile = async (formData: FormData) => {
@@ -12,10 +10,10 @@ export const UploadFormWrapper = ({ apiKey }: { apiKey: string }) => {
         authorization: apiKey,
       },
       body: formData,
-    })
+    });
 
-    return response
-  }
+    return response;
+  };
 
-  return <FileUploadForm submitFile={submitFile} />
-}
+  return <FileUploadForm submitFile={submitFile} />;
+};

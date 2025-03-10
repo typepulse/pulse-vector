@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
 
   try {
-    const response = await fetch(`${API_URL}/upload_file`, {
+    const response = await fetch(`/api/v1/upload-file`, {
       method: "POST",
       headers: {
         Authorization: process.env.DEMO_SUPA_API_KEY!,
