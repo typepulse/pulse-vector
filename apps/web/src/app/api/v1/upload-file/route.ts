@@ -36,10 +36,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const supabase = supabaseAdmin;
     // Get team ID from API key
     console.log("[UPLOAD-FILE] Verifying API key");
-    const { data: apiKeyData, error: apiKeyError } = await supabase
+    const { data: apiKeyData, error: apiKeyError } = await supabaseAdmin
       .from("api_keys")
       .select("team_id, user_id, profiles(email)")
       .match({ api_key: apiKey })
@@ -117,7 +116,7 @@ export async function POST(request: NextRequest) {
 
     // Upload file to Supabase Storage with team ID in path
     console.log("[UPLOAD-FILE] Uploading to Supabase Storage");
-    const { data: storageData, error: storageError } = await supabase.storage
+    const { data: storageData, error: storageError } = await supabaseAdmin.storage
       .from("user_documents")
       .upload(`/${teamId}/${tempFileName}`, buffer, {
         contentType: isTextFile ? "text/plain" : "application/pdf",
@@ -187,14 +186,29 @@ export async function POST(request: NextRequest) {
 
     try {
       console.log("[UPLOAD-FILE] Storing documents in vector store");
-      await SupabaseVectorStore.fromDocuments(chunks, embeddings, {
-        client: supabase,
-        tableName: "documents",
-      });
+       // Configure batch size
+      const BATCH_SIZE = 20;
+      const totalBatches = Math.ceil(chunks.length / BATCH_SIZE);
+      
+      for (let i = 0; i < chunks.length; i += BATCH_SIZE) {
+        const batchChunks = chunks.slice(i, i + BATCH_SIZE);
+        console.log(`[UPLOAD-FILE] Processing batch ${Math.floor(i/BATCH_SIZE) + 1}/${totalBatches}`);
+        
+        await SupabaseVectorStore.fromDocuments(batchChunks, embeddings, {
+          client: supabaseAdmin,
+          tableName: "documents",
+          queryName: `upload_batch_${Math.floor(i/BATCH_SIZE)}`,
+        });
+        
+        // Add a small delay between batches to prevent rate limiting
+        if (i + BATCH_SIZE < chunks.length) {
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      }
       console.log("[UPLOAD-FILE] Documents stored in vector store");
 
       console.log("[UPLOAD-FILE] Inserting file record");
-      await supabase.from("files").insert({
+      await supabaseAdmin.from("files").insert({
         file_id: fileId,
         type: `${isTextFile ? "text" : "pdf"}`,
         file_name: fileName,
