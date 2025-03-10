@@ -4,7 +4,6 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "build:api": "turbo build --filter=@supavec/api",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "supabase:start": "cd supabase && supabase start",
@@ -17,7 +16,6 @@
   },
   "packageManager": "bun@1.0.30",
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "apps/*"
   ]
 }

@@ -31,7 +31,7 @@ export function ContentSubmission({ apiKey }: { apiKey: string }) {
     }
 
     try {
-      const response = await fetch(`/api/v1/upload_text`, {
+      const response = await fetch(`/api/v1/upload-text`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
