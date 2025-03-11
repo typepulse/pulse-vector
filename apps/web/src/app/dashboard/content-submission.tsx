@@ -63,7 +63,7 @@ export function ContentSubmission({ apiKey }: { apiKey: string }) {
         <div>
           <label
             htmlFor="content-name"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
           >
             Content Name:
           </label>
@@ -77,7 +77,7 @@ export function ContentSubmission({ apiKey }: { apiKey: string }) {
         <div>
           <label
             htmlFor="content-body"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
           >
             Content:
           </label>
