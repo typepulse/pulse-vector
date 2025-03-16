@@ -24,13 +24,13 @@ export default async function Home() {
     <main>
       <Header isLoggedIn={!!user?.user} />
       <Hero />
-      <FeaturedSection />
+      {/* <FeaturedSection /> */}
       {/* <WhyIBuit /> */}
       <WhatIsRag />
       <WhySupavec />
       {/* <HowToUse /> */}
-      <Community />
-      <CTA />
+      {/* <Community /> */}
+      {/* <CTA /> */}
       <Footer />
     </main>
   );

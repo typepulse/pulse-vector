@@ -20,7 +20,7 @@ export function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
           <span className="font-semibold text-lg">{siteConfig.name}</span>
         </Link>
         <div className="hidden lg:flex gap-x-4">
-          <a
+          {/* <a
             href="https://docs.supavec.com/"
             target="_blank"
             className={cn(
@@ -29,7 +29,7 @@ export function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
             )}
           >
             API Docs
-          </a>
+          </a> */}
           {isLoggedIn ? (
             <Link
               href="/dashboard"

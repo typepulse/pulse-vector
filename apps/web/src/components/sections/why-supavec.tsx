@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 export function WhySupavec() {
   return (
-    <Section id="why-supavec" title="Why Supavec?">
+    <Section id="why-supavec" title="Why Pulse Vector?">
       <div className="border-x border-t">
         <div className="grid grid-cols-1 md:grid-cols-2">
           {siteConfig.whySupavec.map(
@@ -13,7 +13,6 @@ export function WhySupavec() {
                 key={index}
                 className={cn(
                   "flex flex-col gap-y-2 items-center justify-center py-8 px-4 border-b transition-colors hover:bg-secondary/20",
-                  "last:border-b-0",
                   "md:[&:nth-child(2n+1)]:border-r md:[&:nth-child(n+5)]:border-b-0"
                 )}
               >

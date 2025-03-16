@@ -16,7 +16,7 @@ import {
 export const BLUR_FADE_DELAY = 0.15;
 
 export const siteConfig = {
-  name: "Supavec",
+  name: "Pulse Vector",
   description: "Connect your data to LLMs, no matter the source.",
   cta: "Get Started",
   url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
@@ -27,7 +27,7 @@ export const siteConfig = {
     github: "https://github.com/taishikato/supavec",
   },
   hero: {
-    title: "Supavec",
+    title: "Pulse Vector",
     description:
       "The open-source alternative to Carbon.ai. Build powerful RAG applications with any data source, at any scale.",
     cta: "Get Started",
@@ -166,7 +166,7 @@ export const siteConfig = {
     //   { text: "Contact", url: "#" },
     // ],
     bottomText: "All rights reserved.",
-    brandText: "Supavec",
+    brandText: "Pulse Vector",
   },
 };
 

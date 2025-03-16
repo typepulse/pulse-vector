@@ -26,10 +26,9 @@ const links = [
 export function Footer() {
   return (
     <footer className="flex flex-col gap-y-5 rounded-lg px-7 py-5 container">
-      <div className="flex gap-y-5 flex-col-reverse md:flex-row md:items-center md:justify-between">
+      {/* <div className="flex gap-y-5 flex-col-reverse md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col gap-3 md:items-start">
           <div className="flex items-center gap-x-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.png" alt="logo" className="size-8" />
             <h2 className="text-lg font-bold text-foreground">
               {siteConfig.name}
@@ -103,11 +102,11 @@ export function Footer() {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
 
       <BorderText
         text={siteConfig.footer.brandText}
-        className="text-[clamp(3rem,15vw,10rem)] overflow-hidden font-mono tracking-tighter font-medium"
+        className="text-[clamp(3rem,15vw,8rem)] overflow-hidden font-mono tracking-tighter font-medium"
       />
     </footer>
   );
