@@ -41,10 +41,10 @@ export function NavUser({
       <SidebarMenuItem>
         <SidebarMenuButton asChild tooltip="Contact Us">
           <Link
-            href="mailto:hello@supavec.com"
+            href="mailto:hello@pulse-vector.com"
             onClick={(e) => {
               e.preventDefault();
-              navigator.clipboard.writeText("hello@supavec.com");
+              navigator.clipboard.writeText("hello@pulse-vector.com");
               toast.success("Email address copied to clipboard");
               posthog.capture("Email address copied to clipboard from sidebar");
             }}

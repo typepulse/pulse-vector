@@ -39,7 +39,7 @@ export const StepsSelector: React.FC<StepsSelectorProps> = ({ steps }) => {
           animationStyle="from-center"
           videoSrc="https://qxxlcbvvszqlusrmczke.supabase.co/storage/v1/object/public/public-files/supavec-demo.mp4"
           thumbnailSrc="/supavec-demo-cover.jpg"
-          thumbnailAlt="Supavec Demo"
+          thumbnailAlt="Pulse Vector Demo"
         />
       </div>
     </div>

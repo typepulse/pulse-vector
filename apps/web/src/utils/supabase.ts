@@ -1,4 +1,4 @@
-import type { Database } from "@supavec/web/src/types/supabase";
+import type { Database } from "@pulse-vector/web/src/types/supabase";
 import { createClient } from "@supabase/supabase-js";
 
 export const supabase = createClient<Database>(

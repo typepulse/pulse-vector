@@ -20,7 +20,7 @@ export const DemoVideo = () => {
           animationStyle="from-center"
           videoSrc="https://qxxlcbvvszqlusrmczke.supabase.co/storage/v1/object/public/public-files/supavec-pdf-demo.mp4"
           thumbnailSrc="/supavec-pdf-demo-cover.jpg"
-          thumbnailAlt="Supavec Chat with PDF Demo"
+          thumbnailAlt="Pulse Vector Chat with PDF Demo"
         />
       </div>
     </section>

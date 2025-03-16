@@ -1,5 +1,5 @@
 {
-  "name": "supavec",
+  "name": "pulse-vector",
   "private": true,
   "scripts": {
     "dev": "turbo dev",

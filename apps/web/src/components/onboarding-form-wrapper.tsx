@@ -14,7 +14,7 @@ export function OnboardingFormWrapper({
   return (
     <Card className={className} {...props}>
       <CardHeader>
-        <CardTitle>Welcome to Supavec</CardTitle>
+        <CardTitle>Welcome to Pulse Vector</CardTitle>
         <CardDescription>
           Please tell us a bit about yourself to get started
         </CardDescription>

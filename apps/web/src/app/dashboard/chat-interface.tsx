@@ -219,7 +219,7 @@ export function ChatInterface({
                 </div>
               ) : (
                 <div className="text-center text-muted-foreground p-4">
-                  Response from Supavec embeddings API will be shown here.
+                  Response from Pulse Vector embeddings API will be shown here.
                 </div>
               )}
             </div>

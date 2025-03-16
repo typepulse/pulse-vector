@@ -15,7 +15,7 @@ export default function OnboardingLayout({
       <div className="w-full max-w-md space-y-6">
         <div className="flex items-center justify-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="Supavec Logo" className="size-10" />
+          <img src="/logo.png" alt="Pulse Vector Logo" className="size-10" />
           <h1 className="text-2xl font-bold">{APP_NAME}</h1>
         </div>
         {children}

@@ -24,7 +24,7 @@ export default function OnboardingCompletePage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-center text-muted-foreground">
-            Join our Discord community to connect with other Supavec users and
+            Join our Discord community to connect with other Pulse Vector users and
             get support.
           </p>
           <a

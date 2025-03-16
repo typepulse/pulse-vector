@@ -1,1 +1,1 @@
-export const APP_NAME = "Supavec";
+export const APP_NAME = "Pulse Vector";

@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     return new Response("No user message found", { status: 400 })
   }
 
-  // Call supavec embeddings API
+  // Call pulse vector embeddings API
   const embeddingsResponse = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/v1/embeddings`,
     {

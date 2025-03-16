@@ -29,7 +29,7 @@ export const OnboardingForm = () => {
         <Input id="name" name="name" placeholder="Elon Musk" />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="goal">Main Goal with Supavec</Label>
+        <Label htmlFor="goal">Main Goal with Pulse Vector</Label>
         <Input
           id="goal"
           name="goal"
@@ -45,7 +45,7 @@ export const OnboardingForm = () => {
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="source">How did you hear about Supavec?</Label>
+        <Label htmlFor="source">How did you hear about Pulse Vector?</Label>
         <Input
           id="how_know"
           name="how_know"
